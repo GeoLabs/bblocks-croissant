@@ -1,0 +1,19 @@
+{
+  "@type": "cr:RecordSet",
+  "@id": "users",
+  "name": "User records",
+  "field": [
+    {
+      "@type": "cr:Field",
+      "@id": "users/id",
+      "name": "id",
+      "dataType": "sc:Integer"
+    },
+    {
+      "@type": "cr:Field",
+      "@id": "users/name",
+      "name": "name",
+      "dataType": "sc:Text"
+    }
+  ]
+}

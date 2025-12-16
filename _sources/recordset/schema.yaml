@@ -1,0 +1,215 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Croissant RecordSet
+description: |
+  A RecordSet describes a set of structured records with typed fields.
+  It can represent flat data (like CSV rows) or nested/hierarchical data (like JSON structures).
+type: object
+required:
+  - '@type'
+  - '@id'
+  - field
+properties:
+  '@type':
+    type: string
+    const: cr:RecordSet
+    description: Must be cr:RecordSet
+  '@id':
+    type: string
+    description: Unique identifier for this RecordSet within the dataset
+  name:
+    type: string
+    description: Human-readable name for this record collection
+  description:
+    type: string
+    description: Description of what these records represent
+  field:
+    type: array
+    description: |
+      Fields (columns) that appear in the records of this RecordSet.
+      Each field describes one data element.
+    minItems: 1
+    items:
+      $ref: '#/$defs/Field'
+  key:
+    description: |
+      Field(s) whose values uniquely identify each record in the RecordSet.
+      Similar to primary keys in relational databases.
+    oneOf:
+      - type: object
+        required: ['@id']
+        properties:
+          '@id':
+            type: string
+            description: Reference to the key field
+      - type: array
+        items:
+          type: object
+          required: ['@id']
+          properties:
+            '@id':
+              type: string
+        description: Composite key (multiple fields)
+  data:
+    type: array
+    description: |
+      Inline data for small RecordSets (typically enumerations).
+      Each array element is a record with keys matching field @id values.
+    items:
+      type: object
+  examples:
+    description: |
+      Example records or reference to a data source containing examples.
+      Helps users understand the RecordSet without downloading full data.
+    oneOf:
+      - type: array
+        items:
+          type: object
+      - type: string
+        format: uri
+  dataType:
+    description: |
+      Semantic type(s) of records in this RecordSet (e.g., sc:GeoCoordinates, cr:Split).
+      When specified, fields may be mapped to properties of this type.
+    oneOf:
+      - type: string
+        format: uri
+      - type: array
+        items:
+          type: string
+          format: uri
+
+$defs:
+  Field:
+    type: object
+    required:
+      - '@type'
+      - '@id'
+    properties:
+      '@type':
+        type: string
+        const: cr:Field
+      '@id':
+        type: string
+        description: Unique identifier for this field
+      name:
+        type: string
+        description: Field name
+      description:
+        type: string
+        description: Field description
+      dataType:
+        description: Data type(s) of field values
+        oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+      source:
+        description: Source of data for this field
+        oneOf:
+          - type: object
+          - type: object
+            properties:
+              '@id':
+                type: string
+      references:
+        type: object
+        properties:
+          '@id':
+            type: string
+        description: Foreign key reference to another field
+      repeated:
+        type: boolean
+        description: Whether this field contains a list of values
+      subField:
+        type: array
+        description: Nested fields for hierarchical data
+        items:
+          $ref: '#/$defs/Field'
+
+examples:
+  - title: Simple tabular RecordSet
+    content: RecordSet for CSV data with basic fields
+    snippets:
+      - language: json
+        code: |
+          {
+            "@type": "cr:RecordSet",
+            "@id": "users",
+            "name": "User records",
+            "field": [
+              {
+                "@type": "cr:Field",
+                "@id": "users/id",
+                "name": "id",
+                "dataType": "sc:Integer",
+                "source": {
+                  "fileObject": { "@id": "users.csv" },
+                  "extract": { "column": "user_id" }
+                }
+              },
+              {
+                "@type": "cr:Field",
+                "@id": "users/name",
+                "name": "name",
+                "dataType": "sc:Text",
+                "source": {
+                  "fileObject": { "@id": "users.csv" },
+                  "extract": { "column": "full_name" }
+                }
+              }
+            ]
+          }
+  
+  - title: RecordSet with primary key
+    content: Defining a unique key for records
+    snippets:
+      - language: json
+        code: |
+          {
+            "@type": "cr:RecordSet",
+            "@id": "movies",
+            "name": "Movie catalog",
+            "key": { "@id": "movies/movie_id" },
+            "field": [
+              {
+                "@type": "cr:Field",
+                "@id": "movies/movie_id",
+                "dataType": "sc:Integer"
+              },
+              {
+                "@type": "cr:Field",
+                "@id": "movies/title",
+                "dataType": "sc:Text"
+              }
+            ]
+          }
+  
+  - title: Enumeration RecordSet
+    content: Small RecordSet with inline data
+    snippets:
+      - language: json
+        code: |
+          {
+            "@type": "cr:RecordSet",
+            "@id": "categories",
+            "name": "Product categories",
+            "dataType": "sc:Enumeration",
+            "key": { "@id": "categories/code" },
+            "field": [
+              {
+                "@type": "cr:Field",
+                "@id": "categories/code",
+                "dataType": "sc:Text"
+              },
+              {
+                "@type": "cr:Field",
+                "@id": "categories/label",
+                "dataType": "sc:Text"
+              }
+            ],
+            "data": [
+              { "categories/code": "A", "categories/label": "Electronics" },
+              { "categories/code": "B", "categories/label": "Books" }
+            ]
+          }

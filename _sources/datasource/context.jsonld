@@ -1,0 +1,18 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "cr": "http://mlcommons.org/croissant/",
+    "fileObject": "cr:fileObject",
+    "fileSet": "cr:fileSet",
+    "recordSet": "cr:recordSet",
+    "extract": "cr:extract",
+    "transform": "cr:transform",
+    "column": "cr:column",
+    "fileProperty": "cr:fileProperty",
+    "jsonPath": "cr:jsonPath",
+    "regex": "cr:regex",
+    "delimiter": "cr:delimiter",
+    "separator": "cr:separator",
+    "format": "cr:format"
+  }
+}

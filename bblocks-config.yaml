@@ -1,35 +1,52 @@
-# A short, descriptive name of this building block collection
-name: My OGC Building Blocks repository
+# Configuration for OGC Building Blocks dedicated to Croissant
+# Based on Croissant Format Specification v1.0 (MLCommons)
 
-# Short abstract for this collection (optional)
+identifier-prefix: mlc.croissant.
+
+name: Croissant ML Dataset Metadata Building Blocks
+
 abstract: |
-  This is an example text for the abstract. It should be short and to the point.
-  A "Tell me more" link will appear if there is an additional description with a longer explanation.
+  Building Blocks for the Croissant metadata format, a standardized format for ML dataset description.
+  Croissant simplifies how data is used by ML models by providing a vocabulary for dataset attributes,
+  streamlining how data is loaded across ML frameworks such as PyTorch, TensorFlow or JAX.
 
-# Description for this collection (optional)
 description: |
-  The description can be longer. Both **the abstract** *and the description* support Markdown,
-  including [links](https://google.es).
+  This register contains OGC Building Blocks implementing the Croissant Format Specification v1.0,
+  developed by MLCommons. Croissant is a metadata format that enables dataset interchange between
+  ML frameworks and addresses discoverability, portability, reproducibility, and responsible AI challenges.
+  
+  The specification builds on schema.org and is designed to be modular and extensible. It supports
+  structured and unstructured data, hierarchical record sets, and ML-specific features like splits,
+  categorical data, labels, and bounding boxes.
+  
+  Key components include:
+  - Dataset-level metadata (extending schema.org/Dataset)
+  - Resource descriptions (FileObject, FileSet)
+  - RecordSet definitions (fields, data types, transformations)
+  - ML-specific features (splits, labels, bounding boxes, etc.)
 
-# Customize the following prefix (will be prepended to the path of the building blocks):
-identifier-prefix: ogc.bbr.template.
+# No imports initially, can be added later if needed
+# imports:
+#   - https://opengeospatial.github.io/bblocks/register.json
 
-# List of imports ("default" is an alias for the main OGC Building Blocks Register)
-imports:
-  - default
+# Register metadata
+contact:
+  name: MLCommons
+  url: https://mlcommons.org/
 
-# Whether to enable the (highly experimental) downcompiling of JSON schemas to an OpenAPI 3.0-compatible
-# version
-schema-oas30-downcompile: False
+version: 1.0.0
 
-# SPARQL configuration (optional)
-#   Authentication can be set through the sparql_username and sparql_password GitHub Workflow inputs
-#   (see .github/workflow/process-bblocks.yml)
-#
-# sparql:
-#   push: https://example.com/gsp           # SPARQL Graph Store Protocol endpoint for uploading data
-#   graph: https://my.bblocks.example.com/  # SPARQL Graph where data will be uploaded
-#                                           #  if left empty, the base URL for the publication will be used
-#   query: https://example.com/sparql       # SPARQL query endpoint where data will be available
-#   resources:                              # Additional resources to upload apart from building block metadata
-#      ontologies: true                     #   Whether to upload ontology files to the triplestore
+# Base URL for the specification
+baseURL: http://mlcommons.org/croissant/1.0
+
+# Additional metadata
+keywords:
+  - machine learning
+  - dataset
+  - metadata
+  - croissant
+  - schema.org
+  - ML frameworks
+  - data interchange
+
+license: Apache-2.0

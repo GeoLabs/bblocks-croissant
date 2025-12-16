@@ -1,0 +1,11 @@
+- title: Simple Tabular RecordSet
+  description: RecordSet for CSV data with basic fields
+  snippets:
+    - language: json
+      ref: examples/tabular-recordset.json
+
+- title: RecordSet with Primary Key
+  description: Defining a unique key for records
+  snippets:
+    - language: json
+      ref: examples/keyed-recordset.json

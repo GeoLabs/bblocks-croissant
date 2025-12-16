@@ -1,0 +1,30 @@
+{
+  "$schema": "https://raw.githubusercontent.com/opengeospatial/bblocks-postprocess/master/ogc/bblocks/metadata-schema.yaml",
+  "name": "Croissant FileSet",
+  "abstract": "Represents a collection of homogeneous files in a Croissant dataset",
+  "description": "FileSet describes collections of files, such as images, videos or text files, where each file needs to be treated as an individual item. It supports inclusion/exclusion patterns using glob syntax.",
+  "status": "under-development",
+  "dateTimeAddition": "2025-12-16T00:00:00Z",
+  "dateOfLastChange": "2025-12-16",
+  "version": "1.0",
+  "itemClass": "schema",
+  "register": "mlc-croissant",
+  "dependsOn": ["mlc.croissant.fileobject"],
+  "scope": "dev",
+  "tags": [
+    "croissant",
+    "file collection",
+    "glob pattern",
+    "distribution"
+  ],
+  "sourceLdContext": "context.jsonld",
+  "sourceSchema": "schema.yaml",
+  "sources": [
+    {
+      "title": "Croissant Format Specification v1.0 - FileSet",
+      "link": "https://docs.mlcommons.org/croissant/docs/croissant-spec.html#fileset"
+    }
+  ],
+  "maturity": "development",
+  "group": "MLCommons"
+}

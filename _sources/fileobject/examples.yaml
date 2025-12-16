@@ -1,0 +1,11 @@
+- title: Simple CSV File
+  description: FileObject for a CSV data file
+  snippets:
+    - language: json
+      ref: examples/csv-file.json
+
+- title: Image File with Checksum
+  description: FileObject for an image with integrity verification
+  snippets:
+    - language: json
+      ref: examples/image-file.json

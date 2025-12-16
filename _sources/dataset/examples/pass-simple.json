@@ -1,0 +1,146 @@
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/"
+  },
+  "@type": "sc:Dataset",
+  "name": "simple-pass",
+  "conformsTo": "http://mlcommons.org/croissant/1.0",
+  "description": "PASS is a large-scale image dataset that does not include any humans and which can be used for high-quality pretraining while significantly reducing privacy concerns and the associated challenges.",
+  "citeAs": "@Article{asano21pass, author = \"Yuki M. Asano and Christian Rupprecht and Andrew Zisserman and Andrea Vedaldi\", title = \"PASS: An ImageNet replacement for self-supervised pretraining without humans\", year = \"2021\", journal = \"NeurIPS Track on Datasets and Benchmarks\"}",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "url": "https://www.robots.ox.ac.uk/~vgg/data/pass/",
+  "version": "1.0",
+  "creator": {
+    "@type": "Organization",
+    "name": "Visual Geometry Group, University of Oxford"
+  },
+  "datePublished": "2021-01-01",
+  "keywords": ["computer vision", "self-supervised learning", "pretraining"],
+  "distribution": [
+    {
+      "@type": "cr:FileObject",
+      "@id": "metadata.csv",
+      "name": "pass_metadata.csv",
+      "contentUrl": "https://zenodo.org/record/6615455/files/pass_metadata.csv",
+      "encodingFormat": "text/csv",
+      "sha256": "0b033707ea49365a5ffdd14615825511"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "pass9",
+      "name": "PASS.9.tar",
+      "contentUrl": "https://zenodo.org/record/6615455/files/PASS.9.tar",
+      "encodingFormat": "application/x-tar",
+      "sha256": "f4f87af4327fd1a66dd7944b9f59cbcc"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "image-files",
+      "name": "Image files",
+      "description": "JPEG images extracted from the archive",
+      "containedIn": { "@id": "pass9" },
+      "encodingFormat": "image/jpeg",
+      "includes": "*.jpg"
+    }
+  ],
+  "recordSet": [
+    {
+      "@type": "cr:RecordSet",
+      "@id": "metadata",
+      "name": "Metadata table",
+      "description": "Metadata about images in the dataset",
+      "key": { "@id": "metadata/hash" },
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "metadata/hash",
+          "name": "hash",
+          "description": "Hash of the image",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": { "@id": "metadata.csv" },
+            "extract": { "column": "hash" }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "metadata/datetaken",
+          "name": "datetaken",
+          "description": "Date when the photo was taken",
+          "dataType": "sc:Date",
+          "source": {
+            "fileObject": { "@id": "metadata.csv" },
+            "extract": { "column": "datetaken" }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "metadata/unickname",
+          "name": "unickname",
+          "description": "Unique name of the photo creator",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": { "@id": "metadata.csv" },
+            "extract": { "column": "unickname" }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "images",
+      "name": "Images",
+      "description": "Image records with content and metadata",
+      "key": { "@id": "images/hash" },
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "images/image_content",
+          "name": "image_content",
+          "description": "The image content",
+          "dataType": "sc:ImageObject",
+          "source": {
+            "fileSet": { "@id": "image-files" },
+            "extract": {
+              "fileProperty": "content"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "images/hash",
+          "name": "hash",
+          "description": "The hash of the image, extracted from filename",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": { "@id": "image-files" },
+            "extract": {
+              "fileProperty": "filename"
+            },
+            "transform": {
+              "regex": "([^\\/]*)\\.jpg"
+            }
+          },
+          "references": { "@id": "metadata/hash" }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "images/date_taken",
+          "name": "date_taken",
+          "description": "The date the photo was taken",
+          "dataType": "sc:Date",
+          "source": { "@id": "metadata/datetaken" }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "images/creator_uname",
+          "name": "creator_uname",
+          "description": "Unique name of photo creator",
+          "dataType": "sc:Text",
+          "source": { "@id": "metadata/unickname" }
+        }
+      ]
+    }
+  ]
+}

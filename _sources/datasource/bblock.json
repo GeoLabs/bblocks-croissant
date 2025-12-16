@@ -1,0 +1,30 @@
+{
+  "$schema": "https://raw.githubusercontent.com/opengeospatial/bblocks-postprocess/master/ogc/bblocks/metadata-schema.yaml",
+  "name": "Croissant DataSource",
+  "abstract": "Specifies how to extract and transform data from files for Croissant fields",
+  "description": "DataSource describes the data that can be extracted from files to populate a RecordSet field. It includes extraction methods, transformations, and format specifications.",
+  "status": "under-development",
+  "dateTimeAddition": "2025-12-16T00:00:00Z",
+  "dateOfLastChange": "2025-12-16",
+  "version": "1.0",
+  "itemClass": "schema",
+  "register": "mlc-croissant",
+  "dependsOn": ["mlc.croissant.fileobject", "mlc.croissant.fileset"],
+  "scope": "dev",
+  "tags": [
+    "croissant",
+    "data extraction",
+    "transformation",
+    "parsing"
+  ],
+  "sourceLdContext": "context.jsonld",
+  "sourceSchema": "schema.yaml",
+  "sources": [
+    {
+      "title": "Croissant Format Specification v1.0 - DataSource",
+      "link": "https://docs.mlcommons.org/croissant/docs/croissant-spec.html#datasource"
+    }
+  ],
+  "maturity": "development",
+  "group": "MLCommons"
+}

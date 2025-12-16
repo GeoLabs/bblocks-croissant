@@ -1,0 +1,13 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "cr": "http://mlcommons.org/croissant/",
+    "contentUrl": "sc:contentUrl",
+    "contentSize": "sc:contentSize",
+    "encodingFormat": "sc:encodingFormat",
+    "sha256": "sc:sha256",
+    "md5": "cr:md5",
+    "containedIn": "cr:containedIn",
+    "sameAs": "sc:sameAs"
+  }
+}

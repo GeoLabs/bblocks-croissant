@@ -1,0 +1,191 @@
+# Additional example: COCO 2014 with splits and bounding boxes
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/"
+  },
+  "@type": "sc:Dataset",
+  "name": "coco-2014",
+  "conformsTo": "http://mlcommons.org/croissant/1.0",
+  "description": "COCO is a large-scale object detection, segmentation, and captioning dataset. This building block shows the 2014 version with train/val/test splits.",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "url": "https://cocodataset.org/",
+  "version": "2014.1.0",
+  "creator": {
+    "@type": "Organization",
+    "name": "COCO Consortium"
+  },
+  "datePublished": "2014-01-01",
+  "keywords": ["computer vision", "object detection", "segmentation", "image captioning"],
+  "distribution": [
+    {
+      "@type": "cr:FileObject",
+      "@id": "train2014.zip",
+      "name": "train2014.zip",
+      "contentSize": "13510573713",
+      "contentUrl": "http://images.cocodataset.org/zips/train2014.zip",
+      "encodingFormat": "application/zip",
+      "sha256": "example_sha256_for_train"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "train-image-files",
+      "name": "Training images",
+      "containedIn": { "@id": "train2014.zip" },
+      "encodingFormat": "image/jpeg",
+      "includes": "train2014/*.jpg"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "annotations_trainval2014.zip",
+      "name": "annotations_trainval2014.zip",
+      "contentUrl": "http://images.cocodataset.org/annotations/annotations_trainval2014.zip",
+      "encodingFormat": "application/zip"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "instances_train2014",
+      "name": "instances_train2014.json",
+      "containedIn": { "@id": "annotations_trainval2014.zip" },
+      "contentUrl": "annotations/instances_train2014.json",
+      "encodingFormat": "application/json"
+    }
+  ],
+  "recordSet": [
+    {
+      "@type": "cr:RecordSet",
+      "@id": "splits",
+      "name": "Data splits",
+      "description": "Standard train/val/test splits for COCO 2014",
+      "dataType": "cr:Split",
+      "key": { "@id": "splits/name" },
+      "field": [
+        { 
+          "@type": "cr:Field",
+          "@id": "splits/name",
+          "name": "name",
+          "dataType": "sc:Text"
+        },
+        { 
+          "@type": "cr:Field",
+          "@id": "splits/url",
+          "name": "url",
+          "dataType": "sc:URL"
+        }
+      ],
+      "data": [
+        { "splits/name": "train", "splits/url": "cr:TrainingSplit" },
+        { "splits/name": "val", "splits/url": "cr:ValidationSplit" },
+        { "splits/name": "test", "splits/url": "cr:TestSplit" }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "categories",
+      "name": "Object categories",
+      "description": "COCO object categories (80 classes)",
+      "dataType": "sc:Enumeration",
+      "key": { "@id": "categories/id" },
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "categories/id",
+          "name": "id",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": { "@id": "instances_train2014" },
+            "extract": { "jsonPath": "$.categories[*].id" }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "categories/name",
+          "name": "name",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": { "@id": "instances_train2014" },
+            "extract": { "jsonPath": "$.categories[*].name" }
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "images",
+      "name": "Images with annotations",
+      "description": "Images from the training set with bounding box annotations",
+      "key": { "@id": "images/image_id" },
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "images/image_id",
+          "name": "image_id",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": { "@id": "instances_train2014" },
+            "extract": { "jsonPath": "$.images[*].id" }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "images/image_content",
+          "name": "image_content",
+          "description": "The image pixels",
+          "dataType": "sc:ImageObject",
+          "source": {
+            "fileSet": { "@id": "train-image-files" },
+            "extract": { "fileProperty": "content" }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "images/split",
+          "name": "split",
+          "description": "Data split designation",
+          "dataType": "sc:Text",
+          "references": { "@id": "splits/name" },
+          "source": {
+            "fileSet": { "@id": "train-image-files" },
+            "extract": { "fileProperty": "fullpath" },
+            "transform": {
+              "regex": "^(train|val|test)2014/.+\\.jpg$"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "images/annotations",
+          "name": "annotations",
+          "description": "Object detection annotations for this image",
+          "dataType": ["cr:RecordSet", "cr:Label"],
+          "subField": [
+            {
+              "@type": "cr:Field",
+              "@id": "images/annotations/bbox",
+              "name": "bbox",
+              "description": "Bounding box in XYWH format",
+              "dataType": "cr:BoundingBox",
+              "source": {
+                "fileObject": { "@id": "instances_train2014" },
+                "extract": { "jsonPath": "$.annotations[*].bbox" },
+                "format": "XYWH"
+              }
+            },
+            {
+              "@type": "cr:Field",
+              "@id": "images/annotations/category_id",
+              "name": "category_id",
+              "description": "Category of the detected object",
+              "dataType": "sc:Integer",
+              "references": { "@id": "categories/id" },
+              "source": {
+                "fileObject": { "@id": "instances_train2014" },
+                "extract": { "jsonPath": "$.annotations[*].category_id" }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

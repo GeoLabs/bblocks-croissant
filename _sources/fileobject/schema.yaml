@@ -1,0 +1,119 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Croissant FileObject
+description: |
+  Represents an individual file that is part of a Croissant dataset.
+  FileObject inherits from schema.org CreativeWork.
+type: object
+required:
+  - '@type'
+  - '@id'
+properties:
+  '@type':
+    type: string
+    const: cr:FileObject
+    description: Must be cr:FileObject
+  '@id':
+    type: string
+    description: Unique identifier for this FileObject within the dataset
+  name:
+    type: string
+    description: |
+      The name of the file. Should reflect the name of the file as downloaded,
+      including the file extension (e.g., "images.zip")
+  contentUrl:
+    type: string
+    format: uri
+    description: URL to the actual bytes of the file
+  contentSize:
+    type: string
+    description: |
+      File size in (mega/kilo/...)bytes. Defaults to bytes if a unit is not specified.
+      Examples: "1024", "1.5 MB", "2GB"
+  encodingFormat:
+    type: string
+    description: The format of the file, given as a MIME type (e.g., "text/csv", "image/jpeg")
+  sha256:
+    type: string
+    pattern: '^[a-fA-F0-9]{64}$'
+    description: SHA-256 checksum for the file contents (64 hexadecimal characters)
+  md5:
+    type: string
+    pattern: '^[a-fA-F0-9]{32}$'
+    description: MD5 checksum for the file contents (32 hexadecimal characters)
+  containedIn:
+    description: |
+      Another FileObject or FileSet that this one is contained in, e.g., in the case
+      of a file extracted from an archive. When this property is present, the contentUrl
+      is evaluated as a relative path within the container object.
+    oneOf:
+      - type: object
+        required: ['@id']
+        properties:
+          '@id':
+            type: string
+            description: Reference to the container FileObject or FileSet
+      - type: array
+        items:
+          type: object
+          required: ['@id']
+          properties:
+            '@id':
+              type: string
+  description:
+    type: string
+    description: Human-readable description of the file
+  sameAs:
+    description: |
+      URL (or local name) of a FileObject with the same content, but in a different format
+    oneOf:
+      - type: string
+        format: uri
+      - type: array
+        items:
+          type: string
+          format: uri
+
+examples:
+  - title: Simple CSV file
+    content: A single CSV file with metadata
+    snippets:
+      - language: json
+        code: |
+          {
+            "@type": "cr:FileObject",
+            "@id": "metadata.csv",
+            "name": "metadata.csv",
+            "contentUrl": "https://example.com/data/metadata.csv",
+            "encodingFormat": "text/csv",
+            "contentSize": "1024 KB",
+            "sha256": "0b033707ea49365a5ffdd14615825511"
+          }
+  
+  - title: Archive file
+    content: A tar archive containing dataset files
+    snippets:
+      - language: json
+        code: |
+          {
+            "@type": "cr:FileObject",
+            "@id": "dataset-archive",
+            "name": "dataset.tar.gz",
+            "contentUrl": "https://example.com/dataset.tar.gz",
+            "encodingFormat": "application/x-tar",
+            "contentSize": "10 GB",
+            "sha256": "f4f87af4327fd1a66dd7944b9f59cbcc"
+          }
+  
+  - title: File extracted from archive
+    content: A file contained within an archive
+    snippets:
+      - language: json
+        code: |
+          {
+            "@type": "cr:FileObject",
+            "@id": "readme-file",
+            "name": "README.txt",
+            "contentUrl": "README.txt",
+            "containedIn": { "@id": "dataset-archive" },
+            "encodingFormat": "text/plain"
+          }

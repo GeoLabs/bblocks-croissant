@@ -1,0 +1,20 @@
+{
+  "@type": "cr:RecordSet",
+  "@id": "movies",
+  "name": "Movie catalog",
+  "key": { "@id": "movies/movie_id" },
+  "field": [
+    {
+      "@type": "cr:Field",
+      "@id": "movies/movie_id",
+      "name": "movie_id",
+      "dataType": "sc:Integer"
+    },
+    {
+      "@type": "cr:Field",
+      "@id": "movies/title",
+      "name": "title",
+      "dataType": "sc:Text"
+    }
+  ]
+}

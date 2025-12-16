@@ -1,0 +1,171 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Croissant DataSource
+description: |
+  DataSource describes how to extract and optionally transform data from files
+  to populate RecordSet fields. It specifies the source, extraction method,
+  transformations, and parsing formats.
+type: object
+properties:
+  fileObject:
+    type: object
+    required: ['@id']
+    properties:
+      '@id':
+        type: string
+        description: Reference to the source FileObject
+  fileSet:
+    type: object
+    required: ['@id']
+    properties:
+      '@id':
+        type: string
+        description: Reference to the source FileSet
+  recordSet:
+    type: object
+    required: ['@id']
+    properties:
+      '@id':
+        type: string
+        description: Reference to another RecordSet as source
+  extract:
+    type: object
+    description: |
+      Specifies how to extract data from the source. Different properties
+      are used depending on the source type (CSV, JSON, file properties, etc.)
+    properties:
+      column:
+        type: string
+        description: Column name for CSV/TSV files
+      fileProperty:
+        type: string
+        enum:
+          - fullpath
+          - filename
+          - content
+          - lines
+          - lineNumbers
+        description: |
+          Property of FileObject/FileSet to extract:
+          - fullpath: Full path to the file (e.g., "data/train/img.jpg")
+          - filename: Just the filename (e.g., "img.jpg")
+          - content: Binary/text content of the file
+          - lines: Content split by lines
+          - lineNumbers: Line numbers (0-indexed)
+      jsonPath:
+        type: string
+        description: JSONPath expression for extracting from JSON files
+  transform:
+    type: object
+    description: |
+      Transformations to apply to extracted data.
+    properties:
+      regex:
+        type: string
+        description: |
+          Regular expression to extract or parse data.
+          Captured groups are returned. If no groups, the entire match is returned.
+      delimiter:
+        type: string
+        description: Character to split strings into arrays
+      jsonQuery:
+        type: string
+        description: JSON query to evaluate on JSON data
+      replace:
+        type: object
+        description: String replacement
+        properties:
+          pattern:
+            type: string
+          replacement:
+            type: string
+      separator:
+        type: string
+        description: Deprecated - use delimiter instead
+  format:
+    type: string
+    description: |
+      Format string for parsing extracted values into typed data.
+      Examples:
+      - Date/DateTime: "yyyy-MM-dd", "MM/dd/yyyy HH:mm:ss"
+      - Numbers: "0.##E0" (scientific notation)
+      - BoundingBox: "CENTER_XYWH", "XYXY"
+
+examples:
+  - title: Extract CSV column
+    content: Basic extraction from a CSV file
+    snippets:
+      - language: json
+        code: |
+          {
+            "fileObject": { "@id": "data.csv" },
+            "extract": { "column": "user_name" }
+          }
+  
+  - title: Extract filename from FileSet
+    content: Get filenames from a collection of files
+    snippets:
+      - language: json
+        code: |
+          {
+            "fileSet": { "@id": "images" },
+            "extract": { "fileProperty": "filename" }
+          }
+  
+  - title: Regex transformation
+    content: Extract part of a filename using regex
+    snippets:
+      - language: json
+        code: |
+          {
+            "fileSet": { "@id": "images" },
+            "extract": { "fileProperty": "filename" },
+            "transform": {
+              "regex": "img_([0-9]+)\\.jpg"
+            }
+          }
+  
+  - title: Extract with date parsing
+    content: Parse a date column with specific format
+    snippets:
+      - language: json
+        code: |
+          {
+            "fileObject": { "@id": "events.csv" },
+            "extract": { "column": "event_date" },
+            "format": "yyyy-MM-dd"
+          }
+  
+  - title: JSONPath extraction
+    content: Extract nested values from JSON
+    snippets:
+      - language: json
+        code: |
+          {
+            "fileObject": { "@id": "metadata.json" },
+            "extract": { "jsonPath": "$.annotations[*].category" }
+          }
+  
+  - title: Multiple transformations
+    content: Apply several transformations in sequence
+    snippets:
+      - language: json
+        code: |
+          {
+            "fileSet": { "@id": "images" },
+            "extract": { "fileProperty": "fullpath" },
+            "transform": [
+              { "regex": "^(train|val|test)/" },
+              { "replace": { "pattern": "val", "replacement": "validation" } }
+            ]
+          }
+  
+  - title: Split string into array
+    content: Convert delimited string to array
+    snippets:
+      - language: json
+        code: |
+          {
+            "fileObject": { "@id": "tags.csv" },
+            "extract": { "column": "tag_list" },
+            "transform": { "delimiter": "," }
+          }

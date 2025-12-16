@@ -1,0 +1,30 @@
+{
+  "$schema": "https://raw.githubusercontent.com/opengeospatial/bblocks-postprocess/master/ogc/bblocks/metadata-schema.yaml",
+  "name": "Croissant RecordSet",
+  "abstract": "Describes a set of structured records with typed fields in a Croissant dataset",
+  "description": "RecordSet describes structured data records obtained from one or more sources. It defines the schema of records through fields, supports nested data, and can represent both flat and hierarchical structures.",
+  "status": "under-development",
+  "dateTimeAddition": "2025-12-16T00:00:00Z",
+  "dateOfLastChange": "2025-12-16",
+  "version": "1.0",
+  "itemClass": "schema",
+  "register": "mlc-croissant",
+  "dependsOn": ["mlc.croissant.field"],
+  "scope": "dev",
+  "tags": [
+    "croissant",
+    "records",
+    "schema",
+    "structured data"
+  ],
+  "sourceLdContext": "context.jsonld",
+  "sourceSchema": "schema.yaml",
+  "sources": [
+    {
+      "title": "Croissant Format Specification v1.0 - RecordSet",
+      "link": "https://docs.mlcommons.org/croissant/docs/croissant-spec.html#recordset"
+    }
+  ],
+  "maturity": "development",
+  "group": "MLCommons"
+}

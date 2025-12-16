@@ -1,0 +1,129 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Croissant FileSet
+description: |
+  Represents a collection of homogeneous files (e.g., images, videos, text files)
+  where each file is treated as an individual item. Supports glob patterns for
+  inclusion/exclusion of files.
+type: object
+required:
+  - '@type'
+  - '@id'
+  - containedIn
+properties:
+  '@type':
+    type: string
+    const: cr:FileSet
+    description: Must be cr:FileSet
+  '@id':
+    type: string
+    description: Unique identifier for this FileSet within the dataset
+  name:
+    type: string
+    description: Human-readable name for this file collection
+  description:
+    type: string
+    description: Description of the file collection
+  containedIn:
+    description: |
+      The source of data for the FileSet (e.g., an archive FileObject).
+      If multiple values are provided, the union of their contents is taken.
+    oneOf:
+      - type: object
+        required: ['@id']
+        properties:
+          '@id':
+            type: string
+            description: Reference to a FileObject containing these files
+      - type: array
+        items:
+          type: object
+          required: ['@id']
+          properties:
+            '@id':
+              type: string
+  includes:
+    description: |
+      Glob pattern(s) that specify the files to include. Multiple includes are
+      combined with union. Patterns are evaluated from the root of the containedIn contents.
+    oneOf:
+      - type: string
+        description: Single glob pattern (e.g., "*.jpg", "images/**/*.png")
+      - type: array
+        items:
+          type: string
+        description: Multiple glob patterns
+  excludes:
+    description: |
+      Glob pattern(s) that specify files to exclude. Applied after includes.
+      Multiple excludes are combined with union.
+    oneOf:
+      - type: string
+        description: Single glob pattern
+      - type: array
+        items:
+          type: string
+        description: Multiple glob patterns
+  encodingFormat:
+    type: string
+    description: MIME type of the files in this set (e.g., "image/jpeg", "text/plain")
+
+examples:
+  - title: JPEG images in a zip archive
+    content: All JPEG images contained in a zip file
+    snippets:
+      - language: json
+        code: |
+          {
+            "@type": "cr:FileSet",
+            "@id": "image-files",
+            "name": "Training images",
+            "containedIn": { "@id": "train-archive.zip" },
+            "encodingFormat": "image/jpeg",
+            "includes": "*.jpg"
+          }
+  
+  - title: Images in specific subdirectories
+    content: Using patterns to select images from multiple directories
+    snippets:
+      - language: json
+        code: |
+          {
+            "@type": "cr:FileSet",
+            "@id": "train-images",
+            "name": "Training set images",
+            "containedIn": { "@id": "dataset-archive" },
+            "encodingFormat": "image/png",
+            "includes": ["train/**/*.png", "validation/**/*.png"]
+          }
+  
+  - title: Files with exclusion patterns
+    content: Including all text files except test files
+    snippets:
+      - language: json
+        code: |
+          {
+            "@type": "cr:FileSet",
+            "@id": "text-corpus",
+            "name": "Text corpus (excluding tests)",
+            "containedIn": { "@id": "corpus-archive" },
+            "encodingFormat": "text/plain",
+            "includes": "**/*.txt",
+            "excludes": "**/test/**"
+          }
+  
+  - title: Multiple source archives
+    content: Combining files from multiple archives
+    snippets:
+      - language: json
+        code: |
+          {
+            "@type": "cr:FileSet",
+            "@id": "all-images",
+            "name": "All dataset images",
+            "containedIn": [
+              { "@id": "part1.zip" },
+              { "@id": "part2.zip" }
+            ],
+            "encodingFormat": "image/jpeg",
+            "includes": "*.jpg"
+          }

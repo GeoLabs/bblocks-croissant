@@ -1,0 +1,154 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Croissant Dataset
+description: |
+  Complete Croissant metadata format for machine learning datasets.
+  Extends schema.org/Dataset with ML-specific vocabulary.
+type: object
+required:
+  - '@context'
+  - '@type'
+  - name
+  - description
+  - distribution
+properties:
+      '@context':
+        description: JSON-LD context
+        oneOf:
+          - type: string
+            format: uri
+          - type: object
+          - type: array
+      '@type':
+        const: sc:Dataset
+        description: Must be sc:Dataset
+      '@id':
+        type: string
+        description: Unique identifier for the dataset
+      name:
+        type: string
+        description: Dataset name
+      description:
+        type: string
+        description: Dataset description
+      url:
+        type: string
+        format: uri
+        description: Dataset homepage or repository URL
+      distribution:
+        type: array
+        description: FileObjects and FileSets describing dataset files
+        items:
+          oneOf:
+            - $ref: '#/$defs/FileObject'
+            - $ref: '#/$defs/FileSet'
+      recordSet:
+        type: array
+        description: Structured data records within the dataset
+        items:
+          $ref: '#/$defs/RecordSet'
+      conformsTo:
+        type: string
+        format: uri
+        description: Version of Croissant specification (e.g., http://mlcommons.org/croissant/1.0)
+      license:
+        description: License under which the dataset is released
+        oneOf:
+          - type: string
+            format: uri
+          - type: string
+      creator:
+        description: Dataset author(s) or organization(s)
+        oneOf:
+          - $ref: '#/$defs/PersonOrOrganization'
+          - type: array
+            items:
+              $ref: '#/$defs/PersonOrOrganization'
+      citation:
+        description: Scholarly citation for the dataset
+        oneOf:
+          - type: string
+          - type: object
+
+$defs:
+  FileObject:
+    $ref: 'fileobject/schema.yaml'
+  
+  FileSet:
+    $ref: 'fileset/schema.yaml'
+  
+  RecordSet:
+    $ref: 'recordset/schema.yaml'
+  
+  Field:
+    $ref: 'field/schema.yaml'
+  
+  DataSource:
+    $ref: 'datasource/schema.yaml'
+  
+  PersonOrOrganization:
+    oneOf:
+      - type: object
+        properties:
+          '@type':
+            const: sc:Person
+          name:
+            type: string
+          email:
+            type: string
+            format: email
+          url:
+            type: string
+            format: uri
+      - type: object
+        properties:
+          '@type':
+            const: sc:Organization
+          name:
+            type: string
+          url:
+            type: string
+            format: uri
+
+examples:
+  - title: Minimal Croissant Dataset
+    content: Basic dataset with file and record structure
+    snippets:
+      - language: json
+        code: |
+          {
+            "@context": "http://mlcommons.org/croissant/1.0",
+            "@type": "sc:Dataset",
+            "name": "Example ML Dataset",
+            "description": "A simple example dataset",
+            "license": "https://creativecommons.org/licenses/by/4.0/",
+            "url": "https://example.com/dataset",
+            "distribution": [
+              {
+                "@type": "cr:FileObject",
+                "@id": "data.csv",
+                "name": "data.csv",
+                "contentUrl": "https://example.com/data.csv",
+                "encodingFormat": "text/csv"
+              }
+            ],
+            "recordSet": [
+              {
+                "@type": "cr:RecordSet",
+                "@id": "examples",
+                "field": [
+                  {
+                    "@type": "cr:Field",
+                    "@id": "examples/id",
+                    "name": "id",
+                    "dataType": "sc:Integer"
+                  },
+                  {
+                    "@type": "cr:Field",
+                    "@id": "examples/text",
+                    "name": "text",
+                    "dataType": "sc:Text"
+                  }
+                ]
+              }
+            ]
+          }

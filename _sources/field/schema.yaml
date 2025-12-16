@@ -1,0 +1,127 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Croissant Field
+description: |
+  A Field is a data element within a RecordSet. It may represent a column of a table,
+  a nested data structure, or even a nested RecordSet for hierarchical data.
+type: object
+required:
+  - '@type'
+  - '@id'
+properties:
+  '@type':
+    type: string
+    const: cr:Field
+    description: Must be cr:Field
+  '@id':
+    type: string
+    description: |
+      Unique identifier for this field. Should be prefixed with the RecordSet @id
+      (e.g., "users/email" for an email field in the users RecordSet)
+  name:
+    type: string
+    description: Human-readable name for this field
+  description:
+    type: string
+    description: Description of what this field represents
+  dataType:
+    description: |
+      Data type(s) of field values. Can be atomic types (sc:Integer, sc:Text, etc.)
+      or semantic types (sc:ImageObject, cr:BoundingBox, etc.).
+      Multiple types can be specified for richer semantics.
+    oneOf:
+      - type: string
+        description: Single data type URI
+      - type: array
+        items:
+          type: string
+        description: Multiple data types
+  source:
+    description: |
+      The data source of the field. Can be a reference to another field (@id),
+      or omitted if data source is defined elsewhere.
+    type: object
+    required: ['@id']
+    properties:
+      '@id':
+        type: string
+        description: Reference to another field or RecordSet
+  references:
+    type: object
+    required: ['@id']
+    properties:
+      '@id':
+        type: string
+    description: |
+      Foreign key reference to another field in another RecordSet.
+      Similar to foreign keys in relational databases.
+  repeated:
+    type: boolean
+    default: false
+    description: |
+      If true, this field contains a list of values of the specified dataType,
+      rather than a single value.
+  equivalentProperty:
+    description: |
+      Maps this field to a property of the RecordSet's dataType.
+      Used when the field @id doesn't match the property name.
+    oneOf:
+      - type: string
+        format: uri
+      - type: array
+        items:
+          type: string
+          format: uri
+
+examples:
+  - title: Simple text field
+    content: A basic field with text data type
+    snippets:
+      - language: json
+        code: |
+          {
+            "@type": "cr:Field",
+            "@id": "users/name",
+            "name": "name",
+            "description": "User's full name",
+            "dataType": "sc:Text"
+          }
+  
+  - title: Field with foreign key reference
+    content: A field that references another RecordSet
+    snippets:
+      - language: json
+        code: |
+          {
+            "@type": "cr:Field",
+            "@id": "orders/customer_id",
+            "name": "customer_id",
+            "dataType": "sc:Integer",
+            "source": { "@id": "customers/id" },
+            "references": { "@id": "customers/id" }
+          }
+  
+  - title: Image content field
+    content: Field containing image data
+    snippets:
+      - language: json
+        code: |
+          {
+            "@type": "cr:Field",
+            "@id": "images/content",
+            "name": "content",
+            "description": "The image pixels",
+            "dataType": "sc:ImageObject"
+          }
+  
+  - title: Repeated field (list)
+    content: A field containing multiple values
+    snippets:
+      - language: json
+        code: |
+          {
+            "@type": "cr:Field",
+            "@id": "articles/tags",
+            "name": "tags",
+            "dataType": "sc:Text",
+            "repeated": true
+          }

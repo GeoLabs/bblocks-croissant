@@ -1,0 +1,17 @@
+- title: Titanic Dataset
+  description: The original Titanic dataset from MLCommons Croissant examples
+  snippets:
+    - language: json
+      ref: examples/titanic.json
+
+- title: COCO 2014 Mini
+  description: Smaller downloadable version of COCO for testing
+  snippets:
+    - language: json
+      ref: examples/coco2014-mini.json
+
+- title: PASS Dataset
+  description: Large-scale image dataset without humans for pretraining
+  snippets:
+    - language: json
+      ref: examples/pass.json

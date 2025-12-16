@@ -1,0 +1,344 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Croissant Dataset
+description: |
+  A Croissant dataset description following the MLCommons Croissant Format Specification v1.0.
+  This extends schema.org/Dataset with ML-specific metadata.
+type: object
+required:
+  - '@context'
+  - '@type'
+  - conformsTo
+  - name
+  - description
+  - url
+  - distribution
+  - license
+allOf:
+  - $ref: '#/$defs/SchemaOrgDataset'
+  - properties:
+      '@context':
+        oneOf:
+          - type: object
+            properties:
+              '@language':
+                type: string
+                default: en
+              '@vocab':
+                type: string
+                const: 'https://schema.org/'
+          - type: array
+      '@type':
+        type: string
+        const: sc:Dataset
+      conformsTo:
+        type: string
+        const: 'http://mlcommons.org/croissant/1.0'
+        description: Declaration that this dataset conforms to Croissant v1.0
+      name:
+        type: string
+        description: The name of the dataset
+      description:
+        type: string
+        description: Description of the dataset
+      url:
+        type: string
+        format: uri
+        description: The URL of the dataset (generally the Web page)
+      license:
+        oneOf:
+          - type: string
+            format: uri
+          - type: array
+            items:
+              type: string
+              format: uri
+        description: License URL(s), preferably from https://spdx.org/licenses/
+      creator:
+        oneOf:
+          - $ref: '#/$defs/OrganizationOrPerson'
+          - type: array
+            items:
+              $ref: '#/$defs/OrganizationOrPerson'
+        description: The creator(s) of the dataset
+      datePublished:
+        type: string
+        format: date
+        description: The date the dataset was published
+      distribution:
+        type: array
+        description: FileObject or FileSet resources in the dataset
+        items:
+          oneOf:
+            - $ref: '#/$defs/FileObject'
+            - $ref: '#/$defs/FileSet'
+      recordSet:
+        type: array
+        description: RecordSets defining the structure of the data
+        items:
+          $ref: '#/$defs/RecordSet'
+      citeAs:
+        type: string
+        description: Citation for the dataset (preferably bibtex format)
+      isLiveDataset:
+        type: boolean
+        description: Whether the dataset is a live dataset
+      version:
+        oneOf:
+          - type: string
+          - type: number
+        description: Dataset version (recommended format MAJOR.MINOR.PATCH)
+      keywords:
+        type: array
+        description: Keywords associated with the dataset
+        items:
+          type: string
+      publisher:
+        oneOf:
+          - $ref: '#/$defs/OrganizationOrPerson'
+          - type: array
+            items:
+              $ref: '#/$defs/OrganizationOrPerson'
+
+$defs:
+  SchemaOrgDataset:
+    type: object
+    description: Base schema.org Dataset properties
+    
+  OrganizationOrPerson:
+    oneOf:
+      - type: object
+        properties:
+          '@type':
+            type: string
+            enum: [Organization, Person]
+          name:
+            type: string
+      - type: string
+
+  FileObject:
+    type: object
+    required:
+      - '@type'
+      - '@id'
+    properties:
+      '@type':
+        type: string
+        const: cr:FileObject
+      '@id':
+        type: string
+        description: Unique identifier for this FileObject
+      name:
+        type: string
+        description: Name of the file (should reflect downloaded filename)
+      contentUrl:
+        type: string
+        format: uri
+        description: URL to the actual file
+      contentSize:
+        type: string
+        description: File size (with or without unit)
+      encodingFormat:
+        type: string
+        description: MIME type of the file
+      sha256:
+        type: string
+        description: SHA-256 checksum of file contents
+      containedIn:
+        oneOf:
+          - type: object
+            properties:
+              '@id':
+                type: string
+          - type: array
+            items:
+              type: object
+              properties:
+                '@id':
+                  type: string
+        description: Another FileObject/FileSet this is contained in
+
+  FileSet:
+    type: object
+    required:
+      - '@type'
+      - '@id'
+      - containedIn
+    properties:
+      '@type':
+        type: string
+        const: cr:FileSet
+      '@id':
+        type: string
+        description: Unique identifier for this FileSet
+      name:
+        type: string
+      description:
+        type: string
+      containedIn:
+        oneOf:
+          - type: object
+            properties:
+              '@id':
+                type: string
+          - type: array
+            items:
+              type: object
+              properties:
+                '@id':
+                  type: string
+        description: Source of data (e.g., an archive)
+      includes:
+        oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+        description: Glob pattern(s) for files to include
+      excludes:
+        oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+        description: Glob pattern(s) for files to exclude
+      encodingFormat:
+        type: string
+        description: MIME type of files in the set
+
+  RecordSet:
+    type: object
+    required:
+      - '@type'
+      - '@id'
+      - field
+    properties:
+      '@type':
+        type: string
+        const: cr:RecordSet
+      '@id':
+        type: string
+        description: Unique identifier for this RecordSet
+      name:
+        type: string
+      description:
+        type: string
+      field:
+        type: array
+        description: Fields (columns) in this RecordSet
+        items:
+          $ref: '#/$defs/Field'
+      key:
+        oneOf:
+          - type: object
+            properties:
+              '@id':
+                type: string
+          - type: array
+            items:
+              type: object
+              properties:
+                '@id':
+                  type: string
+        description: Field(s) that uniquely identify records
+      data:
+        type: array
+        description: Inline data for small enumerations
+      dataType:
+        oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+        description: Semantic type of records in this RecordSet
+
+  Field:
+    type: object
+    required:
+      - '@type'
+      - '@id'
+    properties:
+      '@type':
+        type: string
+        const: cr:Field
+      '@id':
+        type: string
+        description: Unique identifier for this Field
+      name:
+        type: string
+      description:
+        type: string
+      dataType:
+        oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+        description: Data type(s) of field values
+      source:
+        oneOf:
+          - $ref: '#/$defs/DataSource'
+          - type: object
+            additionalProperties: false
+            required: ['@id']
+            properties:
+              '@id':
+                type: string
+        description: Source of data for this field
+      references:
+        type: object
+        properties:
+          '@id':
+            type: string
+        description: Foreign key reference to another Field
+      repeated:
+        type: boolean
+        description: Whether this field contains a list of values
+      subField:
+        type: array
+        description: Nested fields
+        items:
+          $ref: '#/$defs/Field'
+
+  DataSource:
+    type: object
+    additionalProperties: false
+    properties:
+      fileObject:
+        type: object
+        properties:
+          '@id':
+            type: string
+      fileSet:
+        type: object
+        properties:
+          '@id':
+            type: string
+      recordSet:
+        type: object
+        properties:
+          '@id':
+            type: string
+      extract:
+        type: object
+        description: Extraction method from source
+        properties:
+          column:
+            type: string
+          fileProperty:
+            type: string
+            enum: [fullpath, filename, content, lines, lineNumbers]
+          jsonPath:
+            type: string
+      transform:
+        type: object
+        description: Transformation to apply
+        properties:
+          regex:
+            type: string
+          delimiter:
+            type: string
+          jsonQuery:
+            type: string
+      format:
+        type: string
+        description: Format string for parsing values

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://raw.githubusercontent.com/opengeospatial/bblocks-postprocess/master/ogc/bblocks/metadata-schema.yaml",
+  "name": "Croissant Field",
+  "abstract": "Represents a data element (column) within a Croissant RecordSet",
+  "description": "Field defines a single data element in a RecordSet, including its data type, source, and relationships to other fields. It can represent simple columns, nested structures, or references to other RecordSets.",
+  "status": "under-development",
+  "dateTimeAddition": "2025-12-16T00:00:00Z",
+  "dateOfLastChange": "2025-12-16",
+  "version": "1.0",
+  "itemClass": "schema",
+  "register": "mlc-croissant",
+  "dependsOn": ["mlc.croissant.datasource"],
+  "scope": "dev",
+  "tags": [
+    "croissant",
+    "field",
+    "column",
+    "schema"
+  ],
+  "sourceLdContext": "context.jsonld",
+  "sourceSchema": "schema.yaml",
+  "sources": [
+    {
+      "title": "Croissant Format Specification v1.0 - Field",
+      "link": "https://docs.mlcommons.org/croissant/docs/croissant-spec.html#field"
+    }
+  ],
+  "maturity": "development",
+  "group": "MLCommons"
+}

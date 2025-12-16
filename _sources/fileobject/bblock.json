@@ -1,0 +1,30 @@
+{
+  "$schema": "https://raw.githubusercontent.com/opengeospatial/bblocks-postprocess/master/ogc/bblocks/metadata-schema.yaml",
+  "name": "Croissant FileObject",
+  "abstract": "Represents an individual file that is part of a Croissant dataset",
+  "description": "FileObject is the Croissant class used to represent individual files that are part of a dataset. It inherits from schema.org CreativeWork and can represent instances of more specific types like DigitalDocument and MediaObject.",
+  "status": "under-development",
+  "dateTimeAddition": "2025-12-16T00:00:00Z",
+  "dateOfLastChange": "2025-12-16",
+  "version": "1.0",
+  "itemClass": "schema",
+  "register": "mlc-croissant",
+  "dependsOn": [],
+  "scope": "dev",
+  "tags": [
+    "croissant",
+    "file",
+    "resource",
+    "distribution"
+  ],
+  "sourceLdContext": "context.jsonld",
+  "sourceSchema": "schema.yaml",
+  "sources": [
+    {
+      "title": "Croissant Format Specification v1.0 - FileObject",
+      "link": "https://docs.mlcommons.org/croissant/docs/croissant-spec.html#fileobject"
+    }
+  ],
+  "maturity": "development",
+  "group": "MLCommons"
+}

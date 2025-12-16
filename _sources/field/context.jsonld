@@ -1,0 +1,16 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "cr": "http://mlcommons.org/croissant/",
+    "dataType": {
+      "@id": "cr:dataType",
+      "@type": "@vocab"
+    },
+    "source": "cr:source",
+    "references": "cr:references",
+    "repeated": "cr:repeated",
+    "subField": "cr:subField",
+    "parentField": "cr:parentField",
+    "equivalentProperty": "cr:equivalentProperty"
+  }
+}

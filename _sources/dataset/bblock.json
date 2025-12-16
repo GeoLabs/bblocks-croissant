@@ -1,0 +1,41 @@
+{
+  "$schema": "https://raw.githubusercontent.com/opengeospatial/bblocks-postprocess/master/ogc/bblocks/metadata-schema.yaml",
+  "name": "Croissant Dataset",
+  "abstract": "Metadata format for ML dataset description following the Croissant specification",
+  "description": "A Croissant Dataset extends schema.org/Dataset with additional properties for ML-specific metadata, including distribution (FileObject/FileSet), recordSets, and versioning information. It provides a standardized way to describe ML datasets for discoverability, portability, and reproducibility.",
+  "status": "under-development",
+  "dateTimeAddition": "2025-12-16T00:00:00Z",
+  "dateOfLastChange": "2025-12-16",
+  "version": "1.0",
+  "itemClass": "schema",
+  "register": "mlc-croissant",
+  "dependsOn": [
+    "mlc.croissant.fileobject",
+    "mlc.croissant.fileset",
+    "mlc.croissant.recordset",
+    "mlc.croissant.field",
+    "mlc.croissant.datasource"
+  ],
+  "scope": "dev",
+  "tags": [
+    "machine learning",
+    "dataset",
+    "metadata",
+    "schema.org",
+    "croissant"
+  ],
+  "sourceLdContext": "context.jsonld",
+  "sourceSchema": "schema.yaml",
+  "sources": [
+    {
+      "title": "Croissant Format Specification v1.0",
+      "link": "https://docs.mlcommons.org/croissant/docs/croissant-spec.html"
+    },
+    {
+      "title": "MLCommons Croissant",
+      "link": "https://mlcommons.org/croissant/"
+    }
+  ],
+  "maturity": "development",
+  "group": "MLCommons"
+}

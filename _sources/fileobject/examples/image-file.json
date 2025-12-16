@@ -1,0 +1,9 @@
+{
+  "@type": "cr:FileObject",
+  "@id": "cat.jpg",
+  "name": "cat.jpg",
+  "contentUrl": "https://example.com/images/cat.jpg",
+  "encodingFormat": "image/jpeg",
+  "contentSize": "524288",
+  "sha256": "a1b2c3d4e5f6789012345678901234567890123456789012345678901234abcd"
+}
