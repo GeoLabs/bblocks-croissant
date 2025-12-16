@@ -12,10 +12,10 @@
   "version": "1.0",
   "dateOfLastChange": "2025-12-16",
   "dependsOn": [
+    "mlc.croissant.fileobject",
     "mlc.croissant.datasource",
     "mlc.croissant.field",
     "mlc.croissant.fileset",
-    "mlc.croissant.fileobject",
     "mlc.croissant.recordset"
   ],
   "scope": "dev",

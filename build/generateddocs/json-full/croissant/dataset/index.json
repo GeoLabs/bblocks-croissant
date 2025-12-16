@@ -13,10 +13,10 @@
   "itemClass": "schema",
   "register": "mlc-croissant",
   "dependsOn": [
+    "mlc.croissant.fileobject",
     "mlc.croissant.datasource",
     "mlc.croissant.field",
     "mlc.croissant.fileset",
-    "mlc.croissant.fileobject",
     "mlc.croissant.recordset"
   ],
   "scope": "dev",
@@ -41,6 +41,7 @@
   ],
   "maturity": "development",
   "group": "MLCommons",
+  "highlighted": true,
   "shaclShapes": {},
   "ldContext": "https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/dataset/context.jsonld",
   "schema": {

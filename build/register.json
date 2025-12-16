@@ -2,7 +2,7 @@
   "name": "Croissant ML Dataset Metadata Building Blocks",
   "abstract": "Building Blocks for the Croissant metadata format, a standardized format for ML dataset description.\nCroissant simplifies how data is used by ML models by providing a vocabulary for dataset attributes,\nstreamlining how data is loaded across ML frameworks such as PyTorch, TensorFlow or JAX.\n",
   "description": "This register contains OGC Building Blocks implementing the Croissant Format Specification v1.0,\ndeveloped by MLCommons. Croissant is a metadata format that enables dataset interchange between\nML frameworks and addresses discoverability, portability, reproducibility, and responsible AI challenges.\n\nThe specification builds on schema.org and is designed to be modular and extensible. It supports\nstructured and unstructured data, hierarchical record sets, and ML-specific features like splits,\ncategorical data, labels, and bounding boxes.\n\nKey components include:\n- Dataset-level metadata (extending schema.org/Dataset)\n- Resource descriptions (FileObject, FileSet)\n- RecordSet definitions (fields, data types, transformations)\n- ML-specific features (splits, labels, bounding boxes, etc.)\n",
-  "modified": "2025-12-16T18:39:01.817098",
+  "modified": "2025-12-16T18:56:52.325866",
   "tooling": {
     "bblocks-postprocess": {
       "commitId": "\"285d0905c7389562143593be3c626b653c2dc093",
@@ -144,8 +144,8 @@
       "itemClass": "schema",
       "register": "mlc-croissant",
       "dependsOn": [
-        "mlc.croissant.fileset",
-        "mlc.croissant.fileobject"
+        "mlc.croissant.fileobject",
+        "mlc.croissant.fileset"
       ],
       "scope": "dev",
       "tags": [
@@ -313,10 +313,10 @@
       "version": "1.0",
       "dateOfLastChange": "2025-12-16",
       "dependsOn": [
+        "mlc.croissant.fileobject",
         "mlc.croissant.datasource",
         "mlc.croissant.field",
         "mlc.croissant.fileset",
-        "mlc.croissant.fileobject",
         "mlc.croissant.recordset"
       ],
       "scope": "dev",
@@ -373,10 +373,10 @@
       "itemClass": "schema",
       "register": "mlc-croissant",
       "dependsOn": [
+        "mlc.croissant.fileobject",
         "mlc.croissant.datasource",
         "mlc.croissant.field",
         "mlc.croissant.fileset",
-        "mlc.croissant.fileobject",
         "mlc.croissant.recordset"
       ],
       "scope": "dev",
@@ -401,6 +401,7 @@
       ],
       "maturity": "development",
       "group": "MLCommons",
+      "highlighted": true,
       "shaclShapes": {},
       "ldContext": "https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/dataset/context.jsonld",
       "schema": {
