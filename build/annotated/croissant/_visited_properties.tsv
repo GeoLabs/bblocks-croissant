@@ -1,0 +1,52 @@
+path	@id
+/@context	
+/@type	
+/@id	
+/name	
+/description	
+/url	
+/distribution	
+/distribution/@type	
+/distribution/@id	
+/distribution/name	
+/distribution/contentUrl	sc:contentUrl
+/distribution/contentSize	sc:contentSize
+/distribution/encodingFormat	sc:encodingFormat
+/distribution/sha256	sc:sha256
+/distribution/md5	http://mlcommons.org/croissant/md5
+/distribution/containedIn	http://mlcommons.org/croissant/containedIn
+/distribution/containedIn/@id	
+/distribution/description	
+/distribution/sameAs	sc:sameAs
+/distribution/includes	http://mlcommons.org/croissant/includes
+/distribution/excludes	http://mlcommons.org/croissant/excludes
+/recordSet	
+/recordSet/@type	
+/recordSet/@id	
+/recordSet/name	
+/recordSet/description	
+/recordSet/field	http://mlcommons.org/croissant/field
+/recordSet/field/@type	
+/recordSet/field/@id	
+/recordSet/field/name	
+/recordSet/field/description	
+/recordSet/field/dataType	http://mlcommons.org/croissant/dataType
+/recordSet/field/source	
+/recordSet/field/source/@id	
+/recordSet/field/references	
+/recordSet/field/references/@id	
+/recordSet/field/repeated	
+/recordSet/field/subField	
+/recordSet/key	http://mlcommons.org/croissant/key
+/recordSet/key/@id	
+/recordSet/data	http://mlcommons.org/croissant/data
+/recordSet/examples	http://mlcommons.org/croissant/examples
+/recordSet/dataType	http://mlcommons.org/croissant/dataType
+/conformsTo	
+/license	
+/creator	
+/creator/@type	
+/creator/name	
+/creator/email	
+/creator/url	
+/citation	

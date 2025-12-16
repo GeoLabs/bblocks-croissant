@@ -1,0 +1,119 @@
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/",
+    "citeAs": "cr:citeAs",
+    "column": "cr:column",
+    "conformsTo": "dct:conformsTo",
+    "cr": "http://mlcommons.org/croissant/",
+    "rai": "http://mlcommons.org/croissant/RAI/",
+    "data": {
+      "@id": "cr:data",
+      "@type": "@json"
+    },
+    "dataType": {
+      "@id": "cr:dataType",
+      "@type": "@vocab"
+    },
+    "dct": "http://purl.org/dc/terms/",
+    "examples": {
+      "@id": "cr:examples",
+      "@type": "@json"
+    },
+    "extract": "cr:extract",
+    "field": "cr:field",
+    "fileProperty": "cr:fileProperty",
+    "fileObject": "cr:fileObject",
+    "fileSet": "cr:fileSet",
+    "format": "cr:format",
+    "includes": "cr:includes",
+    "isLiveDataset": "cr:isLiveDataset",
+    "jsonPath": "cr:jsonPath",
+    "key": "cr:key",
+    "md5": "cr:md5",
+    "parentField": "cr:parentField",
+    "path": "cr:path",
+    "recordSet": "cr:recordSet",
+    "references": "cr:references",
+    "regex": "cr:regex",
+    "repeated": "cr:repeated",
+    "replace": "cr:replace",
+    "sc": "https://schema.org/",
+    "separator": "cr:separator",
+    "source": "cr:source",
+    "subField": "cr:subField",
+    "transform": "cr:transform",
+    "wd": "https://www.wikidata.org/wiki/"
+  },
+  "@type": "sc:Dataset",
+  "name": "Mini-COCO",
+  "description": "Smaller downloadable version of COCO to be used in unit tests.",
+  "conformsTo": "http://mlcommons.org/croissant/1.0",
+  "citeAs": "None",
+  "license": "cc-by-4.0",
+  "url": "None",
+  "version": "1.0.0",
+  "distribution": [
+    {
+      "@type": "cr:FileObject",
+      "@id": "train2014.zip",
+      "name": "train2014.zip",
+      "contentSize": " B",
+      "contentUrl": "data/train2014.zip",
+      "encodingFormat": "application/zip",
+      "sha256": "d010037fee9416bdcc187a37a4aec7bef798316147da2753bd86e78fc0d469a5"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "image-files",
+      "name": "image-files",
+      "containedIn": {
+        "@id": "train2014.zip"
+      },
+      "encodingFormat": "image/jpeg",
+      "includes": "*.jpg"
+    }
+  ],
+  "recordSet": [
+    {
+      "@type": "cr:RecordSet",
+      "@id": "images",
+      "name": "images",
+      "key": {
+        "@id": "img_id"
+      },
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "images/image_filename",
+          "name": "images/image_filename",
+          "description": "The filename of the image. eg: COCO_train2014_000000000003.jpg",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "image-files"
+            },
+            "extract": {
+              "fileProperty": "filename"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "images/image_content",
+          "name": "images/image_content",
+          "description": "The content of the image.",
+          "dataType": "sc:ImageObject",
+          "source": {
+            "fileSet": {
+              "@id": "image-files"
+            },
+            "extract": {
+              "fileProperty": "content"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+@prefix cr: <http://mlcommons.org/croissant/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix sc: <https://schema.org/> .
+
+<file:///github/workspace/passengers> a cr:RecordSet ;
+    cr:field <file:///github/workspace/passengers/name>,
+        <file:///github/workspace/passengers/survived> ;
+    sc:description "The list of passengers. Does not include crew members."@en ;
+    sc:name "passengers"@en .
+
+<file:///github/workspace/passengers/name> a cr:Field ;
+    cr:dataType sc:Text ;
+    cr:source [ cr:extract [ cr:column "name"@en ] ;
+            cr:fileObject <file:///github/workspace/passengers.csv> ] ;
+    sc:description "Name of the passenger"@en ;
+    sc:name "passengers/name"@en .
+
+<file:///github/workspace/passengers/survived> a cr:Field ;
+    cr:dataType sc:Integer ;
+    cr:source [ cr:extract [ cr:column "survived"@en ] ;
+            cr:fileObject <file:///github/workspace/passengers.csv> ] ;
+    sc:description "Survival status of passenger (0: Lost, 1: Saved)"@en ;
+    sc:name "passengers/survived"@en .
+
+<file:///github/workspace/passengers.csv> a cr:FileObject ;
+    sc:contentSize "117743 B"@en ;
+    sc:contentUrl "data/titanic.csv"@en ;
+    sc:encodingFormat "text/csv"@en ;
+    sc:name "passengers.csv"@en ;
+    sc:sha256 "c617db2c7470716250f6f001be51304c76bcc8815527ab8bae734bdca0735737"@en .
+
+[] a sc:Dataset ;
+    cr:citeAs "The principal source for data about Titanic passengers is the Encyclopedia Titanica (http://www.encyclopedia-titanica.org/)."@en ;
+    cr:recordSet <file:///github/workspace/passengers> ;
+    dct:conformsTo "http://mlcommons.org/croissant/1.0"@en ;
+    sc:description """The original Titanic dataset, describing the status of individual passengers on the Titanic.
+
+ The titanic data does not contain information from the crew, but it does contain actual ages of half of the passengers."""@en ;
+    sc:distribution <file:///github/workspace/passengers.csv> ;
+    sc:license "afl-3.0"@en ;
+    sc:name "Titanic"@en ;
+    sc:url "https://www.openml.org/d/40945"@en ;
+    sc:version "1.0.0"@en .
+

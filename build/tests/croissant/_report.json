@@ -1,0 +1,14 @@
+{
+  "title": "Validation report for mlc.croissant - Croissant Metadata Format",
+  "bblockName": "Croissant Metadata Format",
+  "bblockId": "mlc.croissant",
+  "generated": "2025-12-16T18:39:03.272558+00:00",
+  "result": true,
+  "items": [],
+  "globalErrors": {},
+  "counts": {
+    "total": 0,
+    "passed": 0,
+    "failed": 0
+  }
+}

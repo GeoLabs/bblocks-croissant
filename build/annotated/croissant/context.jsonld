@@ -1,0 +1,77 @@
+{
+  "@context": {
+    "@context": {
+      "@context": {}
+    },
+    "@type": {
+      "@context": {}
+    },
+    "@id": {
+      "@context": {}
+    },
+    "name": {},
+    "description": {},
+    "url": {},
+    "@vocab": "https://schema.org/",
+    "contentUrl": "sc:contentUrl",
+    "contentSize": "sc:contentSize",
+    "encodingFormat": "sc:encodingFormat",
+    "sha256": "sc:sha256",
+    "md5": "cr:md5",
+    "containedIn": {
+      "@context": {
+        "@id": {
+          "@context": {}
+        }
+      },
+      "@id": "cr:containedIn"
+    },
+    "sameAs": "sc:sameAs",
+    "includes": "cr:includes",
+    "excludes": "cr:excludes",
+    "distribution": {},
+    "field": {
+      "@context": {
+        "@type": {
+          "@context": {}
+        },
+        "@id": {
+          "@context": {}
+        },
+        "source": {},
+        "references": {},
+        "repeated": {},
+        "subField": {}
+      },
+      "@id": "cr:field"
+    },
+    "key": {
+      "@context": {
+        "@id": {
+          "@context": {}
+        }
+      },
+      "@id": "cr:key"
+    },
+    "data": {
+      "@id": "cr:data",
+      "@type": "@json"
+    },
+    "examples": {
+      "@id": "cr:examples",
+      "@type": "@json"
+    },
+    "dataType": {
+      "@id": "cr:dataType",
+      "@type": "@vocab"
+    },
+    "recordSet": {},
+    "conformsTo": {},
+    "license": {},
+    "email": {},
+    "creator": {},
+    "citation": {},
+    "cr": "http://mlcommons.org/croissant/",
+    "@version": 1.1
+  }
+}

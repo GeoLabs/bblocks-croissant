@@ -1,0 +1,8 @@
+path
+/fileObject/@id
+/fileSet/@id
+/recordSet/@id
+/transform/jsonQuery
+/transform/replace
+/transform/replace/pattern
+/transform/replace/replacement

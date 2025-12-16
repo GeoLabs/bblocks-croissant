@@ -1,0 +1,121 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Croissant FileSet
+description: 'Represents a collection of homogeneous files (e.g., images, videos,
+  text files)
+
+  where each file is treated as an individual item. Supports glob patterns for
+
+  inclusion/exclusion of files.
+
+  '
+type: object
+required:
+- '@type'
+- '@id'
+- containedIn
+properties:
+  '@type':
+    type: string
+    const: cr:FileSet
+    description: Must be cr:FileSet
+  '@id':
+    type: string
+    description: Unique identifier for this FileSet within the dataset
+  name:
+    type: string
+    description: Human-readable name for this file collection
+  description:
+    type: string
+    description: Description of the file collection
+  containedIn:
+    description: 'The source of data for the FileSet (e.g., an archive FileObject).
+
+      If multiple values are provided, the union of their contents is taken.
+
+      '
+    oneOf:
+    - type: object
+      required:
+      - '@id'
+      properties:
+        '@id':
+          type: string
+          description: Reference to a FileObject containing these files
+    - type: array
+      items:
+        type: object
+        required:
+        - '@id'
+        properties:
+          '@id':
+            type: string
+    x-jsonld-id: http://mlcommons.org/croissant/containedIn
+  includes:
+    description: 'Glob pattern(s) that specify the files to include. Multiple includes
+      are
+
+      combined with union. Patterns are evaluated from the root of the containedIn
+      contents.
+
+      '
+    oneOf:
+    - type: string
+      description: Single glob pattern (e.g., "*.jpg", "images/**/*.png")
+    - type: array
+      items:
+        type: string
+      description: Multiple glob patterns
+    x-jsonld-id: http://mlcommons.org/croissant/includes
+  excludes:
+    description: 'Glob pattern(s) that specify files to exclude. Applied after includes.
+
+      Multiple excludes are combined with union.
+
+      '
+    oneOf:
+    - type: string
+      description: Single glob pattern
+    - type: array
+      items:
+        type: string
+      description: Multiple glob patterns
+    x-jsonld-id: http://mlcommons.org/croissant/excludes
+  encodingFormat:
+    type: string
+    description: MIME type of the files in this set (e.g., "image/jpeg", "text/plain")
+    x-jsonld-id: sc:encodingFormat
+examples:
+- title: JPEG images in a zip archive
+  content: All JPEG images contained in a zip file
+  snippets:
+  - language: json
+    code: "{\n  \"@type\": \"cr:FileSet\",\n  \"@id\": \"image-files\",\n  \"name\":
+      \"Training images\",\n  \"containedIn\": { \"@id\": \"train-archive.zip\" },\n
+      \ \"encodingFormat\": \"image/jpeg\",\n  \"includes\": \"*.jpg\"\n}\n"
+- title: Images in specific subdirectories
+  content: Using patterns to select images from multiple directories
+  snippets:
+  - language: json
+    code: "{\n  \"@type\": \"cr:FileSet\",\n  \"@id\": \"train-images\",\n  \"name\":
+      \"Training set images\",\n  \"containedIn\": { \"@id\": \"dataset-archive\"
+      },\n  \"encodingFormat\": \"image/png\",\n  \"includes\": [\"train/**/*.png\",
+      \"validation/**/*.png\"]\n}\n"
+- title: Files with exclusion patterns
+  content: Including all text files except test files
+  snippets:
+  - language: json
+    code: "{\n  \"@type\": \"cr:FileSet\",\n  \"@id\": \"text-corpus\",\n  \"name\":
+      \"Text corpus (excluding tests)\",\n  \"containedIn\": { \"@id\": \"corpus-archive\"
+      },\n  \"encodingFormat\": \"text/plain\",\n  \"includes\": \"**/*.txt\",\n  \"excludes\":
+      \"**/test/**\"\n}\n"
+- title: Multiple source archives
+  content: Combining files from multiple archives
+  snippets:
+  - language: json
+    code: "{\n  \"@type\": \"cr:FileSet\",\n  \"@id\": \"all-images\",\n  \"name\":
+      \"All dataset images\",\n  \"containedIn\": [\n    { \"@id\": \"part1.zip\"
+      },\n    { \"@id\": \"part2.zip\" }\n  ],\n  \"encodingFormat\": \"image/jpeg\",\n
+      \ \"includes\": \"*.jpg\"\n}\n"
+x-jsonld-vocab: https://schema.org/
+x-jsonld-prefixes:
+  cr: http://mlcommons.org/croissant/

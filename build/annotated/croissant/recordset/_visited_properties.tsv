@@ -1,0 +1,22 @@
+path	@id
+/@type	
+/@id	
+/name	
+/description	
+/field	http://mlcommons.org/croissant/field
+/field/@type	
+/field/@id	
+/field/name	
+/field/description	
+/field/dataType	http://mlcommons.org/croissant/dataType
+/field/source	
+/field/source/@id	
+/field/references	
+/field/references/@id	
+/field/repeated	
+/field/subField	
+/key	http://mlcommons.org/croissant/key
+/key/@id	
+/data	http://mlcommons.org/croissant/data
+/examples	http://mlcommons.org/croissant/examples
+/dataType	http://mlcommons.org/croissant/dataType

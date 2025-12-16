@@ -1,0 +1,12 @@
+path	@id
+/@type	
+/@id	
+/name	
+/description	
+/dataType	http://mlcommons.org/croissant/dataType
+/source	http://mlcommons.org/croissant/source
+/source/@id	
+/references	http://mlcommons.org/croissant/references
+/references/@id	
+/repeated	http://mlcommons.org/croissant/repeated
+/equivalentProperty	http://mlcommons.org/croissant/equivalentProperty

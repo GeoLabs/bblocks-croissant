@@ -1,0 +1,123 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Croissant FileObject
+description: 'Represents an individual file that is part of a Croissant dataset.
+
+  FileObject inherits from schema.org CreativeWork.
+
+  '
+type: object
+required:
+- '@type'
+- '@id'
+properties:
+  '@type':
+    type: string
+    const: cr:FileObject
+    description: Must be cr:FileObject
+  '@id':
+    type: string
+    description: Unique identifier for this FileObject within the dataset
+  name:
+    type: string
+    description: 'The name of the file. Should reflect the name of the file as downloaded,
+
+      including the file extension (e.g., "images.zip")
+
+      '
+  contentUrl:
+    type: string
+    format: uri
+    description: URL to the actual bytes of the file
+    x-jsonld-id: sc:contentUrl
+  contentSize:
+    type: string
+    description: 'File size in (mega/kilo/...)bytes. Defaults to bytes if a unit is
+      not specified.
+
+      Examples: "1024", "1.5 MB", "2GB"
+
+      '
+    x-jsonld-id: sc:contentSize
+  encodingFormat:
+    type: string
+    description: The format of the file, given as a MIME type (e.g., "text/csv", "image/jpeg")
+    x-jsonld-id: sc:encodingFormat
+  sha256:
+    type: string
+    pattern: ^[a-fA-F0-9]{64}$
+    description: SHA-256 checksum for the file contents (64 hexadecimal characters)
+    x-jsonld-id: sc:sha256
+  md5:
+    type: string
+    pattern: ^[a-fA-F0-9]{32}$
+    description: MD5 checksum for the file contents (32 hexadecimal characters)
+    x-jsonld-id: http://mlcommons.org/croissant/md5
+  containedIn:
+    description: 'Another FileObject or FileSet that this one is contained in, e.g.,
+      in the case
+
+      of a file extracted from an archive. When this property is present, the contentUrl
+
+      is evaluated as a relative path within the container object.
+
+      '
+    oneOf:
+    - type: object
+      required:
+      - '@id'
+      properties:
+        '@id':
+          type: string
+          description: Reference to the container FileObject or FileSet
+    - type: array
+      items:
+        type: object
+        required:
+        - '@id'
+        properties:
+          '@id':
+            type: string
+    x-jsonld-id: http://mlcommons.org/croissant/containedIn
+  description:
+    type: string
+    description: Human-readable description of the file
+  sameAs:
+    description: 'URL (or local name) of a FileObject with the same content, but in
+      a different format
+
+      '
+    oneOf:
+    - type: string
+      format: uri
+    - type: array
+      items:
+        type: string
+        format: uri
+    x-jsonld-id: sc:sameAs
+examples:
+- title: Simple CSV file
+  content: A single CSV file with metadata
+  snippets:
+  - language: json
+    code: "{\n  \"@type\": \"cr:FileObject\",\n  \"@id\": \"metadata.csv\",\n  \"name\":
+      \"metadata.csv\",\n  \"contentUrl\": \"https://example.com/data/metadata.csv\",\n
+      \ \"encodingFormat\": \"text/csv\",\n  \"contentSize\": \"1024 KB\",\n  \"sha256\":
+      \"0b033707ea49365a5ffdd14615825511\"\n}\n"
+- title: Archive file
+  content: A tar archive containing dataset files
+  snippets:
+  - language: json
+    code: "{\n  \"@type\": \"cr:FileObject\",\n  \"@id\": \"dataset-archive\",\n  \"name\":
+      \"dataset.tar.gz\",\n  \"contentUrl\": \"https://example.com/dataset.tar.gz\",\n
+      \ \"encodingFormat\": \"application/x-tar\",\n  \"contentSize\": \"10 GB\",\n
+      \ \"sha256\": \"f4f87af4327fd1a66dd7944b9f59cbcc\"\n}\n"
+- title: File extracted from archive
+  content: A file contained within an archive
+  snippets:
+  - language: json
+    code: "{\n  \"@type\": \"cr:FileObject\",\n  \"@id\": \"readme-file\",\n  \"name\":
+      \"README.txt\",\n  \"contentUrl\": \"README.txt\",\n  \"containedIn\": { \"@id\":
+      \"dataset-archive\" },\n  \"encodingFormat\": \"text/plain\"\n}\n"
+x-jsonld-vocab: https://schema.org/
+x-jsonld-prefixes:
+  cr: http://mlcommons.org/croissant/

@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Croissant Dataset",
+  "description": "Complete Croissant metadata format for machine learning datasets.\nExtends schema.org/Dataset with ML-specific vocabulary.\n",
+  "type": "object",
+  "required": [
+    "@context",
+    "@type",
+    "name",
+    "description",
+    "distribution"
+  ],
+  "properties": {
+    "@context": {
+      "description": "JSON-LD context",
+      "oneOf": [
+        {
+          "type": "string",
+          "format": "uri"
+        },
+        {
+          "type": "object"
+        },
+        {
+          "type": "array"
+        }
+      ]
+    },
+    "@type": {
+      "const": "sc:Dataset",
+      "description": "Must be sc:Dataset"
+    },
+    "@id": {
+      "type": "string",
+      "description": "Unique identifier for the dataset"
+    },
+    "name": {
+      "type": "string",
+      "description": "Dataset name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Dataset description"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Dataset homepage or repository URL"
+    },
+    "distribution": {
+      "type": "array",
+      "description": "FileObjects and FileSets describing dataset files",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/FileObject"
+          },
+          {
+            "$ref": "#/$defs/FileSet"
+          }
+        ]
+      }
+    },
+    "recordSet": {
+      "type": "array",
+      "description": "Structured data records within the dataset",
+      "items": {
+        "$ref": "#/$defs/RecordSet"
+      }
+    },
+    "conformsTo": {
+      "type": "string",
+      "format": "uri",
+      "description": "Version of Croissant specification (e.g., http://mlcommons.org/croissant/1.0)"
+    },
+    "license": {
+      "description": "License under which the dataset is released",
+      "oneOf": [
+        {
+          "type": "string",
+          "format": "uri"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "creator": {
+      "description": "Dataset author(s) or organization(s)",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/PersonOrOrganization"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PersonOrOrganization"
+          }
+        }
+      ]
+    },
+    "citation": {
+      "description": "Scholarly citation for the dataset",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "FileObject": {
+      "$ref": "https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/fileobject/schema.json"
+    },
+    "FileSet": {
+      "$ref": "https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/fileset/schema.json"
+    },
+    "RecordSet": {
+      "$ref": "https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/recordset/schema.json"
+    },
+    "Field": {
+      "$ref": "https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/field/schema.json"
+    },
+    "DataSource": {
+      "$ref": "https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/datasource/schema.json"
+    },
+    "PersonOrOrganization": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "@type": {
+              "const": "sc:Person"
+            },
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string",
+              "format": "email"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "@type": {
+              "const": "sc:Organization"
+            },
+            "name": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "examples": [
+    {
+      "title": "Minimal Croissant Dataset",
+      "content": "Basic dataset with file and record structure",
+      "snippets": [
+        {
+          "language": "json",
+          "code": "{\n  \"@context\": \"http://mlcommons.org/croissant/1.0\",\n  \"@type\": \"sc:Dataset\",\n  \"name\": \"Example ML Dataset\",\n  \"description\": \"A simple example dataset\",\n  \"license\": \"https://creativecommons.org/licenses/by/4.0/\",\n  \"url\": \"https://example.com/dataset\",\n  \"distribution\": [\n    {\n      \"@type\": \"cr:FileObject\",\n      \"@id\": \"data.csv\",\n      \"name\": \"data.csv\",\n      \"contentUrl\": \"https://example.com/data.csv\",\n      \"encodingFormat\": \"text/csv\"\n    }\n  ],\n  \"recordSet\": [\n    {\n      \"@type\": \"cr:RecordSet\",\n      \"@id\": \"examples\",\n      \"field\": [\n        {\n          \"@type\": \"cr:Field\",\n          \"@id\": \"examples/id\",\n          \"name\": \"id\",\n          \"dataType\": \"sc:Integer\"\n        },\n        {\n          \"@type\": \"cr:Field\",\n          \"@id\": \"examples/text\",\n          \"name\": \"text\",\n          \"dataType\": \"sc:Text\"\n        }\n      ]\n    }\n  ]\n}\n"
+        }
+      ]
+    }
+  ]
+}

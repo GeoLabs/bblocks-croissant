@@ -1,0 +1,48 @@
+@prefix cr: <http://mlcommons.org/croissant/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix sc: <https://schema.org/> .
+
+<file:///github/workspace/images> a cr:RecordSet ;
+    cr:field <file:///github/workspace/images/hash>,
+        <file:///github/workspace/images/image_content> ;
+    cr:key <file:///github/workspace/hash> ;
+    sc:name "images"@en .
+
+<file:///github/workspace/images/hash> a cr:Field ;
+    cr:dataType sc:Text ;
+    cr:source [ cr:extract [ cr:fileProperty "filename"@en ] ;
+            cr:fileSet <file:///github/workspace/image-files> ;
+            cr:transform [ cr:regex "([^\\/]*)\\.jpg"@en ] ] ;
+    sc:description "The hash of the image, as computed from YFCC-100M."@en ;
+    sc:name "images/hash"@en .
+
+<file:///github/workspace/images/image_content> a cr:Field ;
+    cr:dataType sc:ImageObject ;
+    cr:source [ cr:extract [ cr:fileProperty "content"@en ] ;
+            cr:fileSet <file:///github/workspace/image-files> ] ;
+    sc:description "The content of the image."@en ;
+    sc:name "images/image_content"@en .
+
+<file:///github/workspace/metadata> a cr:FileObject ;
+    sc:contentUrl "https://zenodo.org/record/6615455/files/pass_metadata.csv"@en ;
+    sc:encodingFormat "text/csv"@en ;
+    sc:name "metadata"@en ;
+    sc:sha256 "0b033707ea49365a5ffdd14615825511"@en .
+
+<file:///github/workspace/image-files> a cr:FileSet ;
+    cr:includes "*.jpg"@en ;
+    sc:containedIn <file:///github/workspace/pass0> ;
+    sc:encodingFormat "image/jpeg"@en ;
+    sc:name "image-files"@en .
+
+[] a sc:Dataset ;
+    cr:citeAs "@Article{asano21pass, author = \"Yuki M. Asano and Christian Rupprecht and Andrew Zisserman and Andrea Vedaldi\", title = \"PASS: An ImageNet replacement for self-supervised pretraining without humans\", journal = \"NeurIPS Track on Datasets and Benchmarks\", year = \"2021\" }"@en ;
+    cr:recordSet <file:///github/workspace/images> ;
+    dct:conformsTo "http://mlcommons.org/croissant/1.0"@en ;
+    sc:description "PASS is a large-scale image dataset that does not include any humans and which can be used for high-quality pretraining while significantly reducing privacy concerns."@en ;
+    sc:distribution <file:///github/workspace/image-files>,
+        <file:///github/workspace/metadata> ;
+    sc:license "cc-by-4.0"@en ;
+    sc:name "PASS"@en ;
+    sc:url "https://www.robots.ox.ac.uk/~vgg/data/pass/"@en .
+

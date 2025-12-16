@@ -1,0 +1,10 @@
+path	@id
+/@type	
+/@id	
+/name	
+/description	
+/containedIn	http://mlcommons.org/croissant/containedIn
+/containedIn/@id	
+/includes	http://mlcommons.org/croissant/includes
+/excludes	http://mlcommons.org/croissant/excludes
+/encodingFormat	sc:encodingFormat
