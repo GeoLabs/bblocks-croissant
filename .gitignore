@@ -1,4 +1,5 @@
 build-local/
+build/
 .idea/
 bblocks-config-local.yml
 bblocks-config-local.yaml

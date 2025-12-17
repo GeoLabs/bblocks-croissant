@@ -3,13 +3,20 @@
 # Script to apply JQ transforms to example files and generate transform outputs
 # This creates the files expected by the OGC Building Blocks viewer UI
 
-set -e
+# Don't use set -e to allow error collection
+# set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SOURCES_DIR="$SCRIPT_DIR/_sources/geocroissant"
 TRANSFORMS_DIR="$SOURCES_DIR/transforms"
 TEST_INPUTS_DIR="$SOURCES_DIR/test-inputs"
-OUTPUT_DIR="$SCRIPT_DIR/build-local/tests/croissant/geocroissant"
+
+# Use 'build' directory if it exists (GitHub Actions), otherwise 'build-local'
+if [ -d "$SCRIPT_DIR/build" ]; then
+    OUTPUT_DIR="$SCRIPT_DIR/build/tests/croissant/geocroissant"
+else
+    OUTPUT_DIR="$SCRIPT_DIR/build-local/tests/croissant/geocroissant"
+fi
 
 # Colors for output
 GREEN='\033[0;32m'
@@ -19,6 +26,9 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 echo -e "${BLUE}=== GeoCroissant Transform Application ===${NC}"
+echo ""
+echo "Script directory: $SCRIPT_DIR"
+echo "Output directory: $OUTPUT_DIR"
 echo ""
 
 # Check if jq is installed
@@ -299,9 +309,9 @@ for mapping in "${TRANSFORM_MAPPINGS[@]}"; do
     IFS=':' read -r transform_id transform_file input_file example_num input_dir <<< "$mapping"
     echo ""
     if apply_transform "$transform_id" "$transform_file" "$input_file" "$example_num" "$input_dir"; then
-        ((success_count++))
+        success_count=$((success_count + 1))
     else
-        ((fail_count++))
+        fail_count=$((fail_count + 1))
     fi
 done
 
@@ -317,9 +327,15 @@ echo ""
 # List generated files
 if [ $success_count -gt 0 ]; then
     echo -e "${BLUE}Generated transform outputs:${NC}"
-    ls -lh "$OUTPUT_DIR/transforms/" 2>/dev/null | grep -v "^total" | sed 's/^/  /'
+    ls -lh "$OUTPUT_DIR/transforms/" 2>/dev/null | grep -v "^total" | sed 's/^/  /' || true
     echo ""
 fi
 
 echo -e "${GREEN}Transform application complete!${NC}"
 echo -e "View results at: ${BLUE}http://localhost:9090/register/bblock/mlc.croissant.geocroissant${NC}"
+
+# Exit with proper code
+if [ $fail_count -gt 0 ]; then
+    exit 1
+fi
+exit 0
