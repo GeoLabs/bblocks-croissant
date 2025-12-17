@@ -13,18 +13,18 @@
 
 <https://geolabs.github.io/bblocks-croissant/build/bblocks.ttl> a prov:Entity ;
     dct:format "text/turtle" ;
-    prov:wasAttributedTo _:Nd82b68478df2443ba26743f1b04aab31 ;
+    prov:wasAttributedTo _:N603c81da64ca4cb68611c2a49005216d ;
     prov:wasGeneratedBy [ a prov:Activity ;
-            prov:endedAtTime "2025-12-17T01:38:40.924738"^^xsd:dateTime ;
-            prov:startedAtTime "2025-12-17T01:38:40.830851"^^xsd:dateTime ;
+            prov:endedAtTime "2025-12-17T01:50:17.517630"^^xsd:dateTime ;
+            prov:startedAtTime "2025-12-17T01:50:17.430254"^^xsd:dateTime ;
             prov:used [ a prov:Entity ;
-                    dct:format "application/yaml" ;
-                    rdfs:seeAlso <file:///src/ogc/bblocks/register-context.yaml> ],
-                [ a prov:Entity ;
                     dct:format "application/json" ;
-                    dct:hasVersion "git:a51a480514884972d959d34c3b521c7f1cc20f8e" ;
-                    rdfs:seeAlso <https://geolabs.github.io/bblocks-croissant/build/register.json> ] ;
-            prov:wasAssociatedWith _:Nd82b68478df2443ba26743f1b04aab31 ] .
+                    dct:hasVersion "git:5dfcf5b81ac0166d5a548524bb63600f565fc67a" ;
+                    rdfs:seeAlso <https://geolabs.github.io/bblocks-croissant/build/register.json> ],
+                [ a prov:Entity ;
+                    dct:format "application/yaml" ;
+                    rdfs:seeAlso <file:///src/ogc/bblocks/register-context.yaml> ] ;
+            prov:wasAssociatedWith _:N603c81da64ca4cb68611c2a49005216d ] .
 
 <bblocks://mlc.croissant> a skos:Concept,
         dcat:Dataset,
@@ -32,10 +32,10 @@
     rdfs:label "Croissant Metadata Format" ;
     dct:abstract "MLCommons Croissant metadata format for responsible AI datasets"^^<https://www.w3.org/ns/iana/media-types/text/markdown> ;
     dct:created "2025-12-16T00:00:00+00:00"^^xsd:dateTime ;
-    dct:description [ dct:format "application/json" ;
-            rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/build/generateddocs/json-full/croissant/index.json> ],
-        [ dct:format "text/html" ;
+    dct:description [ dct:format "text/html" ;
             rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/bblock/mlc.croissant> ],
+        [ dct:format "application/json" ;
+            rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/build/generateddocs/json-full/croissant/index.json> ],
         [ dct:format "text/markdown" ;
             rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/build/generateddocs/markdown/croissant/index.md> ],
         "Croissant is a high-level format for machine learning datasets that combines metadata, resource file descriptions, data structure, and default ML semantics into a single file; works with existing datasets to make them easier to find, use, and cite; and is built on schema.org and other existing standards."^^<https://www.w3.org/ns/iana/media-types/text/markdown> ;
@@ -49,14 +49,14 @@
         "croissant",
         "dataset metadata",
         "machine learning" ;
-    prof:hasResource [ dct:conformsTo <https://json-schema.org/draft/2020-12/schema> ;
-            dct:format "application/json" ;
-            prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/schema.json> ;
-            prof:hasRole role:schema ],
-        [ dct:conformsTo <https://www.w3.org/TR/json-ld11/> ;
+    prof:hasResource [ dct:conformsTo <https://www.w3.org/TR/json-ld11/> ;
             dct:format "application/ld+json" ;
             prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/context.jsonld> ;
             prof:hasRole role:mapping ],
+        [ dct:conformsTo <https://json-schema.org/draft/2020-12/schema> ;
+            dct:format "application/json" ;
+            prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/schema.json> ;
+            prof:hasRole role:schema ],
         [ dct:conformsTo <https://json-schema.org/draft/2020-12/schema> ;
             dct:format "application/yaml" ;
             prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/schema.yaml> ;
@@ -101,12 +101,12 @@
     rdfs:label "Croissant Dataset" ;
     dct:abstract "Metadata format for ML dataset description following the Croissant specification"^^<https://www.w3.org/ns/iana/media-types/text/markdown> ;
     dct:created "2025-12-16T00:00:00+00:00"^^xsd:dateTime ;
-    dct:description [ dct:format "text/markdown" ;
-            rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/build/generateddocs/markdown/croissant/dataset/index.md> ],
-        [ dct:format "text/html" ;
+    dct:description [ dct:format "text/html" ;
             rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/bblock/mlc.croissant.dataset> ],
         [ dct:format "application/json" ;
             rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/build/generateddocs/json-full/croissant/dataset/index.json> ],
+        [ dct:format "text/markdown" ;
+            rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/build/generateddocs/markdown/croissant/dataset/index.md> ],
         "A Croissant Dataset extends schema.org/Dataset with additional properties for ML-specific metadata, including distribution (FileObject/FileSet), recordSets, and versioning information. It provides a standardized way to describe ML datasets for discoverability, portability, and reproducibility."^^<https://www.w3.org/ns/iana/media-types/text/markdown> ;
     dct:hasVersion "1.0" ;
     dct:modified "2025-12-17"^^xsd:date ;
@@ -149,12 +149,12 @@
     rdfs:label "GeoCroissant Extension" ;
     dct:abstract "Geospatial extension for Croissant metadata format enabling spatial and temporal data description"^^<https://www.w3.org/ns/iana/media-types/text/markdown> ;
     dct:created "2025-12-16T00:00:00+00:00"^^xsd:dateTime ;
-    dct:description [ dct:format "application/json" ;
+    dct:description [ dct:format "text/markdown" ;
+            rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/build/generateddocs/markdown/croissant/geocroissant/index.md> ],
+        [ dct:format "application/json" ;
             rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/build/generateddocs/json-full/croissant/geocroissant/index.json> ],
         [ dct:format "text/html" ;
             rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/bblock/mlc.croissant.geocroissant> ],
-        [ dct:format "text/markdown" ;
-            rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/build/generateddocs/markdown/croissant/geocroissant/index.md> ],
         "GeoCroissant extends the Croissant metadata format with geospatial capabilities, enabling standardized description of spatiotemporal ML datasets. This extension adds properties for bounding boxes, coordinate reference systems, temporal extents, and geometry representations, making Croissant datasets interoperable with geospatial standards like STAC, GeoDCAT, and OGC TDML."^^<https://www.w3.org/ns/iana/media-types/text/markdown> ;
     dct:hasVersion "1.0" ;
     dct:modified "2025-12-17"^^xsd:date ;
@@ -174,18 +174,18 @@
         "geospatial",
         "spatial data",
         "temporal data" ;
-    prof:hasResource [ dct:conformsTo <https://json-schema.org/draft/2020-12/schema> ;
-            dct:format "application/json" ;
-            prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/geocroissant/schema.json> ;
-            prof:hasRole role:schema ],
+    prof:hasResource [ dct:conformsTo <https://www.w3.org/TR/json-ld11/> ;
+            dct:format "application/ld+json" ;
+            prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/geocroissant/context.jsonld> ;
+            prof:hasRole role:mapping ],
         [ dct:conformsTo <https://json-schema.org/draft/2020-12/schema> ;
             dct:format "application/yaml" ;
             prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/geocroissant/schema.yaml> ;
             prof:hasRole role:schema ],
-        [ dct:conformsTo <https://www.w3.org/TR/json-ld11/> ;
-            dct:format "application/ld+json" ;
-            prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/geocroissant/context.jsonld> ;
-            prof:hasRole role:mapping ] ;
+        [ dct:conformsTo <https://json-schema.org/draft/2020-12/schema> ;
+            dct:format "application/json" ;
+            prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/geocroissant/schema.json> ;
+            prof:hasRole role:schema ] ;
     bblocks:dependsOn <bblocks://mlc.croissant.dataset>,
         <bblocks://ogc.geo.common.data_types.bounding_box>,
         <bblocks://ogc.geo.common.data_types.geojson> ;
@@ -202,12 +202,12 @@
     rdfs:label "Croissant RecordSet" ;
     dct:abstract "Describes a set of structured records with typed fields in a Croissant dataset"^^<https://www.w3.org/ns/iana/media-types/text/markdown> ;
     dct:created "2025-12-16T00:00:00+00:00"^^xsd:dateTime ;
-    dct:description [ dct:format "text/html" ;
+    dct:description [ dct:format "application/json" ;
+            rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/build/generateddocs/json-full/croissant/recordset/index.json> ],
+        [ dct:format "text/html" ;
             rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/bblock/mlc.croissant.recordset> ],
         [ dct:format "text/markdown" ;
             rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/build/generateddocs/markdown/croissant/recordset/index.md> ],
-        [ dct:format "application/json" ;
-            rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/build/generateddocs/json-full/croissant/recordset/index.json> ],
         "RecordSet describes structured data records obtained from one or more sources. It defines the schema of records through fields, supports nested data, and can represent both flat and hierarchical structures."^^<https://www.w3.org/ns/iana/media-types/text/markdown> ;
     dct:hasVersion "1.0" ;
     dct:modified "2025-12-17"^^xsd:date ;
@@ -220,16 +220,16 @@
         "schema",
         "structured data" ;
     prof:hasResource [ dct:conformsTo <https://json-schema.org/draft/2020-12/schema> ;
-            dct:format "application/yaml" ;
-            prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/recordset/schema.yaml> ;
+            dct:format "application/json" ;
+            prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/recordset/schema.json> ;
             prof:hasRole role:schema ],
         [ dct:conformsTo <https://www.w3.org/TR/json-ld11/> ;
             dct:format "application/ld+json" ;
             prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/recordset/context.jsonld> ;
             prof:hasRole role:mapping ],
         [ dct:conformsTo <https://json-schema.org/draft/2020-12/schema> ;
-            dct:format "application/json" ;
-            prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/recordset/schema.json> ;
+            dct:format "application/yaml" ;
+            prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/recordset/schema.yaml> ;
             prof:hasRole role:schema ] ;
     bblocks:dependsOn <bblocks://mlc.croissant.field> ;
     bblocks:hasSourceJsonLdContext <https://geolabs.github.io/bblocks-croissant/_sources/recordset/context.jsonld> ;
@@ -261,17 +261,17 @@
         "parsing",
         "transformation" ;
     prof:hasResource [ dct:conformsTo <https://json-schema.org/draft/2020-12/schema> ;
+            dct:format "application/json" ;
+            prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/datasource/schema.json> ;
+            prof:hasRole role:schema ],
+        [ dct:conformsTo <https://json-schema.org/draft/2020-12/schema> ;
             dct:format "application/yaml" ;
             prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/datasource/schema.yaml> ;
             prof:hasRole role:schema ],
         [ dct:conformsTo <https://www.w3.org/TR/json-ld11/> ;
             dct:format "application/ld+json" ;
             prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/datasource/context.jsonld> ;
-            prof:hasRole role:mapping ],
-        [ dct:conformsTo <https://json-schema.org/draft/2020-12/schema> ;
-            dct:format "application/json" ;
-            prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/datasource/schema.json> ;
-            prof:hasRole role:schema ] ;
+            prof:hasRole role:mapping ] ;
     bblocks:dependsOn <bblocks://mlc.croissant.fileobject>,
         <bblocks://mlc.croissant.fileset> ;
     bblocks:hasSourceJsonLdContext <https://geolabs.github.io/bblocks-croissant/_sources/datasource/context.jsonld> ;
@@ -285,12 +285,12 @@
     rdfs:label "Croissant Field" ;
     dct:abstract "Represents a data element (column) within a Croissant RecordSet"^^<https://www.w3.org/ns/iana/media-types/text/markdown> ;
     dct:created "2025-12-16T00:00:00+00:00"^^xsd:dateTime ;
-    dct:description [ dct:format "text/html" ;
+    dct:description [ dct:format "application/json" ;
+            rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/build/generateddocs/json-full/croissant/field/index.json> ],
+        [ dct:format "text/html" ;
             rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/bblock/mlc.croissant.field> ],
         [ dct:format "text/markdown" ;
             rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/build/generateddocs/markdown/croissant/field/index.md> ],
-        [ dct:format "application/json" ;
-            rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/build/generateddocs/json-full/croissant/field/index.json> ],
         "Field defines a single data element in a RecordSet, including its data type, source, and relationships to other fields. It can represent simple columns, nested structures, or references to other RecordSets."^^<https://www.w3.org/ns/iana/media-types/text/markdown> ;
     dct:hasVersion "1.0" ;
     dct:modified "2025-12-17"^^xsd:date ;
@@ -302,17 +302,17 @@
         "croissant",
         "field",
         "schema" ;
-    prof:hasResource [ dct:conformsTo <https://json-schema.org/draft/2020-12/schema> ;
-            dct:format "application/yaml" ;
-            prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/field/schema.yaml> ;
-            prof:hasRole role:schema ],
-        [ dct:conformsTo <https://www.w3.org/TR/json-ld11/> ;
+    prof:hasResource [ dct:conformsTo <https://www.w3.org/TR/json-ld11/> ;
             dct:format "application/ld+json" ;
             prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/field/context.jsonld> ;
             prof:hasRole role:mapping ],
         [ dct:conformsTo <https://json-schema.org/draft/2020-12/schema> ;
             dct:format "application/json" ;
             prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/field/schema.json> ;
+            prof:hasRole role:schema ],
+        [ dct:conformsTo <https://json-schema.org/draft/2020-12/schema> ;
+            dct:format "application/yaml" ;
+            prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/field/schema.yaml> ;
             prof:hasRole role:schema ] ;
     bblocks:dependsOn <bblocks://mlc.croissant.datasource> ;
     bblocks:hasSourceJsonLdContext <https://geolabs.github.io/bblocks-croissant/_sources/field/context.jsonld> ;
@@ -326,10 +326,10 @@
     rdfs:label "Croissant FileSet" ;
     dct:abstract "Represents a collection of homogeneous files in a Croissant dataset"^^<https://www.w3.org/ns/iana/media-types/text/markdown> ;
     dct:created "2025-12-16T00:00:00+00:00"^^xsd:dateTime ;
-    dct:description [ dct:format "application/json" ;
-            rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/build/generateddocs/json-full/croissant/fileset/index.json> ],
-        [ dct:format "text/markdown" ;
+    dct:description [ dct:format "text/markdown" ;
             rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/build/generateddocs/markdown/croissant/fileset/index.md> ],
+        [ dct:format "application/json" ;
+            rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/build/generateddocs/json-full/croissant/fileset/index.json> ],
         [ dct:format "text/html" ;
             rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/bblock/mlc.croissant.fileset> ],
         "FileSet describes collections of files, such as images, videos or text files, where each file needs to be treated as an individual item. It supports inclusion/exclusion patterns using glob syntax."^^<https://www.w3.org/ns/iana/media-types/text/markdown> ;
@@ -343,17 +343,17 @@
         "distribution",
         "file collection",
         "glob pattern" ;
-    prof:hasResource [ dct:conformsTo <https://json-schema.org/draft/2020-12/schema> ;
-            dct:format "application/json" ;
-            prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/fileset/schema.json> ;
-            prof:hasRole role:schema ],
-        [ dct:conformsTo <https://www.w3.org/TR/json-ld11/> ;
+    prof:hasResource [ dct:conformsTo <https://www.w3.org/TR/json-ld11/> ;
             dct:format "application/ld+json" ;
             prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/fileset/context.jsonld> ;
             prof:hasRole role:mapping ],
         [ dct:conformsTo <https://json-schema.org/draft/2020-12/schema> ;
             dct:format "application/yaml" ;
             prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/fileset/schema.yaml> ;
+            prof:hasRole role:schema ],
+        [ dct:conformsTo <https://json-schema.org/draft/2020-12/schema> ;
+            dct:format "application/json" ;
+            prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/fileset/schema.json> ;
             prof:hasRole role:schema ] ;
     bblocks:dependsOn <bblocks://mlc.croissant.fileobject> ;
     bblocks:hasSourceJsonLdContext <https://geolabs.github.io/bblocks-croissant/_sources/fileset/context.jsonld> ;
@@ -367,12 +367,12 @@
     rdfs:label "Croissant FileObject" ;
     dct:abstract "Represents an individual file that is part of a Croissant dataset"^^<https://www.w3.org/ns/iana/media-types/text/markdown> ;
     dct:created "2025-12-16T00:00:00+00:00"^^xsd:dateTime ;
-    dct:description [ dct:format "application/json" ;
+    dct:description [ dct:format "text/markdown" ;
+            rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/build/generateddocs/markdown/croissant/fileobject/index.md> ],
+        [ dct:format "application/json" ;
             rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/build/generateddocs/json-full/croissant/fileobject/index.json> ],
         [ dct:format "text/html" ;
             rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/bblock/mlc.croissant.fileobject> ],
-        [ dct:format "text/markdown" ;
-            rdfs:isDefinedBy <https://geolabs.github.io/bblocks-croissant/build/generateddocs/markdown/croissant/fileobject/index.md> ],
         "FileObject is the Croissant class used to represent individual files that are part of a dataset. It inherits from schema.org CreativeWork and can represent instances of more specific types like DigitalDocument and MediaObject."^^<https://www.w3.org/ns/iana/media-types/text/markdown> ;
     dct:hasVersion "1.0" ;
     dct:modified "2025-12-17"^^xsd:date ;
@@ -384,14 +384,14 @@
         "distribution",
         "file",
         "resource" ;
-    prof:hasResource [ dct:conformsTo <https://www.w3.org/TR/json-ld11/> ;
-            dct:format "application/ld+json" ;
-            prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/fileobject/context.jsonld> ;
-            prof:hasRole role:mapping ],
-        [ dct:conformsTo <https://json-schema.org/draft/2020-12/schema> ;
+    prof:hasResource [ dct:conformsTo <https://json-schema.org/draft/2020-12/schema> ;
             dct:format "application/json" ;
             prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/fileobject/schema.json> ;
             prof:hasRole role:schema ],
+        [ dct:conformsTo <https://www.w3.org/TR/json-ld11/> ;
+            dct:format "application/ld+json" ;
+            prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/fileobject/context.jsonld> ;
+            prof:hasRole role:mapping ],
         [ dct:conformsTo <https://json-schema.org/draft/2020-12/schema> ;
             dct:format "application/yaml" ;
             prof:hasArtifact <https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/fileobject/schema.yaml> ;
@@ -422,7 +422,7 @@ Key components include:
 - RecordSet definitions (fields, data types, transformations)
 - ML-specific features (splits, labels, bounding boxes, etc.)
 """^^<https://www.w3.org/ns/iana/media-types/text/markdown> ;
-    dct:modified "2025-12-17T01:38:37.704321"^^xsd:dateTime ;
+    dct:modified "2025-12-17T01:50:13.769209"^^xsd:dateTime ;
     owl:imports <https://ogcincubator.github.io/bblocks-ogcapi-records/build/register.json>,
         <https://ogcincubator.github.io/bblocks-stac/build/register.json>,
         <https://ogcincubator.github.io/geodcat-ogcapi-records/build/register.json>,
@@ -439,7 +439,7 @@ Key components include:
     foaf:homepage <https://geolabs.github.io/bblocks-croissant/> ;
     bblocks:hasValidationReport <https://geolabs.github.io/bblocks-croissant/build/tests/report.html> .
 
-_:Nd82b68478df2443ba26743f1b04aab31 a prov:Agent,
+_:N603c81da64ca4cb68611c2a49005216d a prov:Agent,
         schema:SoftwareApplication ;
     rdfs:label "OGC-NA tools" ;
     dct:hasVersion "0.5.3" ;

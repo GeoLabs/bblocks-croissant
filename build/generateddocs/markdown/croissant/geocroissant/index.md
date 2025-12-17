@@ -397,7 +397,7 @@ GeoCroissant extends the base Croissant Dataset building block (`mlc.croissant.d
 <file:///github/workspace/bbox-example-dataset> a dcat:Dataset,
         sc:Dataset,
         ns1:Collection ;
-    dct:creator _:N945afeda246d4e10aec9325d2e41ea5e ;
+    dct:creator _:Nd0b081d4563646d7877f6af294cd94be ;
     dct:description "Example dataset with bounding box spatial coverage for GeoCroissant"@en ;
     dct:issued "2018-01-01T00:00:00Z"@en ;
     dct:license "https://creativecommons.org/licenses/by/4.0/"@en ;
@@ -415,7 +415,7 @@ GeoCroissant extends the base Croissant Dataset building block (`mlc.croissant.d
     geocr:temporalExtent [ sc:end "2021-12-31T23:59:59Z"@en ;
             sc:start "2018-01-01T00:00:00Z"@en ] ;
     sc:conformsTo "http://mlcommons.org/croissant/1.0"@en ;
-    sc:creator _:N945afeda246d4e10aec9325d2e41ea5e ;
+    sc:creator _:Nd0b081d4563646d7877f6af294cd94be ;
     sc:datePublished "2018-01-01T00:00:00Z"@en ;
     sc:description "Example dataset with bounding box spatial coverage for GeoCroissant"@en ;
     sc:distribution <file:///github/workspace/data-file> ;
@@ -464,7 +464,7 @@ GeoCroissant extends the base Croissant Dataset building block (`mlc.croissant.d
     sc:name "data-file"@en ;
     sc:sha256 "abc123def456"@en .
 
-_:N945afeda246d4e10aec9325d2e41ea5e a sc:Organization ;
+_:Nd0b081d4563646d7877f6af294cd94be a sc:Organization ;
     sc:name "Example Organization"@en ;
     sc:url "https://example.org"@en .
 
@@ -647,7 +647,7 @@ _:N945afeda246d4e10aec9325d2e41ea5e a sc:Organization ;
 <file:///github/workspace/point-example-dataset> a dcat:Dataset,
         sc:Dataset,
         ns1:Collection ;
-    dct:creator _:Na265a08b6eb841c5b02ea8a186077212 ;
+    dct:creator _:N7803a76c8aad42c88425aa8380de57da ;
     dct:description "Example dataset with point geometry spatial coverage for GeoCroissant"@en ;
     dct:issued "2024-01-01T00:00:00Z"@en ;
     dct:license "https://creativecommons.org/licenses/by/4.0/"@en ;
@@ -664,7 +664,7 @@ _:N945afeda246d4e10aec9325d2e41ea5e a sc:Organization ;
     geocr:temporalExtent [ sc:end "2024-12-31T23:59:59Z"@en ;
             sc:start "2024-01-01T00:00:00Z"@en ] ;
     sc:conformsTo "http://mlcommons.org/croissant/1.0"@en ;
-    sc:creator _:Na265a08b6eb841c5b02ea8a186077212 ;
+    sc:creator _:N7803a76c8aad42c88425aa8380de57da ;
     sc:datePublished "2024-01-01T00:00:00Z"@en ;
     sc:description "Example dataset with point geometry spatial coverage for GeoCroissant"@en ;
     sc:distribution <file:///github/workspace/point-data> ;
@@ -713,7 +713,7 @@ _:N945afeda246d4e10aec9325d2e41ea5e a sc:Organization ;
     sc:name "point-data"@en ;
     sc:sha256 "xyz789abc123"@en .
 
-_:Na265a08b6eb841c5b02ea8a186077212 a sc:Organization ;
+_:N7803a76c8aad42c88425aa8380de57da a sc:Organization ;
     sc:name "Example Organization"@en ;
     sc:url "https://example.org"@en .
 
@@ -957,7 +957,7 @@ _:Na265a08b6eb841c5b02ea8a186077212 a sc:Organization ;
 <file:///github/workspace/polygon-example-dataset> a dcat:Dataset,
         sc:Dataset,
         ns1:Collection ;
-    dct:creator _:N68f8266fcfcb4936b36383437c2492e2 ;
+    dct:creator _:N75269b1d47244667ab7fd6d2ab04a1a6 ;
     dct:description "Example dataset with polygon geometry in projected CRS (UTM) for GeoCroissant"@en ;
     dct:issued "2024-01-01T00:00:00Z"@en ;
     dct:license "https://creativecommons.org/licenses/by/4.0/"@en ;
@@ -982,7 +982,7 @@ _:Na265a08b6eb841c5b02ea8a186077212 a sc:Organization ;
     geocr:temporalExtent [ sc:end "2024-12-31T23:59:59Z"@en ;
             sc:start "2024-01-01T00:00:00Z"@en ] ;
     sc:conformsTo "http://mlcommons.org/croissant/1.0"@en ;
-    sc:creator _:N68f8266fcfcb4936b36383437c2492e2 ;
+    sc:creator _:N75269b1d47244667ab7fd6d2ab04a1a6 ;
     sc:datePublished "2024-01-01T00:00:00Z"@en ;
     sc:description "Example dataset with polygon geometry in projected CRS (UTM) for GeoCroissant"@en ;
     sc:distribution <file:///github/workspace/polygon-data> ;
@@ -1038,7 +1038,7 @@ _:Na265a08b6eb841c5b02ea8a186077212 a sc:Organization ;
     sc:name "polygon-data"@en ;
     sc:sha256 "def456ghi789"@en .
 
-_:N68f8266fcfcb4936b36383437c2492e2 a sc:Organization ;
+_:N75269b1d47244667ab7fd6d2ab04a1a6 a sc:Organization ;
     sc:name "Example Organization"@en ;
     sc:url "https://example.org"@en .
 

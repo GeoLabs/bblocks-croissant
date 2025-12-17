@@ -2,7 +2,7 @@
   "name": "Croissant ML Dataset Metadata Building Blocks",
   "abstract": "Building Blocks for the Croissant metadata format, a standardized format for ML dataset description.\nCroissant simplifies how data is used by ML models by providing a vocabulary for dataset attributes,\nstreamlining how data is loaded across ML frameworks such as PyTorch, TensorFlow or JAX.\n",
   "description": "This register contains OGC Building Blocks implementing the Croissant Format Specification v1.0,\ndeveloped by MLCommons. Croissant is a metadata format that enables dataset interchange between\nML frameworks and addresses discoverability, portability, reproducibility, and responsible AI challenges.\n\nThe specification builds on schema.org and is designed to be modular and extensible. It supports\nstructured and unstructured data, hierarchical record sets, and ML-specific features like splits,\ncategorical data, labels, and bounding boxes.\n\nKey components include:\n- Dataset-level metadata (extending schema.org/Dataset)\n- Resource descriptions (FileObject, FileSet)\n- RecordSet definitions (fields, data types, transformations)\n- ML-specific features (splits, labels, bounding boxes, etc.)\n",
-  "modified": "2025-12-17T01:38:37.704321",
+  "modified": "2025-12-17T01:50:13.769209",
   "tooling": {
     "bblocks-postprocess": {
       "commitId": "\"285d0905c7389562143593be3c626b653c2dc093",
@@ -75,163 +75,6 @@
         "bblocks-viewer": {
           "mediatype": "text/html",
           "url": "https://geolabs.github.io/bblocks-croissant/bblock/mlc.croissant.fileobject"
-        }
-      }
-    },
-    {
-      "itemIdentifier": "mlc.croissant.geocroissant",
-      "$schema": "https://raw.githubusercontent.com/opengeospatial/bblocks-postprocess/master/ogc/bblocks/metadata-schema.yaml",
-      "name": "GeoCroissant Extension",
-      "abstract": "Geospatial extension for Croissant metadata format enabling spatial and temporal data description",
-      "description": "GeoCroissant extends the Croissant metadata format with geospatial capabilities, enabling standardized description of spatiotemporal ML datasets. This extension adds properties for bounding boxes, coordinate reference systems, temporal extents, and geometry representations, making Croissant datasets interoperable with geospatial standards like STAC, GeoDCAT, and OGC TDML.",
-      "status": "under-development",
-      "dateTimeAddition": "2025-12-16T00:00:00Z",
-      "dateOfLastChange": "2025-12-17",
-      "version": "1.0",
-      "itemClass": "schema",
-      "register": "mlc-croissant",
-      "dependsOn": [
-        "ogc.geo.common.data_types.geojson",
-        "ogc.geo.common.data_types.bounding_box",
-        "mlc.croissant.dataset"
-      ],
-      "scope": "dev",
-      "seeAlso": [
-        "ogc.contrib.stac.collection",
-        "ogc.geo.geodcat.geodcat",
-        "ogc.geo.geodcat.stac.geodcat-stac-collection",
-        "ogc.api.records.v1.schemas.time"
-      ],
-      "tags": [
-        "croissant",
-        "geospatial",
-        "geocroissant",
-        "spatial data",
-        "temporal data",
-        "CRS",
-        "bounding box"
-      ],
-      "sourceLdContext": "https://geolabs.github.io/bblocks-croissant/_sources/geocroissant/context.jsonld",
-      "sourceSchema": "https://geolabs.github.io/bblocks-croissant/_sources/geocroissant/schema.yaml",
-      "sources": [
-        {
-          "title": "ZOO-Project GeoCroissant Converters",
-          "link": "https://github.com/ZOO-Project/dcai"
-        },
-        {
-          "title": "Croissant Format Specification v1.0",
-          "link": "https://docs.mlcommons.org/croissant/docs/croissant-spec.html"
-        },
-        {
-          "title": "STAC Specification",
-          "link": "https://stacspec.org/"
-        },
-        {
-          "title": "GeoDCAT-AP Specification",
-          "link": "https://semiceu.github.io/GeoDCAT-AP/"
-        },
-        {
-          "title": "OGC GeoSPARQL",
-          "link": "http://www.opengis.net/doc/IS/geosparql/1.0"
-        },
-        {
-          "title": "OGC Training Data Markup Language (TDML)",
-          "link": "https://docs.ogc.org/DRAFTS/17-049r1.html"
-        }
-      ],
-      "maturity": "development",
-      "group": "MLCommons",
-      "highlighted": true,
-      "shaclShapes": {},
-      "ldContext": "https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/geocroissant/context.jsonld",
-      "schema": {
-        "application/yaml": "https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/geocroissant/schema.yaml",
-        "application/json": "https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/geocroissant/schema.json"
-      },
-      "sourceFiles": "https://geolabs.github.io/bblocks-croissant/_sources/geocroissant/",
-      "rdfData": [],
-      "validationPassed": true,
-      "testOutputs": "https://github.com/GeoLabs/bblocks-croissant/blob/master/build/tests/croissant/geocroissant/",
-      "transforms": [
-        {
-          "id": "geocroissant-to-stac",
-          "description": "Converts GeoCroissant metadata to STAC Item format",
-          "type": "jq",
-          "ref": "https://geolabs.github.io/bblocks-croissant/_sources/geocroissant/transforms/geocroissant-to-stac.jq",
-          "code": "# GeoCroissant to STAC Item conversion\n# Based on ZOO-Project/dcai geocroissant_to_stac.py\n# Converts GeoCroissant metadata to STAC Item format\n\nif .\"@type\" == \"Dataset\" or .conformsTo then\n  \n  # Extract basic metadata\n  . as $gc |\n  \n  # Extract spatial coverage (could be object or array)\n  ($gc[\"geocr:spatialCoverage\"] // $gc.spatialCoverage // $gc[\"geocr:BoundingBox\"] // null) as $spatialRaw |\n  \n  # Determine if it's already a bbox array or an object with bbox/geometry\n  (if $spatialRaw and ($spatialRaw | type == \"object\") then $spatialRaw else {} end) as $spatial |\n  \n  # Extract bounding box (support multiple field name formats)\n  (if $spatialRaw and ($spatialRaw | type == \"array\") and ($spatialRaw | length == 4) then\n    # Direct array bbox\n    $spatialRaw\n  elif $spatial[\"geocr:boundingBox\"] then\n    $spatial[\"geocr:boundingBox\"]\n  elif $spatial.boundingBox then\n    $spatial.boundingBox\n  elif $gc[\"geocr:BoundingBox\"] and ($gc[\"geocr:BoundingBox\"] | type == \"array\") then\n    $gc[\"geocr:BoundingBox\"]\n  else null end) as $bbox |\n  \n  # Build geometry from bbox or geometry field\n  (if $spatial[\"geocr:geometry\"] then\n    $spatial[\"geocr:geometry\"]\n  elif $spatial.geometry then\n    $spatial.geometry\n  elif $gc[\"geocr:geometry\"] then\n    $gc[\"geocr:geometry\"]\n  elif $gc.geometry then\n    $gc.geometry\n  elif $bbox and ($bbox | type == \"array\") and ($bbox | length == 4) then\n    # Convert bbox [west, south, east, north] to Polygon\n    {\n      type: \"Polygon\",\n      coordinates: [[\n        [$bbox[0], $bbox[1]],  # SW\n        [$bbox[0], $bbox[3]],  # NW\n        [$bbox[2], $bbox[3]],  # NE\n        [$bbox[2], $bbox[1]],  # SE\n        [$bbox[0], $bbox[1]]   # close polygon\n      ]]\n    }\n  else null end) as $geometry |\n  \n  # Extract temporal extent (support multiple formats)\n  ($gc[\"geocr:temporalExtent\"] // $gc.temporalExtent // $gc[\"dct:temporal\"] // {}) as $temporal |\n  (if $temporal[\"geocr:start\"] then $temporal[\"geocr:start\"]\n   elif $temporal.start then $temporal.start\n   elif $temporal.startDate then $temporal.startDate\n   else null end) as $start_datetime |\n  (if $temporal[\"geocr:end\"] then $temporal[\"geocr:end\"]\n   elif $temporal.end then $temporal.end\n   elif $temporal.endDate then $temporal.endDate\n   else $start_datetime end) as $end_datetime |\n  \n  # Calculate midpoint for datetime\n  ($start_datetime // (now | todate)) as $datetime |\n  \n  # Extract creator info\n  ($gc.creator // {}) as $creator |\n  (if $creator and ($creator | type) == \"array\" and ($creator | length) > 0 then $creator[0]\n   elif $creator and ($creator | type) == \"object\" then $creator\n   elif $creator and ($creator | type) == \"string\" then {name: $creator}\n   else {} end) as $creator_obj |\n  \n  # Build STAC Item\n  {\n    type: \"Feature\",\n    stac_version: \"1.1.0\",\n    stac_extensions: [],\n    id: ($gc.\"@id\" // $gc.identifier // $gc.name // \"unknown-id\"),\n    geometry: $geometry,\n    bbox: $bbox,\n    properties: {\n      title: $gc.name,\n      description: $gc.description,\n      license: ($gc.license // \"proprietary\"),\n      datetime: $datetime,\n      start_datetime: $start_datetime,\n      end_datetime: $end_datetime,\n      keywords: ($gc.keywords // []),\n      created: ($gc.dateCreated // $gc.datePublished),\n      updated: ($gc.dateModified // $gc.datePublished),\n      providers: (if $creator_obj then [{\n        name: ($creator_obj.name // \"Unknown\"),\n        roles: [\"producer\"],\n        url: ($creator_obj.url // \"\")\n      }] else [] end)\n    },\n    links: (\n      [\n        # Self link\n        (if $gc.url then {\n          rel: \"self\",\n          href: $gc.url,\n          type: \"application/geo+json\"\n        } else null end),\n        # Documentation link\n        (if $gc.url then {\n          rel: \"about\",\n          href: $gc.url,\n          type: \"text/html\",\n          title: \"Dataset Documentation\"\n        } else null end),\n        # References\n        (if $gc.references then\n          ($gc.references | \n            if type == \"array\" then\n              map(\n                if type == \"object\" then\n                  (. as $ref |\n                   if $ref.url then\n                    (($ref.url // \"\") as $refUrl |\n                     ($ref.name // \"\") as $refName |\n                     {\n                       rel: (if $refUrl | contains(\"github\") then \"about\"\n                            elif ($refUrl | contains(\"parent\")) or ($refName | contains(\"parent\")) then \"parent\"\n                            elif ($refUrl | contains(\"root\")) or ($refName | contains(\"root\")) then \"root\"\n                            else \"related\" end),\n                       href: $refUrl,\n                       type: ($ref.encodingFormat // \"application/json\"),\n                       title: ($refName // \"Related resource\")\n                     })\n                  else empty end)\n                else empty end\n              )\n            else [] end)\n        else [] end)\n      ] | flatten | map(select(. != null))\n    ),\n    assets: (\n      if $gc[\"cr:distribution\"] or $gc.distribution then\n        (($gc[\"cr:distribution\"] // $gc.distribution) | \n          if type == \"array\" then\n            map(\n              if type == \"object\" then\n                (. as $dist |\n                 (.\"sc:contentUrl\" // .contentUrl // .url // \"\") as $href |\n                 {\n                   key: (.\"@id\" // .name // \"asset\"),\n                   value: {\n                     href: $href,\n                     title: (.name // .\"@id\" // \"\"),\n                     description: (.description // \"\"),\n                     type: (.\"sc:encodingFormat\" // .encodingFormat // \"application/octet-stream\"),\n                     roles: (if $href and ($href | contains(\"git\")) then [\"metadata\"]\n                            else [\"data\"] end)\n                   }\n                 })\n              else empty end\n            ) | from_entries\n          else {} end)\n      else {} end\n    )\n  } | \n  # Remove null values\n  walk(if type == \"object\" then with_entries(select(.value != null and .value != \"\" and .value != [])) else . end)\n  \nelse . end\n",
-          "inputs": {
-            "mediaTypes": [
-              {
-                "id": "json",
-                "defaultExtension": "json",
-                "label": "JSON",
-                "mimeType": "application/json",
-                "extensions": [
-                  "json"
-                ]
-              }
-            ]
-          },
-          "outputs": {
-            "mediaTypes": [
-              {
-                "id": "json",
-                "defaultExtension": "json",
-                "label": "JSON",
-                "mimeType": "application/json",
-                "extensions": [
-                  "json"
-                ]
-              }
-            ]
-          }
-        },
-        {
-          "id": "geocroissant-to-geodcat",
-          "description": "Converts GeoCroissant metadata to GeoDCAT/DCAT RDF JSON-LD format",
-          "type": "jq",
-          "ref": "https://geolabs.github.io/bblocks-croissant/_sources/geocroissant/transforms/geocroissant-to-geodcat.jq",
-          "code": "# GeoCroissant to GeoDCAT conversion\n# Based on ZOO-Project/dcai geocroissant_to_geodcat.py\n# Converts GeoCroissant metadata to GeoDCAT/DCAT RDF JSON-LD format\n\nif .\"@type\" == \"Dataset\" or .conformsTo then\n  \n  . as $gc |\n  \n  # Extract spatial coverage (could be object or array)\n  ($gc[\"geocr:spatialCoverage\"] // $gc.spatialCoverage // $gc[\"geocr:BoundingBox\"] // null) as $spatialRaw |\n  \n  # Determine if it's already a bbox array or an object with bbox/geometry\n  (if $spatialRaw and ($spatialRaw | type == \"object\") then $spatialRaw else {} end) as $spatial |\n  \n  # Extract bounding box (support multiple formats)\n  (if $spatialRaw and ($spatialRaw | type == \"array\") and ($spatialRaw | length == 4) then\n    # Direct array bbox\n    $spatialRaw\n  elif $spatial[\"geocr:boundingBox\"] then\n    $spatial[\"geocr:boundingBox\"]\n  elif $spatial.boundingBox then\n    $spatial.boundingBox\n  elif $gc[\"geocr:BoundingBox\"] and ($gc[\"geocr:BoundingBox\"] | type == \"array\") then\n    $gc[\"geocr:BoundingBox\"]\n  else null end) as $bbox |\n  \n  # Extract temporal and creator info\n  ($gc[\"geocr:temporalExtent\"] // $gc.temporalExtent // $gc[\"dct:temporal\"] // {}) as $temporal |\n  ($gc.creator // {}) as $creator |\n  (if ($creator | type) == \"array\" then $creator[0] else $creator end) as $creator_obj |\n  \n  # Build GeoDCAT Dataset\n  {\n    \"@context\": {\n      \"@vocab\": \"http://www.w3.org/ns/dcat#\",\n      dcat: \"http://www.w3.org/ns/dcat#\",\n      dct: \"http://purl.org/dc/terms/\",\n      foaf: \"http://xmlns.com/foaf/0.1/\",\n      schema: \"https://schema.org/\",\n      geo: \"http://www.opengis.net/ont/geosparql#\",\n      locn: \"http://www.w3.org/ns/locn#\",\n      xsd: \"http://www.w3.org/2001/XMLSchema#\",\n      spdx: \"http://spdx.org/rdf/terms#\",\n      adms: \"http://www.w3.org/ns/adms#\",\n      prov: \"http://www.w3.org/ns/prov#\"\n    },\n    \"@type\": \"dcat:Dataset\",\n    \"@id\": ($gc.\"@id\" // $gc.identifier // (\"urn:dataset:\" + ($gc.name | gsub(\" \"; \"-\") | ascii_downcase))),\n    \"dct:title\": $gc.name,\n    \"dct:description\": $gc.description,\n    \"dct:identifier\": ($gc.identifier // $gc.\"@id\"),\n    \n    # License\n    \"dct:license\": (\n      if $gc.license then\n        {\n          \"@id\": (if $gc.license | startswith(\"http\") then $gc.license\n                 elif $gc.license == \"CC-BY-4.0\" then \"http://creativecommons.org/licenses/by/4.0/\"\n                 elif $gc.license == \"MIT\" then \"https://opensource.org/licenses/MIT\"\n                 else $gc.license end)\n        }\n      else null end\n    ),\n    \n    # Version\n    \"adms:version\": ($gc.version // \"1.0.0\"),\n    \n    # Keywords\n    \"dcat:keyword\": ($gc.keywords // []),\n    \n    # Spatial coverage\n    \"dct:spatial\": (\n      if $bbox or $spatial then\n        {\n          \"@type\": \"dct:Location\",\n          \"locn:geometry\": (\n            if $bbox and ($bbox | type) == \"array\" and ($bbox | length == 4) then\n              # Create GeoJSON Polygon from bbox\n              {\n                \"@type\": \"https://www.iana.org/assignments/media-types/application/vnd.geo+json\",\n                \"@value\": ({\n                  type: \"Polygon\",\n                  coordinates: [[\n                    [$bbox[0], $bbox[1]],\n                    [$bbox[0], $bbox[3]],\n                    [$bbox[2], $bbox[3]],\n                    [$bbox[2], $bbox[1]],\n                    [$bbox[0], $bbox[1]]\n                  ]]\n                } | tojson)\n              }\n            elif $spatial[\"geocr:geometry\"] then\n              {\n                \"@type\": \"https://www.iana.org/assignments/media-types/application/vnd.geo+json\",\n                \"@value\": ($spatial[\"geocr:geometry\"] | tojson)\n              }\n            else null end\n          ),\n          \"geo:asWKT\": (\n            if $bbox and ($bbox | type) == \"array\" and ($bbox | length == 4) then\n              {\n                \"@type\": \"geo:wktLiteral\",\n                \"@value\": (\"POLYGON((\" +\n                  ([$bbox[0], $bbox[1]] | join(\" \")) + \",\" +\n                  ([$bbox[0], $bbox[3]] | join(\" \")) + \",\" +\n                  ([$bbox[2], $bbox[3]] | join(\" \")) + \",\" +\n                  ([$bbox[2], $bbox[1]] | join(\" \")) + \",\" +\n                  ([$bbox[0], $bbox[1]] | join(\" \")) +\n                  \"))\")\n              }\n            else null end\n          )\n        }\n      else null end\n    ),\n    \n    # Temporal coverage\n    \"dct:temporal\": (\n      if $temporal and ($temporal[\"geocr:start\"] or $temporal.start or $temporal.startDate) then\n        {\n          \"@type\": \"dct:PeriodOfTime\",\n          \"dcat:startDate\": {\n            \"@value\": ($temporal[\"geocr:start\"] // $temporal.start // $temporal.startDate),\n            \"@type\": \"xsd:dateTime\"\n          },\n          \"dcat:endDate\": {\n            \"@value\": ($temporal[\"geocr:end\"] // $temporal.end // $temporal.endDate // ($temporal[\"geocr:start\"] // $temporal.start)),\n            \"@type\": \"xsd:dateTime\"\n          }\n        }\n      else null end\n    ),\n    \n    # Publication dates\n    \"dct:issued\": (\n      if $gc.datePublished then\n        { \"@value\": $gc.datePublished, \"@type\": \"xsd:dateTime\" }\n      else null end\n    ),\n    \"dct:modified\": (\n      if $gc.dateModified then\n        { \"@value\": $gc.dateModified, \"@type\": \"xsd:dateTime\" }\n      else null end\n    ),\n    \n    # Creator/Publisher\n    \"dct:creator\": (\n      if $creator_obj then\n        {\n          \"@type\": (if $creator_obj.\"@type\" then $creator_obj.\"@type\" else \"foaf:Organization\" end),\n          \"foaf:name\": $creator_obj.name,\n          \"foaf:homepage\": (if $creator_obj.url then { \"@id\": $creator_obj.url } else null end)\n        }\n      else null end\n    ),\n    \"dct:publisher\": (\n      if $gc.publisher then\n        (if ($gc.publisher | type) == \"object\" then\n          {\n            \"@type\": \"foaf:Organization\",\n            \"foaf:name\": $gc.publisher.name,\n            \"foaf:homepage\": (if $gc.publisher.url then { \"@id\": $gc.publisher.url } else null end)\n          }\n        else\n          { \"@type\": \"foaf:Organization\", \"foaf:name\": $gc.publisher }\n        end)\n      else null end\n    ),\n    \n    # Landing page\n    \"dcat:landingPage\": (\n      if $gc.url then { \"@id\": $gc.url } else null end\n    ),\n    \n    # Distributions\n    \"dcat:distribution\": (\n      if $gc[\"cr:distribution\"] or $gc.distribution then\n        (($gc[\"cr:distribution\"] // $gc.distribution) |\n          if type == \"array\" then\n            map({\n              \"@type\": \"dcat:Distribution\",\n              \"@id\": (.\"@id\" // .name // \"dist\"),\n              \"dct:title\": (.name // .\"@id\"),\n              \"dct:description\": (.description // \"\"),\n              \"dcat:accessURL\": {\n                \"@id\": (.\"sc:contentUrl\" // .contentUrl // .url)\n              },\n              \"dcat:downloadURL\": (\n                if (.\"sc:contentUrl\" // .contentUrl // .url) | test(\"^http|^s3://\") then\n                  { \"@id\": (.\"sc:contentUrl\" // .contentUrl // .url) }\n                else null end\n              ),\n              \"dct:format\": (.\"sc:encodingFormat\" // .encodingFormat // \"application/octet-stream\"),\n              \"dcat:mediaType\": (.\"sc:encodingFormat\" // .encodingFormat // \"application/octet-stream\"),\n              \"spdx:checksum\": (\n                if .sha256 then\n                  {\n                    \"@type\": \"spdx:Checksum\",\n                    \"spdx:algorithm\": { \"@id\": \"spdx:checksumAlgorithm_sha256\" },\n                    \"spdx:checksumValue\": .sha256\n                  }\n                else null end\n              ),\n              \"dcat:byteSize\": (.contentSize // null)\n            })\n          else [] end)\n      else [] end\n    ),\n    \n    # Contact point\n    \"dcat:contactPoint\": (\n      if $gc.contactPoint then\n        {\n          \"@type\": \"vcard:Organization\",\n          \"vcard:fn\": ($gc.contactPoint.name // $gc.contactPoint),\n          \"vcard:hasEmail\": (if $gc.contactPoint.email then { \"@id\": (\"mailto:\" + $gc.contactPoint.email) } else null end)\n        }\n      else null end\n    ),\n    \n    # Provenance\n    \"dct:provenance\": (\n      if $gc.isBasedOn or $gc.prov_was_derived_from then\n        {\n          \"@type\": \"dct:ProvenanceStatement\",\n          \"prov:wasDerivedFrom\": (\n            if $gc.isBasedOn then\n              (if ($gc.isBasedOn | type) == \"array\" then\n                $gc.isBasedOn | map(if type == \"object\" then .\"@id\" else . end)\n              elif ($gc.isBasedOn | type) == \"object\" then\n                [$gc.isBasedOn.\"@id\"]\n              else [$gc.isBasedOn] end)\n            else [] end\n          )\n        }\n      else null end\n    )\n    \n  } | \n  # Remove null values and empty arrays\n  walk(if type == \"object\" then \n    with_entries(select(.value != null and .value != \"\" and .value != [] and .value != {}))\n  else . end)\n  \nelse . end\n",
-          "inputs": {
-            "mediaTypes": [
-              {
-                "id": "json",
-                "defaultExtension": "json",
-                "label": "JSON",
-                "mimeType": "application/json",
-                "extensions": [
-                  "json"
-                ]
-              }
-            ]
-          },
-          "outputs": {
-            "mediaTypes": [
-              {
-                "id": "json",
-                "defaultExtension": "json",
-                "label": "JSON",
-                "mimeType": "application/json",
-                "extensions": [
-                  "json"
-                ]
-              }
-            ]
-          }
-        }
-      ],
-      "documentation": {
-        "markdown": {
-          "mediatype": "text/markdown",
-          "url": "https://geolabs.github.io/bblocks-croissant/build/generateddocs/markdown/croissant/geocroissant/index.md"
-        },
-        "json-full": {
-          "mediatype": "application/json",
-          "url": "https://geolabs.github.io/bblocks-croissant/build/generateddocs/json-full/croissant/geocroissant/index.json"
-        },
-        "bblocks-viewer": {
-          "mediatype": "text/html",
-          "url": "https://geolabs.github.io/bblocks-croissant/bblock/mlc.croissant.geocroissant"
         }
       }
     },
@@ -473,11 +316,11 @@
       "version": "1.0",
       "dateOfLastChange": "2025-12-17",
       "dependsOn": [
-        "mlc.croissant.fileobject",
-        "mlc.croissant.fileset",
-        "mlc.croissant.field",
         "mlc.croissant.datasource",
-        "mlc.croissant.recordset"
+        "mlc.croissant.field",
+        "mlc.croissant.fileset",
+        "mlc.croissant.recordset",
+        "mlc.croissant.fileobject"
       ],
       "scope": "dev",
       "sources": [
@@ -533,12 +376,12 @@
       "itemClass": "schema",
       "register": "mlc-croissant",
       "dependsOn": [
-        "mlc.croissant.fileobject",
+        "mlc.croissant.datasource",
+        "mlc.croissant.field",
         "mlc.croissant.fileset",
         "mlc.croissant.geocroissant",
-        "mlc.croissant.field",
-        "mlc.croissant.datasource",
-        "mlc.croissant.recordset"
+        "mlc.croissant.recordset",
+        "mlc.croissant.fileobject"
       ],
       "scope": "dev",
       "tags": [
@@ -585,6 +428,163 @@
         "bblocks-viewer": {
           "mediatype": "text/html",
           "url": "https://geolabs.github.io/bblocks-croissant/bblock/mlc.croissant.dataset"
+        }
+      }
+    },
+    {
+      "itemIdentifier": "mlc.croissant.geocroissant",
+      "$schema": "https://raw.githubusercontent.com/opengeospatial/bblocks-postprocess/master/ogc/bblocks/metadata-schema.yaml",
+      "name": "GeoCroissant Extension",
+      "abstract": "Geospatial extension for Croissant metadata format enabling spatial and temporal data description",
+      "description": "GeoCroissant extends the Croissant metadata format with geospatial capabilities, enabling standardized description of spatiotemporal ML datasets. This extension adds properties for bounding boxes, coordinate reference systems, temporal extents, and geometry representations, making Croissant datasets interoperable with geospatial standards like STAC, GeoDCAT, and OGC TDML.",
+      "status": "under-development",
+      "dateTimeAddition": "2025-12-16T00:00:00Z",
+      "dateOfLastChange": "2025-12-17",
+      "version": "1.0",
+      "itemClass": "schema",
+      "register": "mlc-croissant",
+      "dependsOn": [
+        "ogc.geo.common.data_types.geojson",
+        "ogc.geo.common.data_types.bounding_box",
+        "mlc.croissant.dataset"
+      ],
+      "scope": "dev",
+      "seeAlso": [
+        "ogc.contrib.stac.collection",
+        "ogc.geo.geodcat.geodcat",
+        "ogc.geo.geodcat.stac.geodcat-stac-collection",
+        "ogc.api.records.v1.schemas.time"
+      ],
+      "tags": [
+        "croissant",
+        "geospatial",
+        "geocroissant",
+        "spatial data",
+        "temporal data",
+        "CRS",
+        "bounding box"
+      ],
+      "sourceLdContext": "https://geolabs.github.io/bblocks-croissant/_sources/geocroissant/context.jsonld",
+      "sourceSchema": "https://geolabs.github.io/bblocks-croissant/_sources/geocroissant/schema.yaml",
+      "sources": [
+        {
+          "title": "ZOO-Project GeoCroissant Converters",
+          "link": "https://github.com/ZOO-Project/dcai"
+        },
+        {
+          "title": "Croissant Format Specification v1.0",
+          "link": "https://docs.mlcommons.org/croissant/docs/croissant-spec.html"
+        },
+        {
+          "title": "STAC Specification",
+          "link": "https://stacspec.org/"
+        },
+        {
+          "title": "GeoDCAT-AP Specification",
+          "link": "https://semiceu.github.io/GeoDCAT-AP/"
+        },
+        {
+          "title": "OGC GeoSPARQL",
+          "link": "http://www.opengis.net/doc/IS/geosparql/1.0"
+        },
+        {
+          "title": "OGC Training Data Markup Language (TDML)",
+          "link": "https://docs.ogc.org/DRAFTS/17-049r1.html"
+        }
+      ],
+      "maturity": "development",
+      "group": "MLCommons",
+      "highlighted": true,
+      "shaclShapes": {},
+      "ldContext": "https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/geocroissant/context.jsonld",
+      "schema": {
+        "application/yaml": "https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/geocroissant/schema.yaml",
+        "application/json": "https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/geocroissant/schema.json"
+      },
+      "sourceFiles": "https://geolabs.github.io/bblocks-croissant/_sources/geocroissant/",
+      "rdfData": [],
+      "validationPassed": true,
+      "testOutputs": "https://github.com/GeoLabs/bblocks-croissant/blob/master/build/tests/croissant/geocroissant/",
+      "transforms": [
+        {
+          "id": "geocroissant-to-stac",
+          "description": "Converts GeoCroissant metadata to STAC Item format",
+          "type": "jq",
+          "ref": "https://geolabs.github.io/bblocks-croissant/_sources/geocroissant/transforms/geocroissant-to-stac.jq",
+          "code": "# GeoCroissant to STAC Item conversion\n# Based on ZOO-Project/dcai geocroissant_to_stac.py\n# Converts GeoCroissant metadata to STAC Item format\n\nif .\"@type\" == \"Dataset\" or .conformsTo then\n  \n  # Extract basic metadata\n  . as $gc |\n  \n  # Extract spatial coverage (could be object or array)\n  ($gc[\"geocr:spatialCoverage\"] // $gc.spatialCoverage // $gc[\"geocr:BoundingBox\"] // null) as $spatialRaw |\n  \n  # Determine if it's already a bbox array or an object with bbox/geometry\n  (if $spatialRaw and ($spatialRaw | type == \"object\") then $spatialRaw else {} end) as $spatial |\n  \n  # Extract bounding box (support multiple field name formats)\n  (if $spatialRaw and ($spatialRaw | type == \"array\") and ($spatialRaw | length == 4) then\n    # Direct array bbox\n    $spatialRaw\n  elif $spatial[\"geocr:boundingBox\"] then\n    $spatial[\"geocr:boundingBox\"]\n  elif $spatial.boundingBox then\n    $spatial.boundingBox\n  elif $gc[\"geocr:BoundingBox\"] and ($gc[\"geocr:BoundingBox\"] | type == \"array\") then\n    $gc[\"geocr:BoundingBox\"]\n  else null end) as $bbox |\n  \n  # Build geometry from bbox or geometry field\n  (if $spatial[\"geocr:geometry\"] then\n    $spatial[\"geocr:geometry\"]\n  elif $spatial.geometry then\n    $spatial.geometry\n  elif $gc[\"geocr:geometry\"] then\n    $gc[\"geocr:geometry\"]\n  elif $gc.geometry then\n    $gc.geometry\n  elif $bbox and ($bbox | type == \"array\") and ($bbox | length == 4) then\n    # Convert bbox [west, south, east, north] to Polygon\n    {\n      type: \"Polygon\",\n      coordinates: [[\n        [$bbox[0], $bbox[1]],  # SW\n        [$bbox[0], $bbox[3]],  # NW\n        [$bbox[2], $bbox[3]],  # NE\n        [$bbox[2], $bbox[1]],  # SE\n        [$bbox[0], $bbox[1]]   # close polygon\n      ]]\n    }\n  else null end) as $geometry |\n  \n  # Extract temporal extent (support multiple formats)\n  ($gc[\"geocr:temporalExtent\"] // $gc.temporalExtent // $gc[\"dct:temporal\"] // {}) as $temporal |\n  (if $temporal[\"geocr:start\"] then $temporal[\"geocr:start\"]\n   elif $temporal.start then $temporal.start\n   elif $temporal.startDate then $temporal.startDate\n   else null end) as $start_datetime |\n  (if $temporal[\"geocr:end\"] then $temporal[\"geocr:end\"]\n   elif $temporal.end then $temporal.end\n   elif $temporal.endDate then $temporal.endDate\n   else $start_datetime end) as $end_datetime |\n  \n  # Calculate midpoint for datetime\n  ($start_datetime // (now | todate)) as $datetime |\n  \n  # Extract creator info\n  ($gc.creator // {}) as $creator |\n  (if $creator and ($creator | type) == \"array\" and ($creator | length) > 0 then $creator[0]\n   elif $creator and ($creator | type) == \"object\" then $creator\n   elif $creator and ($creator | type) == \"string\" then {name: $creator}\n   else {} end) as $creator_obj |\n  \n  # Build STAC Item\n  {\n    type: \"Feature\",\n    stac_version: \"1.1.0\",\n    stac_extensions: [],\n    id: ($gc.\"@id\" // $gc.identifier // $gc.name // \"unknown-id\"),\n    geometry: $geometry,\n    bbox: $bbox,\n    properties: {\n      title: $gc.name,\n      description: $gc.description,\n      license: ($gc.license // \"proprietary\"),\n      datetime: $datetime,\n      start_datetime: $start_datetime,\n      end_datetime: $end_datetime,\n      keywords: ($gc.keywords // []),\n      created: ($gc.dateCreated // $gc.datePublished),\n      updated: ($gc.dateModified // $gc.datePublished),\n      providers: (if $creator_obj then [{\n        name: ($creator_obj.name // \"Unknown\"),\n        roles: [\"producer\"],\n        url: ($creator_obj.url // \"\")\n      }] else [] end)\n    },\n    links: (\n      [\n        # Self link\n        (if $gc.url then {\n          rel: \"self\",\n          href: $gc.url,\n          type: \"application/geo+json\"\n        } else null end),\n        # Documentation link\n        (if $gc.url then {\n          rel: \"about\",\n          href: $gc.url,\n          type: \"text/html\",\n          title: \"Dataset Documentation\"\n        } else null end),\n        # References\n        (if $gc.references then\n          ($gc.references | \n            if type == \"array\" then\n              map(\n                if type == \"object\" then\n                  (. as $ref |\n                   if $ref.url then\n                    (($ref.url // \"\") as $refUrl |\n                     ($ref.name // \"\") as $refName |\n                     {\n                       rel: (if $refUrl | contains(\"github\") then \"about\"\n                            elif ($refUrl | contains(\"parent\")) or ($refName | contains(\"parent\")) then \"parent\"\n                            elif ($refUrl | contains(\"root\")) or ($refName | contains(\"root\")) then \"root\"\n                            else \"related\" end),\n                       href: $refUrl,\n                       type: ($ref.encodingFormat // \"application/json\"),\n                       title: ($refName // \"Related resource\")\n                     })\n                  else empty end)\n                else empty end\n              )\n            else [] end)\n        else [] end)\n      ] | flatten | map(select(. != null))\n    ),\n    assets: (\n      if $gc[\"cr:distribution\"] or $gc.distribution then\n        (($gc[\"cr:distribution\"] // $gc.distribution) | \n          if type == \"array\" then\n            map(\n              if type == \"object\" then\n                (. as $dist |\n                 (.\"sc:contentUrl\" // .contentUrl // .url // \"\") as $href |\n                 {\n                   key: (.\"@id\" // .name // \"asset\"),\n                   value: {\n                     href: $href,\n                     title: (.name // .\"@id\" // \"\"),\n                     description: (.description // \"\"),\n                     type: (.\"sc:encodingFormat\" // .encodingFormat // \"application/octet-stream\"),\n                     roles: (if $href and ($href | contains(\"git\")) then [\"metadata\"]\n                            else [\"data\"] end)\n                   }\n                 })\n              else empty end\n            ) | from_entries\n          else {} end)\n      else {} end\n    )\n  } | \n  # Remove null values\n  walk(if type == \"object\" then with_entries(select(.value != null and .value != \"\" and .value != [])) else . end)\n  \nelse . end\n",
+          "inputs": {
+            "mediaTypes": [
+              {
+                "id": "json",
+                "defaultExtension": "json",
+                "label": "JSON",
+                "mimeType": "application/json",
+                "extensions": [
+                  "json"
+                ]
+              }
+            ]
+          },
+          "outputs": {
+            "mediaTypes": [
+              {
+                "id": "json",
+                "defaultExtension": "json",
+                "label": "JSON",
+                "mimeType": "application/json",
+                "extensions": [
+                  "json"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "geocroissant-to-geodcat",
+          "description": "Converts GeoCroissant metadata to GeoDCAT/DCAT RDF JSON-LD format",
+          "type": "jq",
+          "ref": "https://geolabs.github.io/bblocks-croissant/_sources/geocroissant/transforms/geocroissant-to-geodcat.jq",
+          "code": "# GeoCroissant to GeoDCAT conversion\n# Based on ZOO-Project/dcai geocroissant_to_geodcat.py\n# Converts GeoCroissant metadata to GeoDCAT/DCAT RDF JSON-LD format\n\nif .\"@type\" == \"Dataset\" or .conformsTo then\n  \n  . as $gc |\n  \n  # Extract spatial coverage (could be object or array)\n  ($gc[\"geocr:spatialCoverage\"] // $gc.spatialCoverage // $gc[\"geocr:BoundingBox\"] // null) as $spatialRaw |\n  \n  # Determine if it's already a bbox array or an object with bbox/geometry\n  (if $spatialRaw and ($spatialRaw | type == \"object\") then $spatialRaw else {} end) as $spatial |\n  \n  # Extract bounding box (support multiple formats)\n  (if $spatialRaw and ($spatialRaw | type == \"array\") and ($spatialRaw | length == 4) then\n    # Direct array bbox\n    $spatialRaw\n  elif $spatial[\"geocr:boundingBox\"] then\n    $spatial[\"geocr:boundingBox\"]\n  elif $spatial.boundingBox then\n    $spatial.boundingBox\n  elif $gc[\"geocr:BoundingBox\"] and ($gc[\"geocr:BoundingBox\"] | type == \"array\") then\n    $gc[\"geocr:BoundingBox\"]\n  else null end) as $bbox |\n  \n  # Extract temporal and creator info\n  ($gc[\"geocr:temporalExtent\"] // $gc.temporalExtent // $gc[\"dct:temporal\"] // {}) as $temporal |\n  ($gc.creator // {}) as $creator |\n  (if ($creator | type) == \"array\" then $creator[0] else $creator end) as $creator_obj |\n  \n  # Build GeoDCAT Dataset\n  {\n    \"@context\": {\n      \"@vocab\": \"http://www.w3.org/ns/dcat#\",\n      dcat: \"http://www.w3.org/ns/dcat#\",\n      dct: \"http://purl.org/dc/terms/\",\n      foaf: \"http://xmlns.com/foaf/0.1/\",\n      schema: \"https://schema.org/\",\n      geo: \"http://www.opengis.net/ont/geosparql#\",\n      locn: \"http://www.w3.org/ns/locn#\",\n      xsd: \"http://www.w3.org/2001/XMLSchema#\",\n      spdx: \"http://spdx.org/rdf/terms#\",\n      adms: \"http://www.w3.org/ns/adms#\",\n      prov: \"http://www.w3.org/ns/prov#\"\n    },\n    \"@type\": \"dcat:Dataset\",\n    \"@id\": ($gc.\"@id\" // $gc.identifier // (\"urn:dataset:\" + ($gc.name | gsub(\" \"; \"-\") | ascii_downcase))),\n    \"dct:title\": $gc.name,\n    \"dct:description\": $gc.description,\n    \"dct:identifier\": ($gc.identifier // $gc.\"@id\"),\n    \n    # License\n    \"dct:license\": (\n      if $gc.license then\n        {\n          \"@id\": (if $gc.license | startswith(\"http\") then $gc.license\n                 elif $gc.license == \"CC-BY-4.0\" then \"http://creativecommons.org/licenses/by/4.0/\"\n                 elif $gc.license == \"MIT\" then \"https://opensource.org/licenses/MIT\"\n                 else $gc.license end)\n        }\n      else null end\n    ),\n    \n    # Version\n    \"adms:version\": ($gc.version // \"1.0.0\"),\n    \n    # Keywords\n    \"dcat:keyword\": ($gc.keywords // []),\n    \n    # Spatial coverage\n    \"dct:spatial\": (\n      if $bbox or $spatial then\n        {\n          \"@type\": \"dct:Location\",\n          \"locn:geometry\": (\n            if $bbox and ($bbox | type) == \"array\" and ($bbox | length == 4) then\n              # Create GeoJSON Polygon from bbox\n              {\n                \"@type\": \"https://www.iana.org/assignments/media-types/application/vnd.geo+json\",\n                \"@value\": ({\n                  type: \"Polygon\",\n                  coordinates: [[\n                    [$bbox[0], $bbox[1]],\n                    [$bbox[0], $bbox[3]],\n                    [$bbox[2], $bbox[3]],\n                    [$bbox[2], $bbox[1]],\n                    [$bbox[0], $bbox[1]]\n                  ]]\n                } | tojson)\n              }\n            elif $spatial[\"geocr:geometry\"] then\n              {\n                \"@type\": \"https://www.iana.org/assignments/media-types/application/vnd.geo+json\",\n                \"@value\": ($spatial[\"geocr:geometry\"] | tojson)\n              }\n            else null end\n          ),\n          \"geo:asWKT\": (\n            if $bbox and ($bbox | type) == \"array\" and ($bbox | length == 4) then\n              {\n                \"@type\": \"geo:wktLiteral\",\n                \"@value\": (\"POLYGON((\" +\n                  ([$bbox[0], $bbox[1]] | join(\" \")) + \",\" +\n                  ([$bbox[0], $bbox[3]] | join(\" \")) + \",\" +\n                  ([$bbox[2], $bbox[3]] | join(\" \")) + \",\" +\n                  ([$bbox[2], $bbox[1]] | join(\" \")) + \",\" +\n                  ([$bbox[0], $bbox[1]] | join(\" \")) +\n                  \"))\")\n              }\n            else null end\n          )\n        }\n      else null end\n    ),\n    \n    # Temporal coverage\n    \"dct:temporal\": (\n      if $temporal and ($temporal[\"geocr:start\"] or $temporal.start or $temporal.startDate) then\n        {\n          \"@type\": \"dct:PeriodOfTime\",\n          \"dcat:startDate\": {\n            \"@value\": ($temporal[\"geocr:start\"] // $temporal.start // $temporal.startDate),\n            \"@type\": \"xsd:dateTime\"\n          },\n          \"dcat:endDate\": {\n            \"@value\": ($temporal[\"geocr:end\"] // $temporal.end // $temporal.endDate // ($temporal[\"geocr:start\"] // $temporal.start)),\n            \"@type\": \"xsd:dateTime\"\n          }\n        }\n      else null end\n    ),\n    \n    # Publication dates\n    \"dct:issued\": (\n      if $gc.datePublished then\n        { \"@value\": $gc.datePublished, \"@type\": \"xsd:dateTime\" }\n      else null end\n    ),\n    \"dct:modified\": (\n      if $gc.dateModified then\n        { \"@value\": $gc.dateModified, \"@type\": \"xsd:dateTime\" }\n      else null end\n    ),\n    \n    # Creator/Publisher\n    \"dct:creator\": (\n      if $creator_obj then\n        {\n          \"@type\": (if $creator_obj.\"@type\" then $creator_obj.\"@type\" else \"foaf:Organization\" end),\n          \"foaf:name\": $creator_obj.name,\n          \"foaf:homepage\": (if $creator_obj.url then { \"@id\": $creator_obj.url } else null end)\n        }\n      else null end\n    ),\n    \"dct:publisher\": (\n      if $gc.publisher then\n        (if ($gc.publisher | type) == \"object\" then\n          {\n            \"@type\": \"foaf:Organization\",\n            \"foaf:name\": $gc.publisher.name,\n            \"foaf:homepage\": (if $gc.publisher.url then { \"@id\": $gc.publisher.url } else null end)\n          }\n        else\n          { \"@type\": \"foaf:Organization\", \"foaf:name\": $gc.publisher }\n        end)\n      else null end\n    ),\n    \n    # Landing page\n    \"dcat:landingPage\": (\n      if $gc.url then { \"@id\": $gc.url } else null end\n    ),\n    \n    # Distributions\n    \"dcat:distribution\": (\n      if $gc[\"cr:distribution\"] or $gc.distribution then\n        (($gc[\"cr:distribution\"] // $gc.distribution) |\n          if type == \"array\" then\n            map({\n              \"@type\": \"dcat:Distribution\",\n              \"@id\": (.\"@id\" // .name // \"dist\"),\n              \"dct:title\": (.name // .\"@id\"),\n              \"dct:description\": (.description // \"\"),\n              \"dcat:accessURL\": {\n                \"@id\": (.\"sc:contentUrl\" // .contentUrl // .url)\n              },\n              \"dcat:downloadURL\": (\n                if (.\"sc:contentUrl\" // .contentUrl // .url) | test(\"^http|^s3://\") then\n                  { \"@id\": (.\"sc:contentUrl\" // .contentUrl // .url) }\n                else null end\n              ),\n              \"dct:format\": (.\"sc:encodingFormat\" // .encodingFormat // \"application/octet-stream\"),\n              \"dcat:mediaType\": (.\"sc:encodingFormat\" // .encodingFormat // \"application/octet-stream\"),\n              \"spdx:checksum\": (\n                if .sha256 then\n                  {\n                    \"@type\": \"spdx:Checksum\",\n                    \"spdx:algorithm\": { \"@id\": \"spdx:checksumAlgorithm_sha256\" },\n                    \"spdx:checksumValue\": .sha256\n                  }\n                else null end\n              ),\n              \"dcat:byteSize\": (.contentSize // null)\n            })\n          else [] end)\n      else [] end\n    ),\n    \n    # Contact point\n    \"dcat:contactPoint\": (\n      if $gc.contactPoint then\n        {\n          \"@type\": \"vcard:Organization\",\n          \"vcard:fn\": ($gc.contactPoint.name // $gc.contactPoint),\n          \"vcard:hasEmail\": (if $gc.contactPoint.email then { \"@id\": (\"mailto:\" + $gc.contactPoint.email) } else null end)\n        }\n      else null end\n    ),\n    \n    # Provenance\n    \"dct:provenance\": (\n      if $gc.isBasedOn or $gc.prov_was_derived_from then\n        {\n          \"@type\": \"dct:ProvenanceStatement\",\n          \"prov:wasDerivedFrom\": (\n            if $gc.isBasedOn then\n              (if ($gc.isBasedOn | type) == \"array\" then\n                $gc.isBasedOn | map(if type == \"object\" then .\"@id\" else . end)\n              elif ($gc.isBasedOn | type) == \"object\" then\n                [$gc.isBasedOn.\"@id\"]\n              else [$gc.isBasedOn] end)\n            else [] end\n          )\n        }\n      else null end\n    )\n    \n  } | \n  # Remove null values and empty arrays\n  walk(if type == \"object\" then \n    with_entries(select(.value != null and .value != \"\" and .value != [] and .value != {}))\n  else . end)\n  \nelse . end\n",
+          "inputs": {
+            "mediaTypes": [
+              {
+                "id": "json",
+                "defaultExtension": "json",
+                "label": "JSON",
+                "mimeType": "application/json",
+                "extensions": [
+                  "json"
+                ]
+              }
+            ]
+          },
+          "outputs": {
+            "mediaTypes": [
+              {
+                "id": "json",
+                "defaultExtension": "json",
+                "label": "JSON",
+                "mimeType": "application/json",
+                "extensions": [
+                  "json"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "documentation": {
+        "markdown": {
+          "mediatype": "text/markdown",
+          "url": "https://geolabs.github.io/bblocks-croissant/build/generateddocs/markdown/croissant/geocroissant/index.md"
+        },
+        "json-full": {
+          "mediatype": "application/json",
+          "url": "https://geolabs.github.io/bblocks-croissant/build/generateddocs/json-full/croissant/geocroissant/index.json"
+        },
+        "bblocks-viewer": {
+          "mediatype": "text/html",
+          "url": "https://geolabs.github.io/bblocks-croissant/bblock/mlc.croissant.geocroissant"
         }
       }
     }
