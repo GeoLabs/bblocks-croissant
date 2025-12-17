@@ -17,6 +17,11 @@ jobs:
     if: github.run_number != 1
     name: Validate and process
     uses: opengeospatial/bblocks-postprocess/.github/workflows/validate-and-process.yml@master
+    with:
+      before_pages: |
+        echo "Applying GeoCroissant transforms..."
+        chmod +x ./apply-transforms.sh
+        ./apply-transforms.sh
     secrets:
       sparql_username: ${{ secrets.sparql_username }}
       sparql_password: ${{ secrets.sparql_password }}
