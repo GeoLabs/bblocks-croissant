@@ -1,0 +1,20 @@
+path	@id
+/fileObject	http://mlcommons.org/croissant/fileObject
+/fileObject/@id	
+/fileSet	http://mlcommons.org/croissant/fileSet
+/fileSet/@id	
+/recordSet	http://mlcommons.org/croissant/recordSet
+/recordSet/@id	
+/extract	http://mlcommons.org/croissant/extract
+/extract/column	http://mlcommons.org/croissant/column
+/extract/fileProperty	http://mlcommons.org/croissant/fileProperty
+/extract/jsonPath	http://mlcommons.org/croissant/jsonPath
+/transform	http://mlcommons.org/croissant/transform
+/transform/regex	http://mlcommons.org/croissant/regex
+/transform/delimiter	http://mlcommons.org/croissant/delimiter
+/transform/jsonQuery	
+/transform/replace	
+/transform/replace/pattern	
+/transform/replace/replacement	
+/transform/separator	http://mlcommons.org/croissant/separator
+/format	http://mlcommons.org/croissant/format

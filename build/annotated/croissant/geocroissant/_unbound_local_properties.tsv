@@ -1,0 +1,10 @@
+path
+/spatialCoverage/type
+/spatialCoverage/coordinates
+/geometry/type
+/geometry/coordinates
+/temporalExtent/start
+/temporalExtent/end
+/proj/type
+/proj/id
+/proj/name

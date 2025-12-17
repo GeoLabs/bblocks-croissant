@@ -1,0 +1,169 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: GeoCroissant Extension
+description: Geospatial extension for Croissant metadata format
+type: object
+properties:
+  boundingBox:
+    description: Geographic bounding box in [west, south, east, north] format (WGS84)
+    type: array
+    items:
+      type: number
+    minItems: 4
+    maxItems: 4
+    example:
+    - -180
+    - -90
+    - 180
+    - 90
+    x-jsonld-id: http://mlcommons.org/geocroissant/boundingBox
+    x-jsonld-type: '@json'
+  spatialCoverage:
+    description: Spatial coverage of the dataset as GeoJSON geometry
+    type: object
+    properties:
+      type:
+        type: string
+        enum:
+        - Point
+        - LineString
+        - Polygon
+        - MultiPoint
+        - MultiLineString
+        - MultiPolygon
+      coordinates:
+        type: array
+        description: GeoJSON coordinates array
+    required:
+    - type
+    - coordinates
+    example:
+      type: Polygon
+      coordinates:
+      - - - -180
+          - -90
+        - - 180
+          - -90
+        - - 180
+          - 90
+        - - -180
+          - 90
+        - - -180
+          - -90
+    x-jsonld-id: http://mlcommons.org/geocroissant/spatialCoverage
+    x-jsonld-type: '@json'
+  geometry:
+    description: GeoSPARQL geometry representation
+    type: object
+    properties:
+      type:
+        type: string
+      coordinates:
+        type: array
+    x-jsonld-id: http://www.opengis.net/ont/geosparql#hasGeometry
+    x-jsonld-type: '@json'
+  temporalExtent:
+    description: Temporal extent of the dataset
+    type: object
+    properties:
+      start:
+        type: string
+        format: date-time
+        description: Start date and time in ISO 8601 format
+      end:
+        type: string
+        format: date-time
+        description: End date and time in ISO 8601 format
+    example:
+      start: '2020-01-01T00:00:00Z'
+      end: '2020-12-31T23:59:59Z'
+    x-jsonld-id: http://mlcommons.org/geocroissant/temporalExtent
+    x-jsonld-type: '@json'
+  temporalCoverage:
+    description: Dublin Core temporal coverage
+    type: object
+    properties:
+      startDate:
+        type: string
+        format: date-time
+        x-jsonld-id: http://purl.org/dc/terms/start
+        x-jsonld-type: http://www.w3.org/2001/XMLSchema#dateTime
+      endDate:
+        type: string
+        format: date-time
+        x-jsonld-id: http://purl.org/dc/terms/end
+        x-jsonld-type: http://www.w3.org/2001/XMLSchema#dateTime
+    x-jsonld-id: http://purl.org/dc/terms/temporal
+  coordinateReferenceSystem:
+    description: Coordinate Reference System URI (e.g., EPSG code)
+    type: string
+    format: uri
+    example: http://www.opengis.net/def/crs/EPSG/0/4326
+    x-jsonld-id: http://mlcommons.org/geocroissant/coordinateReferenceSystem
+    x-jsonld-type: '@id'
+  crs:
+    description: Short form CRS identifier
+    type: string
+    example: EPSG:4326
+    x-jsonld-id: http://mlcommons.org/geocroissant/crs
+    x-jsonld-type: '@id'
+  epsgCode:
+    description: EPSG code for the coordinate reference system
+    type: integer
+    example: 4326
+    x-jsonld-id: http://mlcommons.org/geocroissant/epsgCode
+  wkt:
+    description: Well-Known Text representation of geometry
+    type: string
+    example: POLYGON((-180 -90, 180 -90, 180 90, -180 90, -180 -90))
+    x-jsonld-id: http://www.opengis.net/ont/geosparql#asWKT
+  wkt2:
+    description: WKT2 representation of CRS or geometry
+    type: string
+    x-jsonld-id: http://mlcommons.org/geocroissant/wkt2
+  stacVersion:
+    description: STAC specification version (for STAC-compatible datasets)
+    type: string
+    pattern: ^[0-9]+\.[0-9]+\.[0-9]+$
+    example: 1.1.0
+    x-jsonld-id: http://mlcommons.org/geocroissant/stacVersion
+  stacExtensions:
+    description: List of STAC extension URLs
+    type: array
+    items:
+      type: string
+      format: uri
+    example:
+    - https://stac-extensions.github.io/projection/v1.1.0/schema.json
+    x-jsonld-id: http://mlcommons.org/geocroissant/stacExtensions
+    x-jsonld-type: '@json'
+  proj:
+    description: PROJ JSON representation of CRS
+    type: object
+    properties:
+      type:
+        type: string
+      id:
+        type: object
+      name:
+        type: string
+    x-jsonld-id: http://mlcommons.org/geocroissant/proj
+allOf:
+- oneOf:
+  - required:
+    - boundingBox
+  - required:
+    - spatialCoverage
+  - required:
+    - geometry
+  - not:
+      anyOf:
+      - required:
+        - boundingBox
+      - required:
+        - spatialCoverage
+      - required:
+        - geometry
+x-jsonld-prefixes:
+  geocr: http://mlcommons.org/geocroissant/
+  geo: http://www.opengis.net/ont/geosparql#
+  dct: http://purl.org/dc/terms/

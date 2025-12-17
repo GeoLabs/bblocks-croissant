@@ -1,0 +1,25 @@
+path	@id
+/boundingBox	http://mlcommons.org/geocroissant/boundingBox
+/spatialCoverage	http://mlcommons.org/geocroissant/spatialCoverage
+/spatialCoverage/type	
+/spatialCoverage/coordinates	
+/geometry	http://www.opengis.net/ont/geosparql#hasGeometry
+/geometry/type	
+/geometry/coordinates	
+/temporalExtent	http://mlcommons.org/geocroissant/temporalExtent
+/temporalExtent/start	
+/temporalExtent/end	
+/temporalCoverage	http://purl.org/dc/terms/temporal
+/temporalCoverage/startDate	http://purl.org/dc/terms/start
+/temporalCoverage/endDate	http://purl.org/dc/terms/end
+/coordinateReferenceSystem	http://mlcommons.org/geocroissant/coordinateReferenceSystem
+/crs	http://mlcommons.org/geocroissant/crs
+/epsgCode	http://mlcommons.org/geocroissant/epsgCode
+/wkt	http://www.opengis.net/ont/geosparql#asWKT
+/wkt2	http://mlcommons.org/geocroissant/wkt2
+/stacVersion	http://mlcommons.org/geocroissant/stacVersion
+/stacExtensions	http://mlcommons.org/geocroissant/stacExtensions
+/proj	http://mlcommons.org/geocroissant/proj
+/proj/type	
+/proj/id	
+/proj/name	

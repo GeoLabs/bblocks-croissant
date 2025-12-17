@@ -1,0 +1,92 @@
+
+
+{
+  "itemIdentifier": "mlc.croissant.fileobject",
+  "$schema": "https://raw.githubusercontent.com/opengeospatial/bblocks-postprocess/master/ogc/bblocks/metadata-schema.yaml",
+  "name": "Croissant FileObject",
+  "abstract": "Represents an individual file that is part of a Croissant dataset",
+  "description": "## Croissant FileObject\n\nA FileObject represents an individual file that is part of a Croissant dataset. It is a fundamental building block for describing the distribution (resources) within a dataset.\n\n### Key Features\n\n- **Schema.org Inheritance**: FileObject inherits from schema.org's CreativeWork, making it compatible with existing web standards\n- **Checksums**: Supports SHA-256 and MD5 checksums for file integrity verification\n- **Archive Support**: Files can be nested within archives using the `containedIn` property\n- **Multiple Formats**: Can reference alternative versions of the same content via `sameAs`\n\n### Properties\n\n#### Required Properties\n- `@type`: Must be `cr:FileObject`\n- `@id`: Unique identifier within the dataset\n\n#### Core Properties\n- `name`: Filename (should match the downloaded filename including extension)\n- `contentUrl`: URL to download the file\n- `contentSize`: Human-readable file size (e.g., \"1.5 MB\", \"2GB\")\n- `encodingFormat`: MIME type of the file\n\n#### Integrity Properties\n- `sha256`: SHA-256 checksum (recommended for versioned datasets)\n- `md5`: MD5 checksum (alternative to SHA-256)\n\n#### Relationship Properties\n- `containedIn`: Reference to a parent FileObject or FileSet (for archived files)\n- `sameAs`: Links to the same content in different formats\n\n### Usage Patterns\n\n#### Standalone Files\nSimple files directly downloadable from a URL:\n```json\n{\n  \"@type\": \"cr:FileObject\",\n  \"@id\": \"train-data\",\n  \"contentUrl\": \"https://example.com/train.csv\",\n  \"encodingFormat\": \"text/csv\"\n}\n```\n\n#### Archive Members\nFiles extracted from archives (zip, tar, etc.):\n```json\n{\n  \"@type\": \"cr:FileObject\",\n  \"@id\": \"archive\",\n  \"contentUrl\": \"https://example.com/data.zip\",\n  \"encodingFormat\": \"application/zip\"\n},\n{\n  \"@type\": \"cr:FileObject\",\n  \"@id\": \"csv-in-archive\",\n  \"contentUrl\": \"data/file.csv\",\n  \"containedIn\": { \"@id\": \"archive\" },\n  \"encodingFormat\": \"text/csv\"\n}\n```\n\n#### With Checksums (Recommended)\nFor reproducibility and data integrity:\n```json\n{\n  \"@type\": \"cr:FileObject\",\n  \"@id\": \"verified-file\",\n  \"contentUrl\": \"https://example.com/data.csv\",\n  \"encodingFormat\": \"text/csv\",\n  \"sha256\": \"0b033707ea49365a5ffdd14615825511a1b2c3d4e5f6...\"\n}\n```\n\n### Best Practices\n\n1. **Always include encodingFormat**: Helps tools process files correctly\n2. **Use checksums for stable datasets**: Enables verification and reproducibility\n3. **Reflect actual filenames in `name`**: Makes it easier to match downloaded files\n4. **Use `containedIn` for archives**: Properly models hierarchical file structures\n5. **Avoid checksums for live datasets**: Files that update frequently shouldn't have checksums\n\n### Related Building Blocks\n\n- **FileSet**: For collections of homogeneous files\n- **Dataset**: Uses FileObject in its `distribution` property\n- **DataSource**: References FileObject when defining field sources\n",
+  "status": "under-development",
+  "dateTimeAddition": "2025-12-16T00:00:00Z",
+  "dateOfLastChange": "2025-12-17",
+  "version": "1.0",
+  "itemClass": "schema",
+  "register": "mlc-croissant",
+  "dependsOn": [],
+  "scope": "dev",
+  "tags": [
+    "croissant",
+    "file",
+    "resource",
+    "distribution"
+  ],
+  "sourceLdContext": "https://geolabs.github.io/bblocks-croissant/_sources/fileobject/context.jsonld",
+  "sourceSchema": "https://geolabs.github.io/bblocks-croissant/_sources/fileobject/schema.yaml",
+  "sources": [
+    {
+      "title": "Croissant Format Specification v1.0 - FileObject",
+      "link": "https://docs.mlcommons.org/croissant/docs/croissant-spec.html#fileobject"
+    }
+  ],
+  "maturity": "development",
+  "group": "MLCommons",
+  "shaclShapes": {},
+  "ldContext": "https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/fileobject/context.jsonld",
+  "schema": {
+    "application/yaml": "https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/fileobject/schema.yaml",
+    "application/json": "https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/fileobject/schema.json"
+  },
+  "sourceFiles": "https://geolabs.github.io/bblocks-croissant/_sources/fileobject/",
+  "rdfData": [],
+  "validationPassed": true,
+  "testOutputs": "https://github.com/GeoLabs/bblocks-croissant/blob/master/build/tests/croissant/fileobject/",
+  "examples": [
+    {
+      "title": "Simple CSV File",
+      "description": "FileObject for a CSV data file",
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "examples/csv-file.json",
+          "code": "{\n  \"@type\": \"cr:FileObject\",\n  \"@id\": \"data.csv\",\n  \"name\": \"data.csv\",\n  \"contentUrl\": \"https://example.com/data.csv\",\n  \"encodingFormat\": \"text/csv\",\n  \"sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"\n}\n",
+          "url": "https://geolabs.github.io/bblocks-croissant/build/tests/croissant/fileobject/example_1_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": \"https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/fileobject/context.jsonld\",\n  \"@type\": \"cr:FileObject\",\n  \"@id\": \"data.csv\",\n  \"name\": \"data.csv\",\n  \"contentUrl\": \"https://example.com/data.csv\",\n  \"encodingFormat\": \"text/csv\",\n  \"sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"\n}",
+          "url": "https://geolabs.github.io/bblocks-croissant/build/tests/croissant/fileobject/example_1_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix : <https://schema.org/> .\n@prefix cr: <http://mlcommons.org/croissant/> .\n@prefix ns1: <sc:> .\n\n<file:///github/workspace/data.csv> a cr:FileObject ;\n    :name \"data.csv\" ;\n    ns1:contentUrl \"https://example.com/data.csv\" ;\n    ns1:encodingFormat \"text/csv\" ;\n    ns1:sha256 \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\" .\n\n",
+          "url": "https://geolabs.github.io/bblocks-croissant/build/tests/croissant/fileobject/example_1_1.ttl"
+        }
+      ]
+    },
+    {
+      "title": "Image File with Checksum",
+      "description": "FileObject for an image with integrity verification",
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "examples/image-file.json",
+          "code": "{\n  \"@type\": \"cr:FileObject\",\n  \"@id\": \"cat.jpg\",\n  \"name\": \"cat.jpg\",\n  \"contentUrl\": \"https://example.com/images/cat.jpg\",\n  \"encodingFormat\": \"image/jpeg\",\n  \"contentSize\": \"524288\",\n  \"sha256\": \"a1b2c3d4e5f6789012345678901234567890123456789012345678901234abcd\"\n}\n",
+          "url": "https://geolabs.github.io/bblocks-croissant/build/tests/croissant/fileobject/example_2_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": \"https://geolabs.github.io/bblocks-croissant/build/annotated/croissant/fileobject/context.jsonld\",\n  \"@type\": \"cr:FileObject\",\n  \"@id\": \"cat.jpg\",\n  \"name\": \"cat.jpg\",\n  \"contentUrl\": \"https://example.com/images/cat.jpg\",\n  \"encodingFormat\": \"image/jpeg\",\n  \"contentSize\": \"524288\",\n  \"sha256\": \"a1b2c3d4e5f6789012345678901234567890123456789012345678901234abcd\"\n}",
+          "url": "https://geolabs.github.io/bblocks-croissant/build/tests/croissant/fileobject/example_2_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix : <https://schema.org/> .\n@prefix cr: <http://mlcommons.org/croissant/> .\n@prefix ns1: <sc:> .\n\n<file:///github/workspace/cat.jpg> a cr:FileObject ;\n    :name \"cat.jpg\" ;\n    ns1:contentSize \"524288\" ;\n    ns1:contentUrl \"https://example.com/images/cat.jpg\" ;\n    ns1:encodingFormat \"image/jpeg\" ;\n    ns1:sha256 \"a1b2c3d4e5f6789012345678901234567890123456789012345678901234abcd\" .\n\n",
+          "url": "https://geolabs.github.io/bblocks-croissant/build/tests/croissant/fileobject/example_2_1.ttl"
+        }
+      ]
+    }
+  ],
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntitle: Croissant FileObject\ndescription: 'Represents an individual file that is part of a Croissant dataset.\n\n  FileObject inherits from schema.org CreativeWork.\n\n  '\ntype: object\nrequired:\n- '@type'\n- '@id'\nproperties:\n  '@type':\n    type: string\n    const: cr:FileObject\n    description: Must be cr:FileObject\n  '@id':\n    type: string\n    description: Unique identifier for this FileObject within the dataset\n  name:\n    type: string\n    description: 'The name of the file. Should reflect the name of the file as downloaded,\n\n      including the file extension (e.g., \"images.zip\")\n\n      '\n  contentUrl:\n    type: string\n    format: uri\n    description: URL to the actual bytes of the file\n    x-jsonld-id: sc:contentUrl\n  contentSize:\n    type: string\n    description: 'File size in (mega/kilo/...)bytes. Defaults to bytes if a unit is\n      not specified.\n\n      Examples: \"1024\", \"1.5 MB\", \"2GB\"\n\n      '\n    x-jsonld-id: sc:contentSize\n  encodingFormat:\n    type: string\n    description: The format of the file, given as a MIME type (e.g., \"text/csv\", \"image/jpeg\")\n    x-jsonld-id: sc:encodingFormat\n  sha256:\n    type: string\n    pattern: ^[a-fA-F0-9]{64}$\n    description: SHA-256 checksum for the file contents (64 hexadecimal characters)\n    x-jsonld-id: sc:sha256\n  md5:\n    type: string\n    pattern: ^[a-fA-F0-9]{32}$\n    description: MD5 checksum for the file contents (32 hexadecimal characters)\n    x-jsonld-id: http://mlcommons.org/croissant/md5\n  containedIn:\n    description: 'Another FileObject or FileSet that this one is contained in, e.g.,\n      in the case\n\n      of a file extracted from an archive. When this property is present, the contentUrl\n\n      is evaluated as a relative path within the container object.\n\n      '\n    oneOf:\n    - type: object\n      required:\n      - '@id'\n      properties:\n        '@id':\n          type: string\n          description: Reference to the container FileObject or FileSet\n    - type: array\n      items:\n        type: object\n        required:\n        - '@id'\n        properties:\n          '@id':\n            type: string\n    x-jsonld-id: http://mlcommons.org/croissant/containedIn\n  description:\n    type: string\n    description: Human-readable description of the file\n  sameAs:\n    description: 'URL (or local name) of a FileObject with the same content, but in\n      a different format\n\n      '\n    oneOf:\n    - type: string\n      format: uri\n    - type: array\n      items:\n        type: string\n        format: uri\n    x-jsonld-id: sc:sameAs\nexamples:\n- title: Simple CSV file\n  content: A single CSV file with metadata\n  snippets:\n  - language: json\n    code: \"{\\n  \\\"@type\\\": \\\"cr:FileObject\\\",\\n  \\\"@id\\\": \\\"metadata.csv\\\",\\n  \\\"name\\\":\n      \\\"metadata.csv\\\",\\n  \\\"contentUrl\\\": \\\"https://example.com/data/metadata.csv\\\",\\n\n      \\ \\\"encodingFormat\\\": \\\"text/csv\\\",\\n  \\\"contentSize\\\": \\\"1024 KB\\\",\\n  \\\"sha256\\\":\n      \\\"0b033707ea49365a5ffdd14615825511\\\"\\n}\\n\"\n- title: Archive file\n  content: A tar archive containing dataset files\n  snippets:\n  - language: json\n    code: \"{\\n  \\\"@type\\\": \\\"cr:FileObject\\\",\\n  \\\"@id\\\": \\\"dataset-archive\\\",\\n  \\\"name\\\":\n      \\\"dataset.tar.gz\\\",\\n  \\\"contentUrl\\\": \\\"https://example.com/dataset.tar.gz\\\",\\n\n      \\ \\\"encodingFormat\\\": \\\"application/x-tar\\\",\\n  \\\"contentSize\\\": \\\"10 GB\\\",\\n\n      \\ \\\"sha256\\\": \\\"f4f87af4327fd1a66dd7944b9f59cbcc\\\"\\n}\\n\"\n- title: File extracted from archive\n  content: A file contained within an archive\n  snippets:\n  - language: json\n    code: \"{\\n  \\\"@type\\\": \\\"cr:FileObject\\\",\\n  \\\"@id\\\": \\\"readme-file\\\",\\n  \\\"name\\\":\n      \\\"README.txt\\\",\\n  \\\"contentUrl\\\": \\\"README.txt\\\",\\n  \\\"containedIn\\\": { \\\"@id\\\":\n      \\\"dataset-archive\\\" },\\n  \\\"encodingFormat\\\": \\\"text/plain\\\"\\n}\\n\"\nx-jsonld-vocab: https://schema.org/\nx-jsonld-prefixes:\n  cr: http://mlcommons.org/croissant/\n",
+  "gitRepository": "https://github.com/GeoLabs/bblocks-croissant",
+  "gitPath": "_sources/fileobject"
+}

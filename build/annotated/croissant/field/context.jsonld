@@ -1,0 +1,39 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "subField": "cr:subField",
+    "parentField": "cr:parentField",
+    "@type": {
+      "@context": {}
+    },
+    "@id": {
+      "@context": {}
+    },
+    "name": {},
+    "description": {},
+    "dataType": {
+      "@id": "cr:dataType",
+      "@type": "@vocab"
+    },
+    "source": {
+      "@context": {
+        "@id": {
+          "@context": {}
+        }
+      },
+      "@id": "cr:source"
+    },
+    "references": {
+      "@context": {
+        "@id": {
+          "@context": {}
+        }
+      },
+      "@id": "cr:references"
+    },
+    "repeated": "cr:repeated",
+    "equivalentProperty": "cr:equivalentProperty",
+    "cr": "http://mlcommons.org/croissant/",
+    "@version": 1.1
+  }
+}

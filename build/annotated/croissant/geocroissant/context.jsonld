@@ -1,0 +1,73 @@
+{
+  "@context": {
+    "boundingBox": {
+      "@id": "geocr:boundingBox",
+      "@type": "@json"
+    },
+    "spatialCoverage": {
+      "@context": {
+        "type": {},
+        "coordinates": {}
+      },
+      "@id": "geocr:spatialCoverage",
+      "@type": "@json"
+    },
+    "geometry": {
+      "@context": {
+        "type": {},
+        "coordinates": {}
+      },
+      "@id": "geo:hasGeometry",
+      "@type": "@json"
+    },
+    "temporalExtent": {
+      "@context": {
+        "start": {},
+        "end": {}
+      },
+      "@id": "geocr:temporalExtent",
+      "@type": "@json"
+    },
+    "temporalCoverage": {
+      "@context": {
+        "startDate": {
+          "@id": "dct:start",
+          "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+        },
+        "endDate": {
+          "@id": "dct:end",
+          "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+        }
+      },
+      "@id": "dct:temporal"
+    },
+    "coordinateReferenceSystem": {
+      "@id": "geocr:coordinateReferenceSystem",
+      "@type": "@id"
+    },
+    "crs": {
+      "@id": "geocr:crs",
+      "@type": "@id"
+    },
+    "epsgCode": "geocr:epsgCode",
+    "wkt": "geo:asWKT",
+    "wkt2": "geocr:wkt2",
+    "stacVersion": "geocr:stacVersion",
+    "stacExtensions": {
+      "@id": "geocr:stacExtensions",
+      "@type": "@json"
+    },
+    "proj": {
+      "@context": {
+        "type": {},
+        "id": {},
+        "name": {}
+      },
+      "@id": "geocr:proj"
+    },
+    "geocr": "http://mlcommons.org/geocroissant/",
+    "geo": "http://www.opengis.net/ont/geosparql#",
+    "dct": "http://purl.org/dc/terms/",
+    "@version": 1.1
+  }
+}
