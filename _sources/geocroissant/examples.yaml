@@ -1,0 +1,26 @@
+- title: Simple bounding box example
+  description: GeoCroissant extension with geographic bounds and temporal extent
+  snippets:
+    - language: json
+      ref: examples/bbox-example.json
+  transform-examples:
+    - geocroissant-to-stac
+    - geocroissant-to-geodcat
+
+- title: Point location
+  description: GeoCroissant with spatial coverage using GeoJSON Point
+  snippets:
+    - language: json
+      ref: examples/point-example.json
+  transform-examples:
+    - geocroissant-to-stac
+    - geocroissant-to-geodcat
+
+- title: Polygon with custom CRS
+  description: GeoCroissant with polygon geometry and UTM projection
+  snippets:
+    - language: json
+      ref: examples/polygon-example.json
+  transform-examples:
+    - geocroissant-to-stac
+    - geocroissant-to-geodcat

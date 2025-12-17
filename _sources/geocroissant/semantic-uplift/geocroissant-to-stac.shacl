@@ -1,0 +1,140 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix geocr: <http://mlcommons.org/geocroissant/> .
+@prefix cr: <http://mlcommons.org/croissant/> .
+@prefix schema: <https://schema.org/> .
+@prefix stac: <https://stacspec.org/> .
+@prefix : <urn:mlc-croissant:transforms#> .
+
+# Transform GeoCroissant to STAC Collection properties
+:GeoCroissantToSTACCollection
+    a sh:NodeShape ;
+    sh:targetClass schema:Dataset ;
+    sh:rule [
+        a sh:SPARQLRule ;
+        sh:construct """
+            PREFIX schema: <https://schema.org/>
+            PREFIX geocr: <http://mlcommons.org/geocroissant/>
+            PREFIX stac: <https://stacspec.org/>
+            
+            CONSTRUCT {
+                $this a stac:Collection ;
+                    stac:id ?id ;
+                    stac:title ?name ;
+                    stac:description ?description ;
+                    stac:license ?license ;
+                    stac:extent ?extent
+            }
+            WHERE {
+                $this a schema:Dataset .
+                OPTIONAL { $this schema:identifier ?id }
+                OPTIONAL { $this schema:name ?name }
+                OPTIONAL { $this schema:description ?description }
+                OPTIONAL { $this schema:license ?license }
+            }
+        """ ;
+    ] ;
+.
+
+# Transform boundingBox to STAC spatial extent
+:BoundingBoxToSTACSpatial
+    a sh:NodeShape ;
+    sh:targetSubjectsOf geocr:boundingBox ;
+    sh:rule [
+        a sh:SPARQLRule ;
+        sh:construct """
+            PREFIX geocr: <http://mlcommons.org/geocroissant/>
+            PREFIX stac: <https://stacspec.org/>
+            
+            CONSTRUCT {
+                $this stac:extent [
+                    stac:spatial [
+                        stac:bbox ?bbox
+                    ]
+                ]
+            }
+            WHERE {
+                $this geocr:boundingBox ?bbox
+            }
+        """ ;
+    ] ;
+.
+
+# Transform temporalExtent to STAC temporal extent
+:TemporalExtentToSTACTemporal
+    a sh:NodeShape ;
+    sh:targetSubjectsOf geocr:temporalExtent ;
+    sh:rule [
+        a sh:SPARQLRule ;
+        sh:construct """
+            PREFIX geocr: <http://mlcommons.org/geocroissant/>
+            PREFIX stac: <https://stacspec.org/>
+            PREFIX dct: <http://purl.org/dc/terms/>
+            
+            CONSTRUCT {
+                $this stac:extent [
+                    stac:temporal [
+                        dct:start ?start ;
+                        dct:end ?end
+                    ]
+                ]
+            }
+            WHERE {
+                $this geocr:temporalExtent ?temporalExtent .
+                OPTIONAL { ?temporalExtent geocr:start ?start }
+                OPTIONAL { ?temporalExtent geocr:end ?end }
+            }
+        """ ;
+    ] ;
+.
+
+# Transform STAC version and extensions
+:STACVersionAndExtensions
+    a sh:NodeShape ;
+    sh:targetSubjectsOf geocr:stacVersion ;
+    sh:rule [
+        a sh:SPARQLRule ;
+        sh:construct """
+            PREFIX geocr: <http://mlcommons.org/geocroissant/>
+            PREFIX stac: <https://stacspec.org/>
+            
+            CONSTRUCT {
+                $this stac:stac_version ?stacVersion ;
+                    stac:stac_extensions ?stacExtensions
+            }
+            WHERE {
+                $this geocr:stacVersion ?stacVersion .
+                OPTIONAL { $this geocr:stacExtensions ?stacExtensions }
+            }
+        """ ;
+    ] ;
+.
+
+# Transform distribution to STAC assets
+:DistributionToSTACAssets
+    a sh:NodeShape ;
+    sh:targetSubjectsOf schema:distribution ;
+    sh:rule [
+        a sh:SPARQLRule ;
+        sh:construct """
+            PREFIX schema: <https://schema.org/>
+            PREFIX stac: <https://stacspec.org/>
+            
+            CONSTRUCT {
+                $this stac:assets [
+                    stac:href ?contentUrl ;
+                    stac:type ?encodingFormat ;
+                    stac:title ?name ;
+                    stac:description ?description
+                ]
+            }
+            WHERE {
+                $this schema:distribution ?dist .
+                ?dist schema:contentUrl ?contentUrl .
+                OPTIONAL { ?dist schema:encodingFormat ?encodingFormat }
+                OPTIONAL { ?dist schema:name ?name }
+                OPTIONAL { ?dist schema:description ?description }
+            }
+        """ ;
+    ] ;
+.

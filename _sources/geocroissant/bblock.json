@@ -1,0 +1,64 @@
+{
+  "$schema": "https://raw.githubusercontent.com/opengeospatial/bblocks-postprocess/master/ogc/bblocks/metadata-schema.yaml",
+  "name": "GeoCroissant Extension",
+  "abstract": "Geospatial extension for Croissant metadata format enabling spatial and temporal data description",
+  "description": "GeoCroissant extends the Croissant metadata format with geospatial capabilities, enabling standardized description of spatiotemporal ML datasets. This extension adds properties for bounding boxes, coordinate reference systems, temporal extents, and geometry representations, making Croissant datasets interoperable with geospatial standards like STAC, GeoDCAT, and OGC TDML.",
+  "status": "under-development",
+  "dateTimeAddition": "2025-12-16T00:00:00Z",
+  "dateOfLastChange": "2025-12-16",
+  "version": "1.0",
+  "itemClass": "schema",
+  "register": "mlc-croissant",
+  "dependsOn": [
+    "mlc.croissant.dataset",
+    "ogc.geo.common.data_types.geojson",
+    "ogc.geo.common.data_types.bounding_box"
+  ],
+  "scope": "dev",
+  "seeAlso": [
+    "ogc.contrib.stac.collection",
+    "ogc.geo.geodcat.geodcat",
+    "ogc.geo.geodcat.stac.geodcat-stac-collection",
+    "ogc.api.records.v1.schemas.time"
+  ],
+  "tags": [
+    "croissant",
+    "geospatial",
+    "geocroissant",
+    "spatial data",
+    "temporal data",
+    "CRS",
+    "bounding box"
+  ],
+  "sourceLdContext": "context.jsonld",
+  "sourceSchema": "schema.yaml",
+  "sources": [
+    {
+      "title": "ZOO-Project GeoCroissant Converters",
+      "link": "https://github.com/ZOO-Project/dcai"
+    },
+    {
+      "title": "Croissant Format Specification v1.0",
+      "link": "https://docs.mlcommons.org/croissant/docs/croissant-spec.html"
+    },
+    {
+      "title": "STAC Specification",
+      "link": "https://stacspec.org/"
+    },
+    {
+      "title": "GeoDCAT-AP Specification",
+      "link": "https://semiceu.github.io/GeoDCAT-AP/"
+    },
+    {
+      "title": "OGC GeoSPARQL",
+      "link": "http://www.opengis.net/doc/IS/geosparql/1.0"
+    },
+    {
+      "title": "OGC Training Data Markup Language (TDML)",
+      "link": "https://docs.ogc.org/DRAFTS/17-049r1.html"
+    }
+  ],
+  "maturity": "development",
+  "group": "MLCommons",
+  "highlighted": true
+}

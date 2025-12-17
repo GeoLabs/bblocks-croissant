@@ -10,6 +10,7 @@
   "itemClass": "schema",
   "register": "mlc-croissant",
   "dependsOn": [
+    "mlc.croissant.geocroissant",
     "mlc.croissant.fileobject",
     "mlc.croissant.fileset",
     "mlc.croissant.recordset",

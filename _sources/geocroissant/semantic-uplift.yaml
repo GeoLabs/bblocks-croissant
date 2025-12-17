@@ -1,0 +1,17 @@
+additionalSteps:
+  # Transform GeoCroissant spatial properties to GeoSPARQL
+  - type: shacl
+    ref: semantic-uplift/geocroissant-to-geosparql.shacl
+  
+  # Transform GeoCroissant to DCAT/GeoDCAT
+  - type: shacl
+    ref: semantic-uplift/geocroissant-to-geodcat.shacl
+  
+  # Transform GeoCroissant to STAC Collection
+  - type: shacl
+    ref: semantic-uplift/geocroissant-to-stac.shacl
+  
+  # Transform GeoCroissant temporal properties to Dublin Core
+  - type: shacl
+    ref: semantic-uplift/geocroissant-temporal.shacl
+  

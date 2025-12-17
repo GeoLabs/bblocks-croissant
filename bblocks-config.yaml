@@ -49,4 +49,11 @@ keywords:
   - ML frameworks
   - data interchange
 
+# Imports from other building block registers
+imports:
+  - https://opengeospatial.github.io/bblocks/register.json
+  - https://ogcincubator.github.io/geodcat-ogcapi-records/build/register.json
+  - https://ogcincubator.github.io/bblocks-stac/build/register.json
+  - https://ogcincubator.github.io/bblocks-ogcapi-records/build/register.json
+
 license: Apache-2.0

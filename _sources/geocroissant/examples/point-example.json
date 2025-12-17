@@ -1,0 +1,71 @@
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/",
+    "cr": "http://mlcommons.org/croissant/",
+    "dct": "http://purl.org/dc/terms/",
+    "geocr": "https://example.org/geocroissant/",
+    "sc": "https://schema.org/"
+  },
+  "@type": "Dataset",
+  "@id": "point-example-dataset",
+  "conformsTo": "http://mlcommons.org/croissant/1.0",
+  "name": "Point Example Dataset",
+  "description": "Example dataset with point geometry spatial coverage for GeoCroissant",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "url": "https://example.org/datasets/point-example",
+  "identifier": "point-example-dataset",
+  "datePublished": "2024-01-01T00:00:00Z",
+  "creator": {
+    "@type": "Organization",
+    "name": "Example Organization",
+    "url": "https://example.org"
+  },
+  "keywords": ["geospatial", "point", "location"],
+  "geocr:spatialCoverage": {
+    "geocr:geometry": {
+      "type": "Point",
+      "coordinates": [-122.4194, 37.7749]
+    },
+    "geocr:crs": "EPSG:4326"
+  },
+  "geocr:temporalExtent": {
+    "start": "2024-01-01T00:00:00Z",
+    "end": "2024-12-31T23:59:59Z"
+  },
+  "distribution": [
+    {
+      "@type": "cr:FileObject",
+      "@id": "point-data",
+      "name": "point-data",
+      "description": "Point location data",
+      "contentUrl": "https://example.org/data/point-data.geojson",
+      "encodingFormat": "application/geo+json",
+      "sha256": "xyz789abc123"
+    }
+  ],
+  "recordSet": [
+    {
+      "@type": "cr:RecordSet",
+      "@id": "point-records",
+      "name": "point-records",
+      "description": "Point location records",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "point-records/geometry",
+          "name": "geometry",
+          "description": "Point geometry",
+          "dataType": "cr:GeoJSON"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "point-records/properties",
+          "name": "properties",
+          "description": "Feature properties",
+          "dataType": "sc:PropertyValue"
+        }
+      ]
+    }
+  ]
+}

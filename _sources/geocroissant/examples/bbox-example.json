@@ -1,0 +1,66 @@
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/",
+    "cr": "http://mlcommons.org/croissant/",
+    "dct": "http://purl.org/dc/terms/",
+    "geocr": "https://example.org/geocroissant/",
+    "sc": "https://schema.org/"
+  },
+  "@type": "Dataset",
+  "@id": "bbox-example-dataset",
+  "conformsTo": "http://mlcommons.org/croissant/1.0",
+  "name": "BBox Example Dataset",
+  "description": "Example dataset with bounding box spatial coverage for GeoCroissant",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "url": "https://example.org/datasets/bbox-example",
+  "identifier": "bbox-example-dataset",
+  "datePublished": "2018-01-01T00:00:00Z",
+  "creator": {
+    "@type": "Organization",
+    "name": "Example Organization",
+    "url": "https://example.org"
+  },
+  "keywords": ["geospatial", "bbox", "example"],
+  "geocr:spatialCoverage": [-125.0, 24.0, -66.0, 50.0],
+  "geocr:temporalExtent": {
+    "start": "2018-01-01T00:00:00Z",
+    "end": "2021-12-31T23:59:59Z"
+  },
+  "geocr:crs": "EPSG:4326",
+  "distribution": [
+    {
+      "@type": "cr:FileObject",
+      "@id": "data-file",
+      "name": "data-file",
+      "description": "Main data file",
+      "contentUrl": "https://example.org/data/bbox-example.tif",
+      "encodingFormat": "image/tiff; application=geotiff",
+      "sha256": "abc123def456"
+    }
+  ],
+  "recordSet": [
+    {
+      "@type": "cr:RecordSet",
+      "@id": "main-records",
+      "name": "main-records",
+      "description": "Main record set for the dataset",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "main-records/location",
+          "name": "location",
+          "description": "Geographic location field",
+          "dataType": "cr:GeoJSON"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "main-records/timestamp",
+          "name": "timestamp",
+          "description": "Temporal timestamp",
+          "dataType": "sc:DateTime"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,160 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix geocr: <http://mlcommons.org/geocroissant/> .
+@prefix cr: <http://mlcommons.org/croissant/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix foaf: <http://www.w3.org/ns/foaf/0.1/> .
+@prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix : <urn:mlc-croissant:transforms#> .
+
+# Transform Croissant Dataset to DCAT Dataset
+:CroissantToDCATDataset
+    a sh:NodeShape ;
+    sh:targetClass schema:Dataset ;
+    sh:rule [
+        a sh:SPARQLRule ;
+        sh:construct """
+            PREFIX schema: <https://schema.org/>
+            PREFIX dcat: <http://www.w3.org/ns/dcat#>
+            PREFIX dct: <http://purl.org/dc/terms/>
+            PREFIX foaf: <http://www.w3.org/ns/foaf/0.1/>
+            
+            CONSTRUCT {
+                $this a dcat:Dataset ;
+                    dct:title ?name ;
+                    dct:description ?description ;
+                    dcat:landingPage ?url ;
+                    dct:license ?license ;
+                    dct:creator ?creator ;
+                    dct:issued ?datePublished
+            }
+            WHERE {
+                $this a schema:Dataset .
+                OPTIONAL { $this schema:name ?name }
+                OPTIONAL { $this schema:description ?description }
+                OPTIONAL { $this schema:url ?url }
+                OPTIONAL { $this schema:license ?license }
+                OPTIONAL { $this schema:creator ?creator }
+                OPTIONAL { $this schema:datePublished ?datePublished }
+            }
+        """ ;
+    ] ;
+.
+
+# Transform Croissant distribution to DCAT Distribution
+:CroissantDistributionToDCAT
+    a sh:NodeShape ;
+    sh:targetSubjectsOf schema:distribution ;
+    sh:rule [
+        a sh:SPARQLRule ;
+        sh:construct """
+            PREFIX schema: <https://schema.org/>
+            PREFIX dcat: <http://www.w3.org/ns/dcat#>
+            PREFIX dct: <http://purl.org/dc/terms/>
+            PREFIX cr: <http://mlcommons.org/croissant/>
+            
+            CONSTRUCT {
+                $this dcat:distribution ?dist .
+                ?dist a dcat:Distribution ;
+                    dcat:accessURL ?contentUrl ;
+                    dcat:mediaType ?encodingFormat ;
+                    dct:title ?name ;
+                    dct:description ?description
+            }
+            WHERE {
+                $this schema:distribution ?dist .
+                OPTIONAL { ?dist schema:contentUrl ?contentUrl }
+                OPTIONAL { ?dist schema:encodingFormat ?encodingFormat }
+                OPTIONAL { ?dist schema:name ?name }
+                OPTIONAL { ?dist schema:description ?description }
+            }
+        """ ;
+    ] ;
+.
+
+# Transform spatial coverage to GeoDCAT spatial
+:SpatialCoverageToGeoDCAT
+    a sh:NodeShape ;
+    sh:targetSubjectsOf geocr:spatialCoverage ;
+    sh:rule [
+        a sh:SPARQLRule ;
+        sh:construct """
+            PREFIX geocr: <http://mlcommons.org/geocroissant/>
+            PREFIX dct: <http://purl.org/dc/terms/>
+            PREFIX locn: <http://www.w3.org/ns/locn#>
+            
+            CONSTRUCT {
+                $this dct:spatial [
+                    a dct:Location ;
+                    locn:geometry ?spatialCoverage
+                ]
+            }
+            WHERE {
+                $this geocr:spatialCoverage ?spatialCoverage
+            }
+        """ ;
+    ] ;
+.
+
+# Transform keywords to DCAT keywords
+:KeywordsToDCAT
+    a sh:NodeShape ;
+    sh:targetClass schema:Dataset ;
+    sh:rule [
+        a sh:SPARQLRule ;
+        sh:construct """
+            PREFIX schema: <https://schema.org/>
+            PREFIX dcat: <http://www.w3.org/ns/dcat#>
+            
+            CONSTRUCT {
+                $this dcat:keyword ?keyword
+            }
+            WHERE {
+                $this schema:keywords ?keyword
+            }
+        """ ;
+    ] ;
+.
+
+# Transform version to DCAT version
+:VersionToDCAT
+    a sh:NodeShape ;
+    sh:targetClass schema:Dataset ;
+    sh:rule [
+        a sh:SPARQLRule ;
+        sh:construct """
+            PREFIX schema: <https://schema.org/>
+            PREFIX dcat: <http://www.w3.org/ns/dcat#>
+            PREFIX adms: <http://www.w3.org/ns/adms#>
+            
+            CONSTRUCT {
+                $this adms:version ?version
+            }
+            WHERE {
+                $this schema:version ?version
+            }
+        """ ;
+    ] ;
+.
+
+# Transform conformsTo to DCAT conformsTo
+:ConformsToDCAT
+    a sh:NodeShape ;
+    sh:targetSubjectsOf dct:conformsTo ;
+    sh:rule [
+        a sh:SPARQLRule ;
+        sh:construct """
+            PREFIX dct: <http://purl.org/dc/terms/>
+            PREFIX dcat: <http://www.w3.org/ns/dcat#>
+            
+            CONSTRUCT {
+                $this dct:conformsTo ?standard
+            }
+            WHERE {
+                $this dct:conformsTo ?standard
+            }
+        """ ;
+    ] ;
+.

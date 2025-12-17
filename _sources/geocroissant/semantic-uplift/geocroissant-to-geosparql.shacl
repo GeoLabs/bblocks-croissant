@@ -1,0 +1,82 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix geocr: <http://mlcommons.org/geocroissant/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix : <urn:mlc-croissant:transforms#> .
+
+# Transform GeoCroissant spatialCoverage (GeoJSON) to GeoSPARQL hasGeometry
+:SpatialCoverageToGeoSPARQL
+    a sh:NodeShape ;
+    sh:targetSubjectsOf geocr:spatialCoverage ;
+    sh:rule [
+        a sh:SPARQLRule ;
+        sh:construct """
+            PREFIX geocr: <http://mlcommons.org/geocroissant/>
+            PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+            
+            CONSTRUCT {
+                $this geo:hasGeometry [
+                    geo:asGeoJSON ?geojsonLiteral ;
+                    a geo:Geometry
+                ]
+            }
+            WHERE {
+                $this geocr:spatialCoverage ?geojsonLiteral .
+            }
+        """ ;
+        sh:condition [
+            sh:property [
+                sh:path geocr:spatialCoverage ;
+                sh:datatype rdf:JSON ;
+            ] ;
+        ] ;
+    ] ;
+.
+
+# Transform GeoCroissant boundingBox to GeoSPARQL geometry
+# Note: bbox array to WKT conversion requires custom processing
+:BoundingBoxToGeometry
+    a sh:NodeShape ;
+    sh:targetSubjectsOf geocr:boundingBox ;
+    sh:rule [
+        a sh:SPARQLRule ;
+        sh:construct """
+            PREFIX geocr: <http://mlcommons.org/geocroissant/>
+            PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+            
+            CONSTRUCT {
+                $this geo:hasGeometry [
+                    a geo:Geometry
+                ]
+            }
+            WHERE {
+                $this geocr:boundingBox ?bbox .
+            }
+        """ ;
+    ] ;
+.
+
+# Transform CRS references to proper URIs
+:CRSToURI
+    a sh:NodeShape ;
+    sh:targetSubjectsOf geocr:crs ;
+    sh:rule [
+        a sh:SPARQLRule ;
+        sh:construct """
+            PREFIX geocr: <http://mlcommons.org/geocroissant/>
+            PREFIX dct: <http://purl.org/dc/terms/>
+            
+            CONSTRUCT {
+                $this dct:conformsTo ?crs
+            }
+            WHERE {
+                $this geocr:crs ?crs .
+            }
+        """ ;
+    ] ;
+.
+
+# Note: EPSG code to URI conversion disabled - requires custom processing
+# The geocr:epsgCode property is preserved as-is

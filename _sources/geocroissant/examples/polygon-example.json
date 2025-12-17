@@ -1,0 +1,95 @@
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/",
+    "cr": "http://mlcommons.org/croissant/",
+    "dct": "http://purl.org/dc/terms/",
+    "geocr": "https://example.org/geocroissant/",
+    "sc": "https://schema.org/"
+  },
+  "@type": "Dataset",
+  "@id": "polygon-example-dataset",
+  "conformsTo": "http://mlcommons.org/croissant/1.0",
+  "name": "Polygon Example Dataset",
+  "description": "Example dataset with polygon geometry in projected CRS (UTM) for GeoCroissant",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "url": "https://example.org/datasets/polygon-example",
+  "identifier": "polygon-example-dataset",
+  "datePublished": "2024-01-01T00:00:00Z",
+  "creator": {
+    "@type": "Organization",
+    "name": "Example Organization",
+    "url": "https://example.org"
+  },
+  "keywords": ["geospatial", "polygon", "utm", "projected"],
+  "geocr:spatialCoverage": {
+    "geocr:geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [300000, 4000000],
+          [400000, 4000000],
+          [400000, 4100000],
+          [300000, 4100000],
+          [300000, 4000000]
+        ]
+      ]
+    },
+    "geocr:crs": "EPSG:32610",
+    "geocr:coordinateReferenceSystem": "http://www.opengis.net/def/crs/EPSG/0/32610",
+    "geocr:proj": {
+      "type": "ProjectedCRS",
+      "name": "WGS 84 / UTM zone 10N",
+      "id": {
+        "authority": "EPSG",
+        "code": 32610
+      }
+    }
+  },
+  "geocr:temporalExtent": {
+    "start": "2024-01-01T00:00:00Z",
+    "end": "2024-12-31T23:59:59Z"
+  },
+  "distribution": [
+    {
+      "@type": "cr:FileObject",
+      "@id": "polygon-data",
+      "name": "polygon-data",
+      "description": "Polygon area data in UTM projection",
+      "contentUrl": "https://example.org/data/polygon-data.geojson",
+      "encodingFormat": "application/geo+json",
+      "sha256": "def456ghi789"
+    }
+  ],
+  "recordSet": [
+    {
+      "@type": "cr:RecordSet",
+      "@id": "polygon-records",
+      "name": "polygon-records",
+      "description": "Polygon feature records",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "polygon-records/geometry",
+          "name": "geometry",
+          "description": "Polygon geometry in UTM coordinates",
+          "dataType": "cr:GeoJSON"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "polygon-records/area",
+          "name": "area",
+          "description": "Polygon area in square meters",
+          "dataType": "sc:Number"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "polygon-records/properties",
+          "name": "properties",
+          "description": "Feature properties",
+          "dataType": "sc:PropertyValue"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+transforms:
+
+  - id: geocroissant-to-stac
+    description: Converts GeoCroissant metadata to STAC Item format
+    type: jq
+    ref: transforms/geocroissant-to-stac.jq
+
+  - id: geocroissant-to-geodcat
+    description: Converts GeoCroissant metadata to GeoDCAT/DCAT RDF JSON-LD format
+    type: jq
+    ref: transforms/geocroissant-to-geodcat.jq

@@ -25,14 +25,76 @@ The core building block implementing a complete Croissant dataset description. I
 - **Transformations**: Data extraction and transformation pipelines
 - **Versioning**: Semantic versioning with checksums for reproducibility
 
+### GeoCroissant Extension (`mlc.croissant.geocroissant`)
+
+Geospatial extension for Croissant enabling spatiotemporal dataset description with:
+
+- **Spatial Coverage**: Bounding boxes, GeoJSON geometries, and WKT representations
+- **Temporal Extent**: ISO 8601 start/end dates for dataset time coverage
+- **CRS Support**: EPSG codes, CRS URIs, WKT2, and PROJ JSON representations
+- **STAC Compatibility**: Version and extension tracking for STAC interoperability
+- **Standards Integration**: Links to GeoDCAT, GeoSPARQL, and OGC TDML
+
+#### OGC Building Block Relations
+
+**Dependencies:**
+- [`ogc.geo.common.data_types.geojson`](https://opengeospatial.github.io/bblocks/) - GeoJSON geometry types
+- [`ogc.geo.common.data_types.bounding_box`](https://opengeospatial.github.io/bblocks/) - Bounding box definitions
+
+**Related Standards:**
+- [`ogc.contrib.stac.collection`](https://ogcincubator.github.io/bblocks-stac/) - STAC Collection schema
+- [`ogc.geo.geodcat.geodcat`](https://ogcincubator.github.io/geodcat-ogcapi-records/) - GeoDCAT profile
+- [`ogc.geo.geodcat.stac.geodcat-stac-collection`](https://ogcincubator.github.io/geodcat-ogcapi-records/) - STAC/GeoDCAT mapping
+- [`ogc.api.records.v1.schemas.time`](https://ogcincubator.github.io/bblocks-ogcapi-records/) - OGC API Records temporal schema
+
+**Conversion Support:**
+- STAC (SpatioTemporal Asset Catalog) ↔
+- GeoDCAT (Geospatial DCAT) →
+- OGC API Records →
+- OGC TDML (Training Data Markup Language) ↔
+- NASA UMM-G →
+
+Developed based on the [ZOO-Project GeoCroissant converters](https://github.com/ZOO-Project/dcai).
+
+#### GeoCroissant Transformations
+
+The GeoCroissant building block includes 6 JQ transformations for converting **TO** GeoCroissant format **FROM** various geospatial metadata standards:
+
+```bash
+# Apply all transforms automatically (included in ./build.sh)
+./apply-transforms.sh
+
+# Test individual transforms with source format files
+./test-transform.sh stac-to-geocroissant _sources/geocroissant/test-inputs/stac-collection-example.json
+./test-transform.sh nasa-umm-to-geocroissant _sources/geocroissant/test-inputs/nasa-umm-example.json
+```
+
+**Directory Structure:**
+- `_sources/geocroissant/examples/` - GeoCroissant output examples (target format for documentation)
+- `_sources/geocroissant/test-inputs/` - Source format examples (STAC, UMM-G, etc.) for transform testing
+- `_sources/geocroissant/transforms/` - JQ transformation scripts
+- `build-local/tests/croissant/geocroissant/transforms/` - Generated transform outputs
+
+**Available Transforms (Source → GeoCroissant):**
+- **STAC → GeoCroissant**: Converts STAC Collections to GeoCroissant datasets
+- **NASA UMM-G → GeoCroissant**: Converts NASA UMM-G metadata to GeoCroissant
+- **CEDA → GeoCroissant**: Converts CEDA UK CMIP6 STAC items to GeoCroissant
+- **DataCube → GeoCroissant**: Converts RDF DataCube/xarray datasets to GeoCroissant
+- **TDML → GeoCroissant**: Converts OGC TDML training datasets to GeoCroissant
+- **GeoDCAT → GeoCroissant**: Converts GeoDCAT/DCAT datasets to GeoCroissant
+
+See [APPLY_TRANSFORMS.md](APPLY_TRANSFORMS.md) for details on the transform application script and [_sources/geocroissant/transforms/README.md](_sources/geocroissant/transforms/README.md) for transform documentation.
+
 ## Getting Started
 
 ### Prerequisites
 
 To work with this repository locally, you'll need:
 
-- Python 3.8+
-- The OGC Building Blocks postprocessor
+- Docker (for OGC Building Blocks postprocessor)
+- jq (JSON processor for transforms)
+  - macOS: `brew install jq`
+  - Linux: `apt-get install jq`
 
 ### Local Development
 
@@ -42,11 +104,25 @@ git clone <repository-url>
 cd <repository-name>
 ```
 
-2. Follow the [local build process](https://ogcincubator.github.io/bblocks-docs/build/local) to test your changes.
+2. Build the building blocks:
+```bash
+./build.sh
+```
 
-3. Make modifications to building blocks in the `_sources/` directory.
+This will:
+- Run the OGC Building Blocks postprocessor
+- Apply GeoCroissant transformations automatically
+- Generate all outputs in `build-local/`
 
-4. Commit and push your changes. GitHub Actions will automatically process and publish the building blocks.
+3. View results:
+```bash
+./view.sh
+# Open browser to http://localhost:9090/register/
+```
+
+4. Make modifications to building blocks in the `_sources/` directory.
+
+5. Commit and push your changes. GitHub Actions will automatically process and publish the building blocks.
 
 ## Usage Examples
 

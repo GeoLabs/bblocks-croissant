@@ -1,0 +1,50 @@
+{
+  "@context": {
+    "geocr": "http://mlcommons.org/geocroissant/",
+    "geo": "http://www.opengis.net/ont/geosparql#",
+    "dct": "http://purl.org/dc/terms/",
+    
+    "boundingBox": {
+      "@id": "geocr:boundingBox",
+      "@type": "@json"
+    },
+    "spatialCoverage": {
+      "@id": "geocr:spatialCoverage",
+      "@type": "@json"
+    },
+    "geometry": {
+      "@id": "geo:hasGeometry",
+      "@type": "@json"
+    },
+    "temporalExtent": {
+      "@id": "geocr:temporalExtent",
+      "@type": "@json"
+    },
+    "temporalCoverage": "dct:temporal",
+    "coordinateReferenceSystem": {
+      "@id": "geocr:coordinateReferenceSystem",
+      "@type": "@id"
+    },
+    "crs": {
+      "@id": "geocr:crs",
+      "@type": "@id"
+    },
+    "stacVersion": "geocr:stacVersion",
+    "stacExtensions": {
+      "@id": "geocr:stacExtensions",
+      "@type": "@json"
+    },
+    "proj": "geocr:proj",
+    "epsgCode": "geocr:epsgCode",
+    "wkt": "geo:asWKT",
+    "wkt2": "geocr:wkt2",
+    "startDate": {
+      "@id": "dct:start",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "endDate": {
+      "@id": "dct:end",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    }
+  }
+}

@@ -1,0 +1,59 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix geocr: <http://mlcommons.org/geocroissant/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix : <urn:mlc-croissant:transforms#> .
+
+# Transform GeoCroissant temporalExtent to DCAT PeriodOfTime
+:TemporalExtentToDCAT
+    a sh:NodeShape ;
+    sh:targetSubjectsOf geocr:temporalExtent ;
+    sh:rule [
+        a sh:SPARQLRule ;
+        sh:construct """
+            PREFIX geocr: <http://mlcommons.org/geocroissant/>
+            PREFIX dct: <http://purl.org/dc/terms/>
+            PREFIX dcat: <http://www.w3.org/ns/dcat#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            
+            CONSTRUCT {
+                $this dct:temporal [
+                    a dcat:PeriodOfTime ;
+                    dcat:startDate ?startDate ;
+                    dcat:endDate ?endDate
+                ]
+            }
+            WHERE {
+                $this geocr:temporalExtent ?temporalExtent .
+                ?temporalExtent geocr:start ?startDate .
+                ?temporalExtent geocr:end ?endDate .
+            }
+        """ ;
+    ] ;
+.
+
+# Transform start/end dates directly
+:StartEndToDublinCore
+    a sh:NodeShape ;
+    sh:targetSubjectsOf geocr:temporalExtent ;
+    sh:rule [
+        a sh:SPARQLRule ;
+        sh:construct """
+            PREFIX geocr: <http://mlcommons.org/geocroissant/>
+            PREFIX dct: <http://purl.org/dc/terms/>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            
+            CONSTRUCT {
+                $this dct:start ?start ;
+                      dct:end ?end .
+            }
+            WHERE {
+                $this geocr:temporalExtent ?temporalExtent .
+                OPTIONAL { ?temporalExtent geocr:start ?start }
+                OPTIONAL { ?temporalExtent geocr:end ?end }
+            }
+        """ ;
+    ] ;
+.

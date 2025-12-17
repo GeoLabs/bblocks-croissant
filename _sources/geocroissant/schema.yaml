@@ -1,0 +1,127 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: GeoCroissant Extension
+description: Geospatial extension for Croissant metadata format
+type: object
+properties:
+  boundingBox:
+    description: Geographic bounding box in [west, south, east, north] format (WGS84)
+    type: array
+    items:
+      type: number
+    minItems: 4
+    maxItems: 4
+    example: [-180, -90, 180, 90]
+  
+  spatialCoverage:
+    description: Spatial coverage of the dataset as GeoJSON geometry
+    type: object
+    properties:
+      type:
+        type: string
+        enum: [Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon]
+      coordinates:
+        type: array
+        description: GeoJSON coordinates array
+    required: [type, coordinates]
+    example:
+      type: Polygon
+      coordinates:
+        - [[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]]
+  
+  geometry:
+    description: GeoSPARQL geometry representation
+    type: object
+    properties:
+      type:
+        type: string
+      coordinates:
+        type: array
+  
+  temporalExtent:
+    description: Temporal extent of the dataset
+    type: object
+    properties:
+      start:
+        type: string
+        format: date-time
+        description: Start date and time in ISO 8601 format
+      end:
+        type: string
+        format: date-time
+        description: End date and time in ISO 8601 format
+    example:
+      start: "2020-01-01T00:00:00Z"
+      end: "2020-12-31T23:59:59Z"
+  
+  temporalCoverage:
+    description: Dublin Core temporal coverage
+    type: object
+    properties:
+      startDate:
+        type: string
+        format: date-time
+      endDate:
+        type: string
+        format: date-time
+  
+  coordinateReferenceSystem:
+    description: Coordinate Reference System URI (e.g., EPSG code)
+    type: string
+    format: uri
+    example: "http://www.opengis.net/def/crs/EPSG/0/4326"
+  
+  crs:
+    description: Short form CRS identifier
+    type: string
+    example: "EPSG:4326"
+  
+  epsgCode:
+    description: EPSG code for the coordinate reference system
+    type: integer
+    example: 4326
+  
+  wkt:
+    description: Well-Known Text representation of geometry
+    type: string
+    example: "POLYGON((-180 -90, 180 -90, 180 90, -180 90, -180 -90))"
+  
+  wkt2:
+    description: WKT2 representation of CRS or geometry
+    type: string
+  
+  stacVersion:
+    description: STAC specification version (for STAC-compatible datasets)
+    type: string
+    pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    example: "1.1.0"
+  
+  stacExtensions:
+    description: List of STAC extension URLs
+    type: array
+    items:
+      type: string
+      format: uri
+    example:
+      - "https://stac-extensions.github.io/projection/v1.1.0/schema.json"
+  
+  proj:
+    description: PROJ JSON representation of CRS
+    type: object
+    properties:
+      type:
+        type: string
+      id:
+        type: object
+      name:
+        type: string
+
+allOf:
+  - oneOf:
+      - required: [boundingBox]
+      - required: [spatialCoverage]
+      - required: [geometry]
+      - not:
+          anyOf:
+            - required: [boundingBox]
+            - required: [spatialCoverage]
+            - required: [geometry]
