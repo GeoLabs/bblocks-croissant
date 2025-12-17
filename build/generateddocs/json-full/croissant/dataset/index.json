@@ -13,12 +13,12 @@
   "itemClass": "schema",
   "register": "mlc-croissant",
   "dependsOn": [
-    "mlc.croissant.datasource",
+    "mlc.croissant.fileobject",
     "mlc.croissant.fileset",
     "mlc.croissant.geocroissant",
-    "mlc.croissant.recordset",
-    "mlc.croissant.fileobject",
-    "mlc.croissant.field"
+    "mlc.croissant.field",
+    "mlc.croissant.datasource",
+    "mlc.croissant.recordset"
   ],
   "scope": "dev",
   "tags": [

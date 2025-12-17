@@ -13,8 +13,8 @@
   "itemClass": "schema",
   "register": "mlc-croissant",
   "dependsOn": [
-    "mlc.croissant.fileset",
-    "mlc.croissant.fileobject"
+    "mlc.croissant.fileobject",
+    "mlc.croissant.fileset"
   ],
   "scope": "dev",
   "tags": [

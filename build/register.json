@@ -2,7 +2,7 @@
   "name": "Croissant ML Dataset Metadata Building Blocks",
   "abstract": "Building Blocks for the Croissant metadata format, a standardized format for ML dataset description.\nCroissant simplifies how data is used by ML models by providing a vocabulary for dataset attributes,\nstreamlining how data is loaded across ML frameworks such as PyTorch, TensorFlow or JAX.\n",
   "description": "This register contains OGC Building Blocks implementing the Croissant Format Specification v1.0,\ndeveloped by MLCommons. Croissant is a metadata format that enables dataset interchange between\nML frameworks and addresses discoverability, portability, reproducibility, and responsible AI challenges.\n\nThe specification builds on schema.org and is designed to be modular and extensible. It supports\nstructured and unstructured data, hierarchical record sets, and ML-specific features like splits,\ncategorical data, labels, and bounding boxes.\n\nKey components include:\n- Dataset-level metadata (extending schema.org/Dataset)\n- Resource descriptions (FileObject, FileSet)\n- RecordSet definitions (fields, data types, transformations)\n- ML-specific features (splits, labels, bounding boxes, etc.)\n",
-  "modified": "2025-12-17T01:24:39.661724",
+  "modified": "2025-12-17T01:38:37.704321",
   "tooling": {
     "bblocks-postprocess": {
       "commitId": "\"285d0905c7389562143593be3c626b653c2dc093",
@@ -91,9 +91,9 @@
       "itemClass": "schema",
       "register": "mlc-croissant",
       "dependsOn": [
-        "mlc.croissant.dataset",
+        "ogc.geo.common.data_types.geojson",
         "ogc.geo.common.data_types.bounding_box",
-        "ogc.geo.common.data_types.geojson"
+        "mlc.croissant.dataset"
       ],
       "scope": "dev",
       "seeAlso": [
@@ -304,8 +304,8 @@
       "itemClass": "schema",
       "register": "mlc-croissant",
       "dependsOn": [
-        "mlc.croissant.fileset",
-        "mlc.croissant.fileobject"
+        "mlc.croissant.fileobject",
+        "mlc.croissant.fileset"
       ],
       "scope": "dev",
       "tags": [
@@ -473,11 +473,11 @@
       "version": "1.0",
       "dateOfLastChange": "2025-12-17",
       "dependsOn": [
-        "mlc.croissant.datasource",
-        "mlc.croissant.fileset",
-        "mlc.croissant.recordset",
         "mlc.croissant.fileobject",
-        "mlc.croissant.field"
+        "mlc.croissant.fileset",
+        "mlc.croissant.field",
+        "mlc.croissant.datasource",
+        "mlc.croissant.recordset"
       ],
       "scope": "dev",
       "sources": [
@@ -533,12 +533,12 @@
       "itemClass": "schema",
       "register": "mlc-croissant",
       "dependsOn": [
-        "mlc.croissant.datasource",
+        "mlc.croissant.fileobject",
         "mlc.croissant.fileset",
         "mlc.croissant.geocroissant",
-        "mlc.croissant.recordset",
-        "mlc.croissant.fileobject",
-        "mlc.croissant.field"
+        "mlc.croissant.field",
+        "mlc.croissant.datasource",
+        "mlc.croissant.recordset"
       ],
       "scope": "dev",
       "tags": [
