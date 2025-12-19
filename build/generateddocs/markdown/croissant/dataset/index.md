@@ -1461,23 +1461,10 @@ Links to the schema:
       "@context": {}
     },
     "conformsTo": "dct:conformsTo",
-    "name": {},
-    "description": {},
-    "url": {},
-    "license": {},
-    "creator": {},
-    "datePublished": {},
     "@id": {
       "@context": {}
     },
-    "contentUrl": {},
-    "contentSize": {},
-    "encodingFormat": {},
-    "sha256": {},
-    "containedIn": {},
     "includes": "cr:includes",
-    "excludes": {},
-    "distribution": {},
     "recordSet": {
       "@context": {
         "@type": {
@@ -1511,13 +1498,6 @@ Links to the schema:
                     }
                   },
                   "@id": "cr:fileSet"
-                },
-                "transform": {
-                  "@context": {
-                    "delimiter": {},
-                    "jsonQuery": {}
-                  },
-                  "@id": "cr:transform"
                 },
                 "@id": {
                   "@context": {}
@@ -1557,9 +1537,6 @@ Links to the schema:
     },
     "citeAs": "cr:citeAs",
     "isLiveDataset": "cr:isLiveDataset",
-    "version": {},
-    "keywords": {},
-    "publisher": {},
     "column": "cr:column",
     "examples": {
       "@id": "cr:examples",

@@ -273,8 +273,6 @@ Links to the schema:
     "@id": {
       "@context": {}
     },
-    "name": {},
-    "description": {},
     "containedIn": {
       "@context": {
         "@id": {

@@ -7,8 +7,6 @@
     "@id": {
       "@context": {}
     },
-    "name": {},
-    "description": {},
     "field": {
       "@context": {
         "@type": {
@@ -16,11 +14,7 @@
         },
         "@id": {
           "@context": {}
-        },
-        "source": {},
-        "references": {},
-        "repeated": {},
-        "subField": {}
+        }
       },
       "@id": "cr:field"
     },

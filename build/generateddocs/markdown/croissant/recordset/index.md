@@ -577,8 +577,6 @@ Links to the schema:
     "@id": {
       "@context": {}
     },
-    "name": {},
-    "description": {},
     "field": {
       "@context": {
         "@type": {
@@ -586,11 +584,7 @@ Links to the schema:
         },
         "@id": {
           "@context": {}
-        },
-        "source": {},
-        "references": {},
-        "repeated": {},
-        "subField": {}
+        }
       },
       "@id": "cr:field"
     },

@@ -385,8 +385,6 @@ Links to the schema:
     "@id": {
       "@context": {}
     },
-    "name": {},
-    "description": {},
     "dataType": {
       "@id": "cr:dataType",
       "@type": "@vocab"

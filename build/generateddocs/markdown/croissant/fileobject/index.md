@@ -334,7 +334,6 @@ Links to the schema:
     "@id": {
       "@context": {}
     },
-    "name": {},
     "contentUrl": "sc:contentUrl",
     "contentSize": "sc:contentSize",
     "encodingFormat": "sc:encodingFormat",
@@ -348,7 +347,6 @@ Links to the schema:
       },
       "@id": "cr:containedIn"
     },
-    "description": {},
     "sameAs": "sc:sameAs",
     "cr": "http://mlcommons.org/croissant/",
     "@version": 1.1

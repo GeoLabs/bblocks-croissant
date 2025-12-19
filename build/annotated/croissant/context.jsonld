@@ -9,9 +9,6 @@
     "@id": {
       "@context": {}
     },
-    "name": {},
-    "description": {},
-    "url": {},
     "@vocab": "https://schema.org/",
     "contentUrl": "sc:contentUrl",
     "contentSize": "sc:contentSize",
@@ -29,7 +26,6 @@
     "sameAs": "sc:sameAs",
     "includes": "cr:includes",
     "excludes": "cr:excludes",
-    "distribution": {},
     "field": {
       "@context": {
         "@type": {
@@ -37,11 +33,7 @@
         },
         "@id": {
           "@context": {}
-        },
-        "source": {},
-        "references": {},
-        "repeated": {},
-        "subField": {}
+        }
       },
       "@id": "cr:field"
     },
@@ -65,12 +57,6 @@
       "@id": "cr:dataType",
       "@type": "@vocab"
     },
-    "recordSet": {},
-    "conformsTo": {},
-    "license": {},
-    "email": {},
-    "creator": {},
-    "citation": {},
     "cr": "http://mlcommons.org/croissant/",
     "@version": 1.1
   }

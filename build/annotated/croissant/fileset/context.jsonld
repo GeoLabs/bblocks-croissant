@@ -7,8 +7,6 @@
     "@id": {
       "@context": {}
     },
-    "name": {},
-    "description": {},
     "containedIn": {
       "@context": {
         "@id": {

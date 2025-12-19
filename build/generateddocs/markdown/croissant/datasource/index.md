@@ -484,10 +484,6 @@ Links to the schema:
       "@context": {
         "regex": "cr:regex",
         "delimiter": "cr:delimiter",
-        "jsonQuery": {},
-        "pattern": {},
-        "replacement": {},
-        "replace": {},
         "separator": "cr:separator"
       },
       "@id": "cr:transform"

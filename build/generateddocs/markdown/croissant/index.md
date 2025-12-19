@@ -194,9 +194,6 @@ Links to the schema:
     "@id": {
       "@context": {}
     },
-    "name": {},
-    "description": {},
-    "url": {},
     "@vocab": "https://schema.org/",
     "contentUrl": "sc:contentUrl",
     "contentSize": "sc:contentSize",
@@ -214,7 +211,6 @@ Links to the schema:
     "sameAs": "sc:sameAs",
     "includes": "cr:includes",
     "excludes": "cr:excludes",
-    "distribution": {},
     "field": {
       "@context": {
         "@type": {
@@ -222,11 +218,7 @@ Links to the schema:
         },
         "@id": {
           "@context": {}
-        },
-        "source": {},
-        "references": {},
-        "repeated": {},
-        "subField": {}
+        }
       },
       "@id": "cr:field"
     },
@@ -250,12 +242,6 @@ Links to the schema:
       "@id": "cr:dataType",
       "@type": "@vocab"
     },
-    "recordSet": {},
-    "conformsTo": {},
-    "license": {},
-    "email": {},
-    "creator": {},
-    "citation": {},
     "cr": "http://mlcommons.org/croissant/",
     "@version": 1.1
   }
