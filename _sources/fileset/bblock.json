@@ -10,7 +10,6 @@
   "itemClass": "schema",
   "register": "mlc-croissant",
   "dependsOn": ["mlc.croissant.fileobject"],
-  "scope": "dev",
   "tags": [
     "croissant",
     "file collection",

@@ -10,7 +10,6 @@
   "itemClass": "schema",
   "register": "mlc-croissant",
   "dependsOn": ["mlc.croissant.field"],
-  "scope": "dev",
   "tags": [
     "croissant",
     "records",

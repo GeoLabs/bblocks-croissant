@@ -17,7 +17,6 @@
     "mlc.croissant.field",
     "mlc.croissant.datasource"
   ],
-  "scope": "dev",
   "tags": [
     "machine learning",
     "dataset",
